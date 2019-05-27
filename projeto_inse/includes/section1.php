@@ -4,14 +4,15 @@
 					<div class="row double">
 						<div class="6u">
 							<header class="major">
-								<h2>Pellentesque viverra vulputate enim. Aliquam volutpat. Pellentesque tristique Risus</h2>
-								<span class="byline">In posuere eleifend odio. Quisque semper augue mattis wisi. Maecenas ligula. Pellentesque viverra vulputate enim. Donec pulvinar ullamcorper metus.</span>
+								<h2>O que é o INSE?</h2>
+								<span class="byline">O INSE - ÍNDICE NACIONAL DE SUSTENTABILIDADE EMPRESARIAL É UM PROJETO DE CONCLUSÃO DE CURSO VOLTADO PARA A AVALIÇÃO DO NÍVEL DE SUSTENTABILIDADE DAS EMPRESAS DO PAÍS.</span>
 							</header>
 						</div>
 						<div class="6u">
-							<h3>Suspendisse dictum porta</h3>
-							<p>Donec leo. Vivamus fermentum nibh in augue. Praesent a lacus at urna congue rutrum. Nulla enim eros, porttitor eu, tempus id, varius non, nibh. Vestibulum imperdiet, magna nec eleifend semper augue mattis wisi maecenas ligula nunc lectus vestibulum euismod lacinia quam nisl.</p>
-							<a href="#" class="button">Nulla aluctus eleifend</a>
+							<h3>Como funciona?</h3>
+							<p>Partindo do uso do plano estratégico empresarial, víncula-se as estratégias com o Balanced Scorecard (BSC). Para cada estratégia é atribuido um valor para cada dimensão da sustentabilidade (ambiental, social e econômica). Assim, defini-se o grau de contribuição de cada estratégia, usando o Triple Bottom Line (TBL). Com as métricas definidas, calcula-se os indicadores de sustentabilidade para cada estratégia, uma média para cada dimensão da sustentabilidade e uma nota final de sustentabiliade geral da empresa.
+</p>
+							<a href="#" class="button">Leia o material completo</a>
 						</div>
 					</div>
 				</section>

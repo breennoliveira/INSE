@@ -252,11 +252,17 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+
 	}
 
 		ul.default li {
 			padding: 0.40em 0em;
 		}
+
+	ul.default li a 
+	{
+		text-decoration: none;
+	}
 
 	ul.icons {
 		cursor: default;

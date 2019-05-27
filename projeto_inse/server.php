@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() == PHP_SESSION_NONE){
+    //session has not started
+    session_start();
 
 if(isset($_SESSION['success_flash']))
 {
@@ -77,9 +79,6 @@ if (isset($_POST['reg_user'])) {
   }
 }
 
-// ... 
-
-
 // LOGIN USER
 if (isset($_POST['login_user'])) {
   $email = mysqli_real_escape_string($db, $_POST['email']);
@@ -105,19 +104,78 @@ if (isset($_POST['login_user'])) {
   }
 }
 
+}
+else
+{
 
-function has_permission($permisson = 'admin')
-{ 
-  global $user_data;
-  $permissons = explode(',', $user_data['permissions']);
-  if(in_array($permisson,$permissons,true))
-  {
-    return true;
+
+if(isset($_SESSION['success_flash']))
+{
+  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
+  unset($_SESSION['success_flash']);
+}
+
+if(isset($_SESSION['error_flash']))
+{
+  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
+  unset($_SESSION['error_flash']);
+}
+
+
+  // initializing variables
+$visao = "";
+$missao    = "";
+$valores    = "";
+$objetivo1    = "";
+$objetivo2    = "";
+$objetivo3    = "";
+$perspectivas1    = "";
+$perspectivas2    = "";
+$perspectivas3    = "";
+
+$errors = array(); 
+
+// connect to the database
+$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+
+// CADASTRAR IDENTIDADE ORGANIZACIONAL
+if (isset($_POST['reg_indentidade'])) {
+  // receive all input values from the form
+  $visao = mysqli_real_escape_string($db, $_POST['visao']);
+  $missao = mysqli_real_escape_string($db, $_POST['missao']);
+  $valores = mysqli_real_escape_string($db, $_POST['valores']);
+
+  // form validation: ensure that the form is correctly filled ...
+  // by adding (array_push()) corresponding error unto $errors array
+  if (empty($visao)) { array_push($errors, "O campo visão é obrigatório"); }
+  if (empty($missao)) { array_push($errors, "O campo missão é obrigatório"); }
+  if (empty($valores)) { array_push($errors, "O campo valores é obrigatório"); }
+
+
+  if (count($errors) == 0) {
+    $query = "INSERT INTO identidade (visao, missao, valores) 
+          VALUES('$visao', '$missao', '$valores')";
+    mysqli_query($db, $query);
+    //$_SESSION['success_flash'] = "Cadastrado com sucesso";
+    header('location: identidade.php');
+
   }
-  else
-  {
-    return false;
+
   }
+
+  // CADASTRAR IDENTIDADE ORGANIZACIONAL
+if (isset($_POST['reg_objetivos'])) {
+  // receive all input values from the form
+  $objetivo1 = mysqli_real_escape_string($db, $_POST['objetivo1']);
+  $objetivo2 = mysqli_real_escape_string($db, $_POST['objetivo2']);
+  $objetivo3 = mysqli_real_escape_string($db, $_POST['objetivo3']);
+  $perspectivas1 = mysqli_real_escape_string($db, $_POST['perspectivas1']);
+  $perspectivas2 = mysqli_real_escape_string($db, $_POST['perspectivas2']);
+  $perspectivas3 = mysqli_real_escape_string($db, $_POST['perspectivas3']);
+
+
+  } 
 }
 
 

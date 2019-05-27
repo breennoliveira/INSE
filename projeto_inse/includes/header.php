@@ -9,7 +9,7 @@
 
 <html>
 	<head>
-		<title><?php echo "INSE. Empresas sustentaveis, consumidores fieis."?></title>
+		<title><?php echo "INSE"?></title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -38,5 +38,5 @@
 					<div class="container">
 							
 						<!-- Logo -->
-							<h1><a href="#" id="logo">Solarize</a></h1>
+							<h1><a href="#" id="logo">INSE</a></h1>
 						

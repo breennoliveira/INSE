@@ -2,9 +2,9 @@
 			<div class="wrapper style3">
 				<section class="container">
 					<header class="major">
-						<h2>Cras vitae metus aliNuam</h2>
+						<h2>Sobre nós</h2>
 					</header>
-					<p>Pellentesque pede. Donec pulvinar ullamcorper metus. In eu odio at lectus pulvinar mollis. Vestibulum sem magna, elementum vestibulum arcu.</p>
-					<a href="#" class="button alt">Nulla aluctus eleifend</a>
+					<p>Nossa equipe é formada por três alunos da PUC-CAMPINAS, da Faculdade de Análise de Sistemas (FAS), do curso de Sistemas de Informação. Temos em comum a forte preocupação com consumo consiente e a vontade de criar novas soluções.</p>
+					<a href="#" class="button alt">LEIA SOBRE NÓS</a>
 				</section>
 			</div>

@@ -28,7 +28,8 @@
 										<!-- logged in user information -->
 									    <?php  if (isset($_SESSION['razaosocial'])) : ?>
 									    	<!--<p><strong><?php echo $_SESSION['razaosocial']?></strong></p>-->
-									    	<a href="index.php?logout='1'" style="color: red;">Sair</a>
+									    	<a href="empresa.php">Empresa </a>&nbsp
+									    	<a href="index.php?logout='1'" style="color: red;"> Sair</a>
 									    <?php endif ?>
 									</li>
 								</ul>
