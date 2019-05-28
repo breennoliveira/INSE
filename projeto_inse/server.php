@@ -68,7 +68,7 @@ if (isset($_POST['reg_user'])) {
 
   // Finally, register user if there are no errors in the form
   if (count($errors) == 0) {
-  	$password = md5($senha);//encrypt the password before saving in the database
+  	$password = md5($senha); //encrypt the password before saving in the database
 
   	$query = "INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, email, senha, confir_senha) 
   			  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$email', '$password', '$confir_senha')";
@@ -84,7 +84,7 @@ if (isset($_POST['login_user'])) {
   $email = mysqli_real_escape_string($db, $_POST['email']);
   $senha = mysqli_real_escape_string($db, $_POST['senha']);
 
-  if (empty($email)) {
+  if (empty($email) OR !filter_var($email,FILTER_VALIDATE_EMAIL)) {
     array_push($errors, "Verifique o campo Email");
   }
   if (empty($senha)) {
