@@ -22,7 +22,11 @@ $nomefantasia    = "";
 $cnpj    = "";
 $ramo    = "";
 $email    = "";
+$endereço = "";
+$nomeresponsavel = "";
+$telefone = "";
 $errors = array(); 
+
 
 // connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -33,7 +37,7 @@ if (isset($_POST['reg_user'])) {
   $razaosocial = mysqli_real_escape_string($db, $_POST['razaosocial']);
   $nomefantasia = mysqli_real_escape_string($db, $_POST['nomefantasia']);
   $cnpj = mysqli_real_escape_string($db, $_POST['cnpj']);
-  $ramo = mysqli_real_escape_string($db, $_POST['ramo']);
+  $ramo = $_POST['ramo'];
   $email = mysqli_real_escape_string($db, $_POST['email']);
   $senha = mysqli_real_escape_string($db, $_POST['senha']);
   $confir_senha = mysqli_real_escape_string($db, $_POST['confir_senha']);

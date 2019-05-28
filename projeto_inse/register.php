@@ -28,8 +28,24 @@
 							  	  <input type="text" name="cnpj" value="<?php echo $cnpj; ?>">
 							  	</div>
 							  	<div class="">
-							  	  <label>Ramo de atuação</label>
-							  	  <input type="text" name="ramo" value="<?php echo $ramo; ?>">
+							  	  <label>Ramo de atuação</label><br>
+								  <select name="ramo">
+									<option value="Indústria">Indústria</option>
+									<option value="Comércio">Comércio</option>
+									<option value="Serviços">Serviços</option>
+								  </select>
+							  	</div>
+								<div class="">
+							  	  <label>Endereço</label>
+							  	  <input type="text" name="endereço" value="<?php echo $endereço; ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Nome do Responsável</label>
+							  	  <input type="text" name="nomeresponsavel" value="<?php echo $nomeresponsavel; ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Telefone</label>
+							  	  <input type="text" name="telefone" value="<?php echo $telefone; ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>
