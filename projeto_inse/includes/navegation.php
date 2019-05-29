@@ -21,8 +21,10 @@
 											<li><a href="#">Veroeros feugiat</a></li>
 										</ul>
 									</li>!-->
+									<?php if (!isset($_SESSION['razaosocial'])) : ?>
 									<li><a href="register.php">Criar conta</a></li>
 									<li><a href="login.php">Login</a></li>
+									<?php endif ?>
 									<li><a href="">Contato</a></li>
 									<li>
 										<!-- logged in user information -->
