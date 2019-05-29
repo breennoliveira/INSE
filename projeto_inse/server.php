@@ -1,20 +1,20 @@
 <?php
+
+require "includes/functions.php";
+
 if(session_status() == PHP_SESSION_NONE){
     //session has not started
     session_start();
 
-if(isset($_SESSION['success_flash']))
-{
+if(isset($_SESSION['success_flash'])){
   echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
   unset($_SESSION['success_flash']);
 }
 
-if(isset($_SESSION['error_flash']))
-{
+if(isset($_SESSION['error_flash'])){
   echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
   unset($_SESSION['error_flash']);
 }
-
 
 // initializing variables
 $razaosocial = "";
@@ -46,13 +46,14 @@ if (isset($_POST['reg_user'])) {
   // by adding (array_push()) corresponding error unto $errors array
   if (empty($razaosocial)) { array_push($errors, "Razão Social é obrigatório"); }
   if (empty($nomefantasia)) { array_push($errors, "Nome fantasia é obrigatório"); }
-  if (empty($cnpj)) { array_push($errors, "CNPJ é obrigatório"); }
+  if (empty($cnpj)) { array_push($errors, "CNPJ é obrigatório"); } else{
+  if (!validaCNPJ($cnpj)) { array_push($errors, "CNPJ inválido"); } }
   if (empty($ramo)) { array_push($errors, "Ramo de atução é obrigatório"); }
   if (empty($email)) { array_push($errors, "Email é obrigatório"); }
   if (empty($senha)) { array_push($errors, "Senha é obrigatória"); }
   if ($senha != $confir_senha) {
 	array_push($errors, "As senhas não são iguais");
-  }
+  } 
 
   // first check the database to make sure 
   // a user does not already exist with the same username and/or email
@@ -113,14 +114,12 @@ else
 {
 
 
-if(isset($_SESSION['success_flash']))
-{
+if(isset($_SESSION['success_flash'])){
   echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
   unset($_SESSION['success_flash']);
 }
 
-if(isset($_SESSION['error_flash']))
-{
+if(isset($_SESSION['error_flash'])){
   echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
   unset($_SESSION['error_flash']);
 }

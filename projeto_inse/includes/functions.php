@@ -1,3 +1,5 @@
+<?php
+
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
 
 function validaCNPJ($cnpj = null) {
@@ -11,7 +13,7 @@ function validaCNPJ($cnpj = null) {
 	$cnpj = preg_replace("/[^0-9]/", "", $cnpj);
 	$cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
 	
-	// Verifica se o numero de digitos informados é igual a 11 
+	// Verifica se o numero de digitos informados é igual a 14 
 	if (strlen($cnpj) != 14) {
 		return false;
 	}
@@ -36,8 +38,8 @@ function validaCNPJ($cnpj = null) {
 	 
 		$j = 5;
 		$k = 6;
-		$soma1 = "";
-		$soma2 = "";
+		$soma1 = 0;
+		$soma2 = 0;
 
 		for ($i = 0; $i < 13; $i++) {
 
@@ -62,3 +64,5 @@ function validaCNPJ($cnpj = null) {
 	 
 	}
 }
+
+?>
