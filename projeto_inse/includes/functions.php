@@ -65,4 +65,22 @@ function validaCNPJ($cnpj = null) {
 	}
 }
 
+function possuiPEECriado(){
+
+$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ?");
+mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$numrows = mysqli_num_rows($result);
+
+mysqli_stmt_close($stmt);
+mysqli_close($db);
+
+return $numrows;
+
+}
+
 ?>

@@ -4,6 +4,7 @@
   if (isset($_GET['logout'])) {
   	session_destroy();
   	unset($_SESSION['razaosocial']);
+	unset($_SESSION['idempresa']);
   	header("location: login.php");
   }
 ?>

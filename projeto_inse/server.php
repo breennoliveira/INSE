@@ -100,8 +100,10 @@ if (isset($_POST['login_user'])) {
     $senha = md5($senha);
     $query = "SELECT * FROM empresa WHERE email='$email' AND senha='$senha'";
     $results = mysqli_query($db, $query);
+	$user = mysqli_fetch_assoc($results);
     if (mysqli_num_rows($results) == 1) {
       $_SESSION['razaosocial'] = $razaosocial;
+	  $_SESSION['idempresa'] = $user['id'];
       header('location: empresa.php');
     }else {
       array_push($errors, "O email/senha estão errados, verifique e tente novamente");
