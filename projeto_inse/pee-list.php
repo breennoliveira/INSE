@@ -23,9 +23,9 @@
 					<header class="major">
 						<?php if(possuiPEECriado() == 0) : ?>
 							<p><a href="empresa.php">Clique aqui para criar o seu primeiro Plano Estrategico</a></p>
-						<?php else : ?>
-							<!-- Mostrar lista de PEE's criados da empresa -->
-							
+						<!-- Mostrar lista de PEE's criados da empresa -->
+						<?php else : ?>						
+							<?php listarPEEs(); ?>
 						<?php endif ?>
 					</header>
 				</section>

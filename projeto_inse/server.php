@@ -179,6 +179,36 @@ if (isset($_POST['reg_objetivos'])) {
   $perspectivas2 = mysqli_real_escape_string($db, $_POST['perspectivas2']);
   $perspectivas3 = mysqli_real_escape_string($db, $_POST['perspectivas3']);
 
+  $PEEid = $_POST['id'];
+  $Objetivos = possuiObjetivos();
+  $numObjetivos = mysqli_num_rows($Objetivos);
+  if($numObjetivos == 0){
+	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
+			  VALUES('$objetivo1',' $PEEid ','$perspectivas1')";
+	mysqli_query($db, $query);
+  }
+  else{
+	$query = "UPDATE objetivo SET objetivo = "$objetivo1", perspectivabsc = "$perspectivas1")";
+		mysqli_query($db, $query);
+  }
+  if($numObjetivos < 2){
+	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc)
+			  VALUES('$objetivo2',' $PEEid ','$perspectivas2')";
+	mysqli_query($db, $query);
+  }
+  else{
+	$query = "UPDATE objetivo SET objetivo = "$objetivo2", perspectivabsc = "$perspectivas2")";
+	mysqli_query($db, $query);
+  }
+  if($numObjetivos != 3){
+	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
+          VALUES('$objetivo3',' $PEEid ','$perspectivas3')";
+    mysqli_query($db, $query);
+  }
+  else{
+	$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3")";
+	mysqli_query($db, $query);
+  }
 
   } 
 }

@@ -67,20 +67,70 @@ function validaCNPJ($cnpj = null) {
 
 function possuiPEECriado(){
 
-$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ?");
-mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
 
-$numrows = mysqli_num_rows($result);
+	$numrows = mysqli_num_rows($result);
 
-mysqli_stmt_close($stmt);
-mysqli_close($db);
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
 
-return $numrows;
+	return $numrows;
 
 }
+
+function listarPEEs(){
+
+	// Set variables
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	while($row = mysqli_fetch_array($result)){
+		
+		//echo '<a href=identidade.php?id=',$row['id'],'>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</a>', '<br>';
+
+		echo '<form action="identidade.php" method="post">';
+		echo '<input type="hidden" name="id" value="', $row['idPEE'], '">';
+		echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
+		echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
+		echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
+		echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
+		echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
+		//value2="',$row['visao'],'" comeco="',$row['comeco'],'" fim="',$row['fim'],'"/>';
+		echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
+		echo '</form>';
+
+
+	}
+
+}
+
+function possuiObjetivos(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM objetivo WHERE plano_estrategico = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idPEE']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $result;
+
+}
+
 
 ?>
