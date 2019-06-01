@@ -99,7 +99,7 @@ function listarPEEs(){
 		//echo '<a href=identidade.php?id=',$row['id'],'>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</a>', '<br>';
 
 		echo '<form action="identidade.php" method="post">';
-		echo '<input type="hidden" name="id" value="', $row['idPEE'], '">';
+		echo '<input type="hidden" name="idPEE" value="', $row['id'], '">';
 		echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
 		echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
 		echo '<input type="hidden" name="valores" value="', $row['valores'], '">';

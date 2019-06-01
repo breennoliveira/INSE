@@ -25,8 +25,7 @@
 							<p><a href="empresa.php">Clique aqui para criar o seu primeiro Plano Estrategico</a></p>
 						<!-- Mostrar lista de PEE's criados da empresa -->
 						<?php else : ?>						
-							<?php listarPEEs() ?>
-
+							<?php listarPEEs()?>
 						<?php endif ?>
 					</header>
 				</section>
