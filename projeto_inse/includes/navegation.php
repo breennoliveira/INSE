@@ -31,6 +31,7 @@
 									    <?php  if (isset($_SESSION['razaosocial'])) : ?>
 									    	<!--<p><strong><?php echo $_SESSION['razaosocial']?></strong></p>-->
 									    	<a href="empresa.php">Empresa </a>&nbsp
+											<a href="pee-list.php">Meus PEEs</a>
 									    	<a href="index.php?logout='1'" style="color: red;"> Sair</a>
 									    <?php endif ?>
 									</li>
