@@ -33,15 +33,15 @@
 								<?php include('errors.php'); ?>
 							  	<div class="input-group">
 							  		<label>Visão da empresa.</label> 
-							  		<textarea name="visao" style="resize: none;"><?php echo $_POST['visao']?></textarea>
+							  		<textarea name="visao" style="resize: none;"><?php echo (isset($_POST['visao']) ? $_POST['visao'] : '')?></textarea>
 							  	</div>
 							  	<div class="input-group">
 							  		<label>Missão da empresa.</label>
-							  		<textarea name="missao" style="resize: none;"><?php echo $_POST['missao']?></textarea>
+							  		<textarea name="missao" style="resize: none;"><?php echo (isset($_POST['missao']) ? $_POST['missao'] : '')?></textarea>
 							  	</div>
 							  	<div class="input-group">
 							  		<label>Valores da empresa.</label>
-							  		<textarea name="valores" style="resize: none;"><?php echo $_POST['valores']?></textarea>
+							  		<textarea name="valores" style="resize: none;"><?php echo (isset($_POST['missao']) ? $_POST['missao'] : '')?></textarea>
 							  	</div>
 							  	<hr>
 							  	<div class="input-group">

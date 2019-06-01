@@ -179,7 +179,7 @@ if (isset($_POST['reg_objetivos'])) {
   $perspectivas2 = mysqli_real_escape_string($db, $_POST['perspectivas2']);
   $perspectivas3 = mysqli_real_escape_string($db, $_POST['perspectivas3']);
 
-  $PEEid = $_POST['id'];
+  /*$PEEid = $_POST['id'];
   $Objetivos = possuiObjetivos();
   $numObjetivos = mysqli_num_rows($Objetivos);
   if($numObjetivos == 0){
@@ -206,10 +206,10 @@ if (isset($_POST['reg_objetivos'])) {
     mysqli_query($db, $query);
   }
   else{
-	$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3")";
+	$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3") WHERE ";
 	mysqli_query($db, $query);
   }
-
+  */
   } 
 }
 
