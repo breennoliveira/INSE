@@ -253,7 +253,6 @@ function listarIdentidade(){
 	//echo "</table><div align='right'><button class='more' id='add_valor' name='add_valor'>Adicionar Valor</button></div>";
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
-
 }
 
 //Inserções
