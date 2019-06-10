@@ -103,6 +103,24 @@ function possuiObjetivos(){
 
 }
 
+function possuiValores(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM valor WHERE plano_estrategico = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $numrows;
+
+}
+
 //Listagens
 
 function listarPEEs(){
@@ -115,10 +133,13 @@ function listarPEEs(){
 	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-
+	 echo '<table>
+			<th>Titulo</th>
+			<th>Data Inicio</th>
+			<th>Data Fim</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<a href=identidade.php?plano_estrategico=',$row['id'],'>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</a>', '<br>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'], '</td><td><a href=identidade.php?plano_estrategico=',$row['id'],'>Editar</a></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -132,12 +153,16 @@ function listarPEEs(){
 		*/
 
 	}
+	echo '</table>';
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 
 }
 
 function listarObjetivos(){
 
-	$i = 1;
+	$i = 0;
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -145,35 +170,31 @@ function listarObjetivos(){
 	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-
+	echo "<div class='objetivos_input'>";
 	if(mysqli_num_rows($result) > 0){
 
 		while($row = mysqli_fetch_array($result)){
 
-			echo "<div class='input-group'>
+			echo "<div>
 					<label>Objetivo</label>
 					<textarea name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
-					<input type='hidden' name='id[]' value=", $row['id'],">
+					<input type='hidden' name='id[]' value=", $row['id'],"></input>
+					<a href='#' class='remove_field' style='margin-left:10px;'>Remove</a>
 				  </div>";
 			$i++;
 		}
 	}
 	else{
 
-		echo "<div class='input-group'>
-					<label>Objetivo</label>
-					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
-			  </div>
-			  <div class='input-group'>
-					<label>Objetivo</label>
-					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
-			  </div>
-			  <div class='input-group'>
-					<label>Objetivo</label>
-					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+		echo "<div>
+				<label>Objetivo</label>
+				<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+				<input type='hidden' name='id[]' value='new'></input>
 			  </div>";
-
 	}
+	echo '</div>';
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 }
 
 function listarIdentidade(){
@@ -187,18 +208,51 @@ function listarIdentidade(){
 
 	$row = mysqli_fetch_assoc($result);
 
+	//$date = date('d-m-Y', strtotime($date_from_sql)); //Convert date from php for use ----- not needed
+
 	echo "<div class='input-group'>
-							  		<label>Visao da empresa</label>
-							  		<textarea name='visao' style='resize: none;'>", $row['visao'], "</textarea>
-							  	</div>
-							  	<div class='input-group'>
-							  		<label>Missao da empresa</label>
-							  		<textarea name='missao' style='resize: none;'>", $row['missao'], "</textarea>
-							  	</div>
-							  	<div class='input-group'>
-							  		<label>Valores da empresa</label>
-							  		<textarea name='valores' style='resize: none;'>", $row['valores'], "</textarea>
-							  	</div>";
+			<label>Titulo do Plano Estrategico</label>
+				<input type='text' name='titulo' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
+		  </div><br>
+		  <div class='input-group'><table>
+			<td><label>Data Inicio</label>
+				<input type='date' name='comeco' value='", !empty($row['comeco']) ? $row['comeco'] : '' ,"'></input></td>
+			<td><label>Data Fim</label>
+				<input type='date' name='fim' value='", !empty($row['fim']) ? $row['fim'] : '' ,"'></input></td>
+		  </table></div>
+		  <div class='input-group'>
+			<label>Visao da empresa</label>
+				<textarea name='visao' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : '', "</textarea>
+		  </div><br>
+		  <div class='input-group'>
+		  	<label>Missao da empresa</label>
+				<textarea name='missao' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : '', "</textarea>
+		  </div>";
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM valor WHERE plano_estrategico = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	echo "<div class='valores_input'>";
+	if(mysqli_num_rows($result) > 0){
+
+		while($row = mysqli_fetch_array($result)){
+
+			echo "<div><br><label>Valores da empresa</label>
+					<input type='text' name='valor[]' value='", $row['valor'], "'></input>
+					<input type='hidden' name='id[]' value='", $row['id'],"'></input>
+					<a href='#' class='remove_field'>Remover</a></div>";
+		}
+	}
+	else{
+		echo "<label>Valores da empresa</label>
+				<input type='text' name='valor[]' placeholder='Insira um valor aqui'></input>
+				<input type='hidden' name='id[]' value='new'></input>";
+	}
+	echo "</div>";
+	//echo "</table><div align='right'><button class='more' id='add_valor' name='add_valor'>Adicionar Valor</button></div>";
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 
 }
 
@@ -215,27 +269,38 @@ function inserirObjetivo($objetivo, $perspectiva){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
+	mysqli_close($db);
+
 }
 
-function inserirIdentidade($visao, $missao, $valores){
+function inserirIdentidade(){
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'INSERT INTO `plano_estrategico` (visao, missao, valores, comeco, fim, ativo, publicado, empresa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-
-	$comeco = '2019-06-09';
-	$fim = '2019-06-10';
-	$ativo = 0;
-	$publicado = 0;
+	$sql = 'INSERT INTO plano_estrategico (titulo, visao, missao, comeco, fim, ativo, publicado, empresa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+	//$date = date('Y-m-d', strtotime($date_from_form)); //Convert date from php for use
+	$ativo = (isset($_POST['ativo']) ? $_POST['ativo'] : 0);
+	$publicado = (isset($_POST['publicado']) ? $_POST['publicado'] : 0);
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "sssssiii", $visao, $missao, $valores, $comeco, $fim, $ativo, $publicado, $_SESSION['idempresa']);
+	mysqli_stmt_bind_param($stmt, "sssssiii", $_POST['titulo'], $_POST['visao'], $_POST['missao'], $_POST['comeco'], $_POST['fim'], $ativo, $publicado, $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	return mysqli_insert_id($db);
+}
+
+function inserirValor($valor){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO valor (valor, plano_estrategico) VALUES (?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "si", $valor , $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
-	return mysqli_insert_id($db);
-
-	print_r($result);
+	mysqli_close($db);
 }
 
 
@@ -251,19 +316,40 @@ function alterarObjetivo($objetivo, $perspectiva, $id){
 	mysqli_stmt_bind_param($stmt, 'ssi', $objetivo, $perspectiva, $id);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 
 }
 
-function alterarIdentidade($visao, $missao, $valores){
+function alterarIdentidade(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'UPDATE plano_estrategico SET visao = ?, missao = ?, valores = ? WHERE id = ?';
-	
+	$sql = 'UPDATE plano_estrategico SET titulo = ?, visao = ?, missao = ?, comeco = ?, fim = ?, ativo = ?, publicado = ? WHERE id = ?';
+
+	//$comeco = date("Y-m-d", strtotime($_POST['comeco']));
+	//$fim = date("Y-m-d", strtotime($_POST['fim']));
+	$ativo = (isset($_POST['ativo']) ? $_POST['ativo'] : 0);
+	$publicado = (isset($_POST['publicado']) ? $_POST['publicado'] : 0);
+
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'sssi', $visao, $missao, $valores, $_GET['plano_estrategico']);
+	mysqli_stmt_bind_param($stmt, 'sssssiii', $_POST['titulo'], $_POST['visao'], $_POST['missao'], $_POST['comeco'], $_POST['fim'], $ativo, $publicado, $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function alterarValor($valor, $id){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE valor SET valor = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'si', $valor, $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 
 }
 

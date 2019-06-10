@@ -154,8 +154,13 @@ else
 		// by adding (array_push()) corresponding error unto $errors array
 		if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
 		if (empty($_POST['missao'])) { array_push($errors, "O campo missão é obrigatório"); }
-		if (empty($_POST['valores'])) { array_push($errors, "O campo valores é obrigatório"); }
-
+		if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
+		if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
+		if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
+		$valores = $_POST['valor'];
+		if ($valores['0'] == '') { array_push($errors, "O campo Valores é obrigatório"); }
+		//if (empty($_POST['valor'])) { array_push($errors, "O campo valores é obrigatório"); }
+		
 		if (count($errors) == 0) {
 			/*$query = "INSERT INTO identidade (visao, missao, valores) 
 					VALUES('$visao', '$missao', '$valores')";
@@ -163,68 +168,53 @@ else
 			//$_SESSION['success_flash'] = "Cadastrado com sucesso";*/
 
 			if($_GET['plano_estrategico'] == 'new'){
-				$_GET['plano_estrategico'] = inserirIdentidade($_POST['visao'], $_POST['missao'], $_POST['valores']);
+				$_GET['plano_estrategico'] = inserirIdentidade();
 				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 			}
 			else{
-				alterarIdentidade($_POST['visao'], $_POST['missao'], $_POST['valores']);
+				alterarIdentidade();
+			}
+
+			$i = 0;
+			foreach($_POST['valor'] as $valor){
+				$id = array_slice($_POST['id'],$i,1);
+				if($valor != ''){
+					if($id['0'] != 'new'){
+					alterarValor($valor, $id['0']);
+					echo 'VALOR ALTERADO';
+					}
+					else{
+						inserirValor($valor);
+					print_r('VALOR INSERIDO');
+					}
+				}
+				$i++;
 			}
 		}
 	}
 
 	  // CADASTRAR OBJETIVOS
 	if (isset($_POST['reg_objetivo'])) {
-		$i = 0;
-		if(possuiObjetivos() == 0){
-			foreach($_POST['objetivo'] as $objetivo) {
-				if ($objetivo != ''){
-					inserirObjetivo($objetivo,$_GET['plano_estrategico'],'');
-				}
-			}
-		}
-		else{
+
+		$objetivos = $_POST['objetivo'];
+		if ($objetivos['0'] == '') { array_push($errors, "O campo Objetivo é obrigatório"); }
+
+		if (count($errors) == 0){
+			$i = 0;
 			foreach($_POST['objetivo'] as $objetivo){
-				$id = array_slice($_POST['id'],$i,1);
-				if($id != 'new'){
-				alterarObjetivo($objetivo,'',$id['0']);
+				if ($objetivo != ''){
+					$id = array_slice($_POST['id'],$i,1);
+					if($id['0'] != 'new'){
+					alterarObjetivo($objetivo,'',$id['0']);
+					}
+					else{
+						inserirObjetivo($objetivo,'');
+					}
 				}
-				else{
-					inserirObjetivo($objetivo,'');
-				}
-				$i++;
+				$i++;	
 			}
 		}
-		/*$PEEid = $_POST['id'];
-		$Objetivos = possuiObjetivos();
-		$numObjetivos = mysqli_num_rows($Objetivos);
-		if($numObjetivos == 0){
-		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
-					VALUES('$objetivo1',' $PEEid ','$perspectivas1')";
-		mysqli_query($db, $query);
-		}
-		else{
-		$query = "UPDATE objetivo SET objetivo = "$objetivo1", perspectivabsc = "$perspectivas1")";
-			mysqli_query($db, $query);
-		}
-		if($numObjetivos < 2){
-		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc)
-					VALUES('$objetivo2',' $PEEid ','$perspectivas2')";
-		mysqli_query($db, $query);
-		}
-		else{
-		$query = "UPDATE objetivo SET objetivo = "$objetivo2", perspectivabsc = "$perspectivas2")";
-		mysqli_query($db, $query);
-		}
-		if($numObjetivos != 3){
-		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
-				VALUES('$objetivo3',' $PEEid ','$perspectivas3')";
-		mysqli_query($db, $query);
-		}
-		else{
-		$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3") WHERE ";
-		mysqli_query($db, $query);
-		}
-		*/
+		
 	} 
 }
 

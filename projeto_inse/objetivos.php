@@ -19,8 +19,12 @@
 									<span class="byline">Utilize o formulário abaixo para cadastrar os objetivos presentes no plano estratégico empresarial.</span>
 								</header>
 								<form method="post" action="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">
-								<!--<?php include('errors.php'); ?>-->
+								<?php include('errors.php'); ?>
 							  	<?php listarObjetivos()?>
+								<br>
+								<div class="input-group" align="right">
+										<input type="button" class="small" id="add_objetivo" value="Novo Objetivo"></input>
+								</div>
 								<hr>
 									<div class="input-group">
 										<button type="submit" class="button" name="reg_objetivo">Salvar</button>
@@ -32,4 +36,23 @@
 					</div>
 				</div>
 			</div>
+<script>
+$(document).ready(function(){
+	var x = 1;
+	$('#add_objetivo').click(function(e){
+		e.preventDefault();
+		x++;
+		$('.objetivos_input').append("<div><br><label>Objetivo</label><textarea name='objetivo[]' value='new' style='resize: none;'></textarea><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' style='margin-left:10px;'>Remove</a></div>");
+		//var_dump($_GET);
+	});
+
+	$('.objetivos_input').on("click",".remove_field", function(e){ //user click on remove text links
+        e.preventDefault();
+		$(this).parent('div').remove();
+		x--;
+    });
+
+});
+</script>
+
 <?php  include("includes/footer.php");?>

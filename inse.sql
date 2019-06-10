@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 10, 2019 at 01:31 AM
+-- Generation Time: Jun 10, 2019 at 09:45 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -66,23 +66,6 @@ INSERT INTO `empresa` (`id`, `razaosocial`, `nomefantasia`, `cnpj`, `ramo`, `end
 -- --------------------------------------------------------
 
 --
--- Table structure for table `identidade`
---
-
-DROP TABLE IF EXISTS `identidade`;
-CREATE TABLE IF NOT EXISTS `identidade` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `visao` varchar(500) NOT NULL,
-  `missao` varchar(500) NOT NULL,
-  `valores` varchar(500) NOT NULL,
-  `plano_estrategico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `plano_identidade` (`plano_estrategico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `objetivo`
 --
 
@@ -94,17 +77,19 @@ CREATE TABLE IF NOT EXISTS `objetivo` (
   `perspectiva_bsc` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `plano_estrategico_idx` (`plano_estrategico`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `objetivo`
 --
 
 INSERT INTO `objetivo` (`id`, `objetivo`, `plano_estrategico`, `perspectiva_bsc`) VALUES
-(10, 'aaaa', 1, ''),
-(11, 'aa', 1, ''),
 (14, 'aaaa', 2, '2'),
-(15, 'aaaa', 12, '12');
+(15, 'aaaa', 12, '12'),
+(16, 'hahahahaha', 23, ''),
+(23, 'adda', 27, ''),
+(24, '3131', 27, ''),
+(25, 'dss', 27, '');
 
 -- --------------------------------------------------------
 
@@ -115,9 +100,9 @@ INSERT INTO `objetivo` (`id`, `objetivo`, `plano_estrategico`, `perspectiva_bsc`
 DROP TABLE IF EXISTS `plano_estrategico`;
 CREATE TABLE IF NOT EXISTS `plano_estrategico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `visao` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `missao` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `valores` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `comeco` date NOT NULL,
   `fim` date NOT NULL,
   `ativo` tinyint(4) NOT NULL,
@@ -125,41 +110,82 @@ CREATE TABLE IF NOT EXISTS `plano_estrategico` (
   `empresa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `empresa_plano` (`empresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `plano_estrategico`
 --
 
-INSERT INTO `plano_estrategico` (`id`, `visao`, `missao`, `valores`, `comeco`, `fim`, `ativo`, `publicado`, `empresa`) VALUES
-(1, 'teste01', 'aa', 'TESSSST', '2019-03-04', '2019-03-05', 0, 0, 1),
-(2, 'teste02', 'TESSSST2', 'TESTTTT2', '2019-03-04', '2019-03-05', 0, 0, 1),
-(9, '123', '123123', '123123123', '2019-06-09', '2019-06-10', 0, 0, 1),
-(10, 'aaa', 'aaaa', 'aaaaaa', '2019-06-09', '2019-06-10', 0, 0, 1),
-(11, 'aa', '111', '1111', '2019-06-09', '2019-06-10', 0, 0, 1),
-(12, 'asdasd', 'asdasdasdasd', 'asdasd1', '2019-06-09', '2019-06-10', 0, 0, 1);
+INSERT INTO `plano_estrategico` (`id`, `titulo`, `visao`, `missao`, `comeco`, `fim`, `ativo`, `publicado`, `empresa`) VALUES
+(2, 'Plano Estrategico Teste 1', 'teste02', 'TESSSST2', '2019-03-04', '2019-03-05', 0, 0, 1),
+(9, 'Plano Estrategico Teste 2', '123', '123123', '2019-06-09', '2019-06-10', 0, 0, 1),
+(10, 'Plano Estrategico Teste 3', 'aaa', 'aaaa', '2019-06-09', '2019-06-10', 0, 0, 1),
+(11, 'Plano Estrategico Teste 4', 'aa', '111', '2019-06-09', '2019-06-10', 0, 0, 1),
+(12, 'Plano Estrategico Teste 5', 'asdasd', 'asdasdasdasd', '2019-06-09', '2019-06-10', 0, 0, 1),
+(14, 'Plano Estrategico Teste 6', 'teste6', 'teste6', '2019-06-10', '2019-06-30', 0, 0, 1),
+(22, 's', 's', 's', '2019-06-11', '1970-01-01', 0, 0, 1),
+(23, 'asdasd', 'asdasddsa', 'adsadsdasads', '2019-06-25', '2019-06-11', 0, 0, 1),
+(24, 'sssssssssssssssssssssssssss', 'ssssssssssssssssssssssssss', 'ssssssssssssssssssssssssssss', '2019-06-19', '2019-06-19', 0, 0, 1),
+(26, 's', 's', 's', '2019-06-12', '2019-06-14', 0, 0, 1),
+(27, 'adsda', 'adda', 'daad', '2019-06-10', '2019-06-10', 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `valor`
+--
+
+DROP TABLE IF EXISTS `valor`;
+CREATE TABLE IF NOT EXISTS `valor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` varchar(255) NOT NULL,
+  `plano_estrategico` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plano_valor` (`plano_estrategico`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `valor`
+--
+
+INSERT INTO `valor` (`id`, `valor`, `plano_estrategico`) VALUES
+(13, '1111', 2),
+(14, 'sss', 2),
+(15, 'sss', 2),
+(16, '123', 2),
+(18, 'aaa', 2),
+(19, 'ss', 2),
+(20, 'aaa', 10),
+(32, 's', 22),
+(33, '33', 22),
+(34, 'asd', 23),
+(35, 'aadddddd', 23),
+(36, 'aaaa', 23),
+(38, 'sssssssssssssssssssssssssss', 24),
+(39, 'ssss', 24),
+(43, 'dada', 27);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `identidade`
---
-ALTER TABLE `identidade`
-  ADD CONSTRAINT `plano_identidade` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `objetivo`
 --
 ALTER TABLE `objetivo`
-  ADD CONSTRAINT `plano_objetivo` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `plano_objetivo` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `plano_estrategico`
 --
 ALTER TABLE `plano_estrategico`
-  ADD CONSTRAINT `empresa_plano` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `empresa_plano` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `valor`
+--
+ALTER TABLE `valor`
+  ADD CONSTRAINT `plano_valor` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
