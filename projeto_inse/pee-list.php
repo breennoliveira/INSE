@@ -1,13 +1,4 @@
-<?php
-  session_start(); 
-
-  if (isset($_GET['logout'])) {
-  	session_destroy();
-  	unset($_SESSION['razaosocial']);
-	unset($_SESSION['idempresa']);
-  	header("location: login.php");
-  }
-?>
+<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
 <?php require "includes/functions.php"; ?>
@@ -22,10 +13,11 @@
 				<section>
 					<header class="major">
 						<?php if(possuiPEECriado() == 0) : ?>
-							<p><a href="empresa.php">Clique aqui para criar o seu primeiro Plano Estrategico</a></p>
+							<p><a href="identidade.php?plano_estrategico=new">Clique aqui para criar o seu primeiro Plano Estrategico</a></p>
 						<!-- Mostrar lista de PEE's criados da empresa -->
-						<?php else : ?>						
+						<?php else : ?>
 							<?php listarPEEs()?>
+							<p><a href="identidade.php?plano_estrategico=new">Novo Plano Estrategico</a></p>
 						<?php endif ?>
 					</header>
 				</section>

@@ -1,20 +1,9 @@
+<?php include("includes/session.php");?>
 <?php 
-  session_start(); 
-
-  if (isset($_GET['logout'])) {
-  	session_destroy();
-  	unset($_SESSION['razaosocial']);
-	unset($_SESSION['idempresa']);
-  	header("location: login.php");
-  }
-?>
-
-<?php 
-	include('server.php')
+	include('server.php');
 ?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-
 
 <!-- Main -->
 
@@ -29,25 +18,14 @@
 									<h2>Objetivos</h2>
 									<span class="byline">Utilize o formulário abaixo para cadastrar os objetivos presentes no plano estratégico empresarial.</span>
 								</header>
-								<form method="post" action="objetivos.php">
+								<form method="post" action="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">
 								<!--<?php include('errors.php'); ?>-->
-							  	<div class="input-group">
-							  		<label>Objetivo.</label>
-							  		<textarea name="objetivo1" style="resize: none;"></textarea>
-							  	</div>
-							  	<div class="input-group">
-							  		<label>Objetivo.</label>
-							  		<textarea name="objetivo2" style="resize: none;"></textarea>
-							  	</div>
-							  	<div class="input-group">
-							  		<label>Objetivo.</label>
-							  		<textarea name="objetivo3" style="resize: none;"></textarea>
-							  	</div>
-							  	<hr>
-							  	<div class="input-group">
-							  		<button type="submit" class="button" name="">Salvar</button>
-							  	</div>
-							  	<hr>
+							  	<?php listarObjetivos()?>
+								<hr>
+									<div class="input-group">
+										<button type="submit" class="button" name="reg_objetivo">Salvar</button>
+									</div>
+								<hr>
 							  </form>
 							</section>
 						</div>

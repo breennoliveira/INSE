@@ -2,6 +2,9 @@
 
 require "includes/functions.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if(session_status() == PHP_SESSION_NONE){
     //session has not started
     session_start();
@@ -102,7 +105,7 @@ if (isset($_POST['login_user'])) {
     $results = mysqli_query($db, $query);
 	$user = mysqli_fetch_assoc($results);
     if (mysqli_num_rows($results) == 1) {
-      $_SESSION['razaosocial'] = $razaosocial;
+      $_SESSION['nomefantasia'] = $user['nomefantasia'];
 	  $_SESSION['idempresa'] = $user['id'];
       header('location: empresa.php');
     }else {
@@ -115,102 +118,114 @@ if (isset($_POST['login_user'])) {
 else
 {
 
+	if(isset($_SESSION['success_flash'])){
+	  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
+	  unset($_SESSION['success_flash']);
+	}
 
-if(isset($_SESSION['success_flash'])){
-  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
-  unset($_SESSION['success_flash']);
-}
-
-if(isset($_SESSION['error_flash'])){
-  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
-  unset($_SESSION['error_flash']);
-}
-
-
-  // initializing variables
-$visao = "";
-$missao    = "";
-$valores    = "";
-$objetivo1    = "";
-$objetivo2    = "";
-$objetivo3    = "";
-$perspectivas1    = "";
-$perspectivas2    = "";
-$perspectivas3    = "";
-
-$errors = array(); 
-
-// connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'inse');
+	if(isset($_SESSION['error_flash'])){
+	  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
+	  unset($_SESSION['error_flash']);
+	}
 
 
-// CADASTRAR IDENTIDADE ORGANIZACIONAL
-if (isset($_POST['reg_indentidade'])) {
-  // receive all input values from the form
-  $visao = mysqli_real_escape_string($db, $_POST['visao']);
-  $missao = mysqli_real_escape_string($db, $_POST['missao']);
-  $valores = mysqli_real_escape_string($db, $_POST['valores']);
+	  // initializing variables
+	$visao = "";
+	$missao    = "";
+	$valores    = "";
+	$objetivo[]    = "";
+	$perspectivas1    = "";
+	$perspectivas2    = "";
+	$perspectivas3    = "";
 
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $errors array
-  if (empty($visao)) { array_push($errors, "O campo visão é obrigatório"); }
-  if (empty($missao)) { array_push($errors, "O campo missão é obrigatório"); }
-  if (empty($valores)) { array_push($errors, "O campo valores é obrigatório"); }
+	$errors = array(); 
 
+	// connect to the database
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-  if (count($errors) == 0) {
-    $query = "INSERT INTO identidade (visao, missao, valores) 
-          VALUES('$visao', '$missao', '$valores')";
-    mysqli_query($db, $query);
-    //$_SESSION['success_flash'] = "Cadastrado com sucesso";
-    header('location: identidade.php');
+	// CADASTRAR IDENTIDADE ORGANIZACIONAL
+	if (isset($_POST['reg_indentidade'])) {
+		// receive all input values from the form
+		/*$visao = mysqli_real_escape_string($db, $_POST['visao']);
+		$missao = mysqli_real_escape_string($db, $_POST['missao']);
+		$valores = mysqli_real_escape_string($db, $_POST['valores']);
+		*/
+		// form validation: ensure that the form is correctly filled ...
+		// by adding (array_push()) corresponding error unto $errors array
+		if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
+		if (empty($_POST['missao'])) { array_push($errors, "O campo missão é obrigatório"); }
+		if (empty($_POST['valores'])) { array_push($errors, "O campo valores é obrigatório"); }
 
-  }
+		if (count($errors) == 0) {
+			/*$query = "INSERT INTO identidade (visao, missao, valores) 
+					VALUES('$visao', '$missao', '$valores')";
+			mysqli_query($db, $query);
+			//$_SESSION['success_flash'] = "Cadastrado com sucesso";*/
 
-  }
+			if($_GET['plano_estrategico'] == 'new'){
+				$_GET['plano_estrategico'] = inserirIdentidade($_POST['visao'], $_POST['missao'], $_POST['valores']);
+				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
+			}
+			else{
+				alterarIdentidade($_POST['visao'], $_POST['missao'], $_POST['valores']);
+			}
+		}
+	}
 
-  // CADASTRAR IDENTIDADE ORGANIZACIONAL
-if (isset($_POST['reg_objetivos'])) {
-  // receive all input values from the form
-  $objetivo1 = mysqli_real_escape_string($db, $_POST['objetivo1']);
-  $objetivo2 = mysqli_real_escape_string($db, $_POST['objetivo2']);
-  $objetivo3 = mysqli_real_escape_string($db, $_POST['objetivo3']);
-  $perspectivas1 = mysqli_real_escape_string($db, $_POST['perspectivas1']);
-  $perspectivas2 = mysqli_real_escape_string($db, $_POST['perspectivas2']);
-  $perspectivas3 = mysqli_real_escape_string($db, $_POST['perspectivas3']);
-
-  /*$PEEid = $_POST['id'];
-  $Objetivos = possuiObjetivos();
-  $numObjetivos = mysqli_num_rows($Objetivos);
-  if($numObjetivos == 0){
-	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
-			  VALUES('$objetivo1',' $PEEid ','$perspectivas1')";
-	mysqli_query($db, $query);
-  }
-  else{
-	$query = "UPDATE objetivo SET objetivo = "$objetivo1", perspectivabsc = "$perspectivas1")";
+	  // CADASTRAR OBJETIVOS
+	if (isset($_POST['reg_objetivo'])) {
+		$i = 0;
+		if(possuiObjetivos() == 0){
+			foreach($_POST['objetivo'] as $objetivo) {
+				if ($objetivo != ''){
+					inserirObjetivo($objetivo,$_GET['plano_estrategico'],'');
+				}
+			}
+		}
+		else{
+			foreach($_POST['objetivo'] as $objetivo){
+				$id = array_slice($_POST['id'],$i,1);
+				if($id != 'new'){
+				alterarObjetivo($objetivo,'',$id['0']);
+				}
+				else{
+					inserirObjetivo($objetivo,'');
+				}
+				$i++;
+			}
+		}
+		/*$PEEid = $_POST['id'];
+		$Objetivos = possuiObjetivos();
+		$numObjetivos = mysqli_num_rows($Objetivos);
+		if($numObjetivos == 0){
+		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
+					VALUES('$objetivo1',' $PEEid ','$perspectivas1')";
 		mysqli_query($db, $query);
-  }
-  if($numObjetivos < 2){
-	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc)
-			  VALUES('$objetivo2',' $PEEid ','$perspectivas2')";
-	mysqli_query($db, $query);
-  }
-  else{
-	$query = "UPDATE objetivo SET objetivo = "$objetivo2", perspectivabsc = "$perspectivas2")";
-	mysqli_query($db, $query);
-  }
-  if($numObjetivos != 3){
-	$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
-          VALUES('$objetivo3',' $PEEid ','$perspectivas3')";
-    mysqli_query($db, $query);
-  }
-  else{
-	$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3") WHERE ";
-	mysqli_query($db, $query);
-  }
-  */
-  } 
+		}
+		else{
+		$query = "UPDATE objetivo SET objetivo = "$objetivo1", perspectivabsc = "$perspectivas1")";
+			mysqli_query($db, $query);
+		}
+		if($numObjetivos < 2){
+		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc)
+					VALUES('$objetivo2',' $PEEid ','$perspectivas2')";
+		mysqli_query($db, $query);
+		}
+		else{
+		$query = "UPDATE objetivo SET objetivo = "$objetivo2", perspectivabsc = "$perspectivas2")";
+		mysqli_query($db, $query);
+		}
+		if($numObjetivos != 3){
+		$query = "INSERT INTO objetivo (objetivo, plano_estrategico, perspectivabsc) 
+				VALUES('$objetivo3',' $PEEid ','$perspectivas3')";
+		mysqli_query($db, $query);
+		}
+		else{
+		$query = "UPDATE objetivo SET objetivo = "$objetivo3", perspectivabsc = "$perspectivas3") WHERE ";
+		mysqli_query($db, $query);
+		}
+		*/
+	} 
 }
 
 

@@ -65,6 +65,8 @@ function validaCNPJ($cnpj = null) {
 	}
 }
 
+//Checagens
+
 function possuiPEECriado(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -83,6 +85,26 @@ function possuiPEECriado(){
 
 }
 
+function possuiObjetivos(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM objetivo WHERE plano_estrategico = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $numrows;
+
+}
+
+//Listagens
+
 function listarPEEs(){
 
 	// Set variables
@@ -96,41 +118,153 @@ function listarPEEs(){
 
 	while($row = mysqli_fetch_array($result)){
 		
-		//echo '<a href=identidade.php?id=',$row['id'],'>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</a>', '<br>';
+		echo '<a href=identidade.php?plano_estrategico=',$row['id'],'>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</a>', '<br>';
 
-		echo '<form action="identidade.php" method="post">';
-		echo '<input type="hidden" name="idPEE" value="', $row['id'], '">';
+		/*echo '<form action="identidade.php" method="post">';
+		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
 		echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
 		echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
 		echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
 		echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
 		echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
-		//value2="',$row['visao'],'" comeco="',$row['comeco'],'" fim="',$row['fim'],'"/>';
 		echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
 		echo '</form>';
-
+		*/
 
 	}
 
 }
 
-function possuiObjetivos(){
+function listarObjetivos(){
+
+	$i = 1;
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM objetivo WHERE plano_estrategico = ?");
-	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idPEE']);
+	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	$numrows = mysqli_num_rows($result);
+	if(mysqli_num_rows($result) > 0){
 
-	mysqli_stmt_close($stmt);
-	mysqli_close($db);
+		while($row = mysqli_fetch_array($result)){
 
-	return $result;
+			echo "<div class='input-group'>
+					<label>Objetivo</label>
+					<textarea name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
+					<input type='hidden' name='id[]' value=", $row['id'],">
+				  </div>";
+			$i++;
+		}
+	}
+	else{
+
+		echo "<div class='input-group'>
+					<label>Objetivo</label>
+					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+			  </div>
+			  <div class='input-group'>
+					<label>Objetivo</label>
+					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+			  </div>
+			  <div class='input-group'>
+					<label>Objetivo</label>
+					<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+			  </div>";
+
+	}
+}
+
+function listarIdentidade(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_assoc($result);
+
+	echo "<div class='input-group'>
+							  		<label>Visao da empresa</label>
+							  		<textarea name='visao' style='resize: none;'>", $row['visao'], "</textarea>
+							  	</div>
+							  	<div class='input-group'>
+							  		<label>Missao da empresa</label>
+							  		<textarea name='missao' style='resize: none;'>", $row['missao'], "</textarea>
+							  	</div>
+							  	<div class='input-group'>
+							  		<label>Valores da empresa</label>
+							  		<textarea name='valores' style='resize: none;'>", $row['valores'], "</textarea>
+							  	</div>";
 
 }
 
+//Inserções
+
+function inserirObjetivo($objetivo, $perspectiva){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO `objetivo` (objetivo, plano_estrategico, perspectiva_bsc) VALUES (?, ?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "sis", $objetivo, $_GET['plano_estrategico'], $perspectiva);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+}
+
+function inserirIdentidade($visao, $missao, $valores){
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO `plano_estrategico` (visao, missao, valores, comeco, fim, ativo, publicado, empresa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+
+	$comeco = '2019-06-09';
+	$fim = '2019-06-10';
+	$ativo = 0;
+	$publicado = 0;
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "sssssiii", $visao, $missao, $valores, $comeco, $fim, $ativo, $publicado, $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+	return mysqli_insert_id($db);
+
+	print_r($result);
+}
+
+
+//Alterações
+
+function alterarObjetivo($objetivo, $perspectiva, $id){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE objetivo SET objetivo = ?, perspectiva_bsc = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'ssi', $objetivo, $perspectiva, $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+}
+
+function alterarIdentidade($visao, $missao, $valores){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE plano_estrategico SET visao = ?, missao = ?, valores = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'sssi', $visao, $missao, $valores, $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+}
 
 ?>
