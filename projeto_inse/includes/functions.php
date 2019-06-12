@@ -189,7 +189,7 @@ function listarPEEs(){
 	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-	 echo '<table id="teste">
+	 echo '<table>
 			<th>Título</th>
 			<th>Data Inicio</th>
 			<th>Data Fim</th>
@@ -517,8 +517,7 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
 
-	header('location: index.php');
-
+	//echo '<script type="text/javascript">window.location = "http://localhost/inse/projeto_inse/pee-list.php"</script>';
 }
 
 

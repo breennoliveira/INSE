@@ -38,6 +38,7 @@ $(document).ready(function(){
 			url: "includes/functions.php",
 			data: { removerPlano: x}});
 		//$('#teste').append(x);
+		//$('#teste').load();
 	})
 
 });
