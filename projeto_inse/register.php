@@ -15,15 +15,15 @@
 							  	<?php include('errors.php'); ?>
 							  	<div class="">
 							  	  <label>Razão Social</label>
-							  	  <input type="text" name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
+							  	  <input type="text" maxlength='100' name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Nome fantasia</label>
-							  	  <input type="text" name="nomefantasia" value="<?php echo isset($_POST['nomefantasia']) ? $_POST['nomefantasia'] : '' ?>">
+							  	  <input type="text" maxlength='100' name="nomefantasia" value="<?php echo isset($_POST['nomefantasia']) ? $_POST['nomefantasia'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Numero CNPJ</label>
-							  	  <input type="text" name="cnpj" value="<?php echo isset($_POST['cnpj']) ? $_POST['cnpj'] : '' ?>">
+							  	  <input type="text" maxlength='18' name="cnpj" value="<?php echo isset($_POST['cnpj']) ? $_POST['cnpj'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Ramo de atuação</label><br>
@@ -35,19 +35,19 @@
 							  	</div>
 								<div class="">
 							  	  <label>Endereço</label>
-							  	  <input type="text" name="endereco" value="<?php echo isset($_POST['endereco']) ? $_POST['endereco'] : '' ?>">
+							  	  <input type="text" maxlength='255' name="endereco" value="<?php echo isset($_POST['endereco']) ? $_POST['endereco'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Nome do Responsável</label>
-							  	  <input type="text" name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
+							  	  <input type="text" maxlength='255' name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Telefone</label>
-							  	  <input type="text" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
+							  	  <input type="text" maxlength='100' name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>
-							  	  <input type="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
+							  	  <input type="email" maxlength='100' name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Senha</label>

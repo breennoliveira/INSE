@@ -43,7 +43,7 @@ $(document).ready(function(){
 	$('#add_valor').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
+		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' maxlength='100' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
 		//var_dump($_GET);
 	});
 

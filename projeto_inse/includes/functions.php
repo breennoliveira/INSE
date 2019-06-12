@@ -234,7 +234,7 @@ function listarObjetivos(){
 
 			echo "<div>
 					<label>Objetivo</label>
-					<textarea name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
+					<textarea maxlength='255' name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
 					<input type='hidden' name='id[]' value=", $row['id'],"></input>
 					<a href='#' class='remove_field' id=", $row['id']," style='margin-left:10px;'>Remove</a>
 				  </div>";
@@ -245,7 +245,7 @@ function listarObjetivos(){
 
 		echo "<div>
 				<label>Objetivo</label>
-				<textarea name='objetivo[]' value='new' style='resize: none;'></textarea>
+				<textarea maxlength='255' name='objetivo[]' value='new' style='resize: none;'></textarea>
 				<input type='hidden' name='id[]' value='new'></input>
 			  </div>";
 	}
@@ -269,7 +269,7 @@ function listarIdentidade(){
 
 	echo "<div class='input-group'>
 			<label>Titulo do Plano Estrategico</label>
-				<input type='text' name='titulo' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
+				<input type='text' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
 		  </div><br>
 		  <div class='input-group'><table>
 			<td><label>Data Inicio</label>
@@ -279,11 +279,11 @@ function listarIdentidade(){
 		  </table></div>
 		  <div class='input-group'>
 			<label>Visao da empresa</label>
-				<textarea name='visao' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : '', "</textarea>
+				<textarea name='visao' maxlength='255' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : '', "</textarea>
 		  </div><br>
 		  <div class='input-group'>
 		  	<label>Missao da empresa</label>
-				<textarea name='missao' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : '', "</textarea>
+				<textarea name='missao' maxlength='255' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : '', "</textarea>
 		  </div>";
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM valor WHERE plano_estrategico = ?");
@@ -296,14 +296,14 @@ function listarIdentidade(){
 		while($row = mysqli_fetch_array($result)){
 
 			echo "<div><br><label>Valores da empresa</label>
-					<input type='text' name='valor[]' value='", $row['valor'], "'></input>
+					<input type='text' maxlength='100' name='valor[]' value='", $row['valor'], "'></input>
 					<input type='hidden' name='id[]' value='", $row['id'],"'></input>
 					<a href='#' id='", $row['id'],"'class='remove_field'>Remover</a></div>";
 		}
 	}
 	else{
 		echo "<label>Valores da empresa</label>
-				<input type='text' name='valor[]' placeholder='Insira um valor aqui'></input>
+				<input type='text' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
 				<input type='hidden' name='id[]' value='new'></input>";
 	}
 	echo "</div>";
@@ -317,6 +317,9 @@ function listarIdentidade(){
 function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $responsavel , $telefone , $email, $password, $confir_senha){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$cnpj = preg_replace("/[^0-9]/", "", $cnpj);
+	$cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
 
 	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
