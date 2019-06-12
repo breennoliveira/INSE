@@ -34,6 +34,5 @@
 									<?php endif ?>
 								</ul>
 							</nav>
-	
 					</div>
 				</div>

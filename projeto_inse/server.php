@@ -1,223 +1,231 @@
-<?php
+﻿<?php require "includes/functions.php";
 
-require "includes/functions.php";
+	if(!isset($_SESSION['idempresa'])){
+		//session has not started
+		session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+		if(isset($_SESSION['success_flash'])){
+		  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
+		  unset($_SESSION['success_flash']);
+		}
 
-if(session_status() == PHP_SESSION_NONE){
-    //session has not started
-    session_start();
+		if(isset($_SESSION['error_flash'])){
+		  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
+		  unset($_SESSION['error_flash']);
+		}
 
-if(isset($_SESSION['success_flash'])){
-  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
-  unset($_SESSION['success_flash']);
-}
-
-if(isset($_SESSION['error_flash'])){
-  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
-  unset($_SESSION['error_flash']);
-}
-
-// initializing variables
-$razaosocial = "";
-$nomefantasia    = "";
-$cnpj    = "";
-$ramo    = "";
-$email    = "";
-$endereço = "";
-$nomeresponsavel = "";
-$telefone = "";
-$errors = array(); 
+		// initializing variables
+		$razaosocial = "";
+		$nomefantasia    = "";
+		$cnpj    = "";
+		$ramo    = "";
+		$email    = "";
+		$endereço = "";
+		$nomeresponsavel = "";
+		$telefone = "";
+		$errors = array(); 
 
 
-// connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'inse');
+		// connect to the database
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-// REGISTER USER
-if (isset($_POST['reg_user'])) {
-  // receive all input values from the form
-  $razaosocial = mysqli_real_escape_string($db, $_POST['razaosocial']);
-  $nomefantasia = mysqli_real_escape_string($db, $_POST['nomefantasia']);
-  $cnpj = mysqli_real_escape_string($db, $_POST['cnpj']);
-  $ramo = $_POST['ramo'];
-  $email = mysqli_real_escape_string($db, $_POST['email']);
-  $senha = mysqli_real_escape_string($db, $_POST['senha']);
-  $confir_senha = mysqli_real_escape_string($db, $_POST['confir_senha']);
+		// REGISTER USER
+		if (isset($_POST['reg_user'])) {
+		  // receive all input values from the form
+		  /*$razaosocial = mysqli_real_escape_string($db, $_POST['razaosocial']);
+		  $nomefantasia = mysqli_real_escape_string($db, $_POST['nomefantasia']);
+		  $cnpj = mysqli_real_escape_string($db, $_POST['cnpj']);
+		  $ramo = $_POST['ramo'];
+		  $email = mysqli_real_escape_string($db, $_POST['email']);
+		  $senha = mysqli_real_escape_string($db, $_POST['senha']);
+		  $confir_senha = mysqli_real_escape_string($db, $_POST['confir_senha']);*/
 
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $errors array
-  if (empty($razaosocial)) { array_push($errors, "Razão Social é obrigatório"); }
-  if (empty($nomefantasia)) { array_push($errors, "Nome fantasia é obrigatório"); }
-  if (empty($cnpj)) { array_push($errors, "CNPJ é obrigatório"); } else{
-  if (!validaCNPJ($cnpj)) { array_push($errors, "CNPJ inválido"); } }
-  if (empty($ramo)) { array_push($errors, "Ramo de atução é obrigatório"); }
-  if (empty($email)) { array_push($errors, "Email é obrigatório"); }
-  if (empty($senha)) { array_push($errors, "Senha é obrigatória"); }
-  if ($senha != $confir_senha) {
-	array_push($errors, "As senhas não são iguais");
-  } 
+		  // form validation: ensure that the form is correctly filled ...
+		  // by adding (array_push()) corresponding error unto $errors array
+		  if (empty($_POST['razaosocial'])) { array_push($errors, "Razão Social é obrigatório"); }
+		  if (empty($_POST['nomefantasia'])) { array_push($errors, "Nome fantasia é obrigatório"); }
+		  if (empty($_POST['cnpj'])) { array_push($errors, "CNPJ é obrigatório"); } else{
+		  if (!validaCNPJ($_POST['cnpj'])) { array_push($errors, "CNPJ inválido"); } }
+		  if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
+		  if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		  if (empty($_POST['senha'])) { array_push($errors, "Senha é obrigatória"); }
+		  if ($_POST['senha'] != $_POST['confir_senha']) { array_push($errors, "As senhas não são iguais"); } 
 
-  // first check the database to make sure 
-  // a user does not already exist with the same username and/or email
-  $user_check_query = "SELECT * FROM empresa WHERE razaosocial='$razaosocial' OR email='$email' LIMIT 1";
-  $result = mysqli_query($db, $user_check_query);
-  $user = mysqli_fetch_assoc($result);
+		  // first check the database to make sure 
+		  // a user does not already exist with the same username and/or email
+		  /*$user_check_query = "SELECT * FROM empresa WHERE cnpj='$cnpj' OR email='$email' LIMIT 1";
+		  $result = mysqli_query($db, $user_check_query);
+		  $user = mysqli_fetch_assoc($result);
   
-  if ($user) { // if user exists
-    if ($user['razaosocial'] === $razaosocial) {
-      array_push($errors, "Já existe um cadastro dessa empresa");
-    }
+		  if ($user) { // if user exists
+			if ($user['cnpj'] === $cnpj) {
+			  array_push($errors, "Já existe um cadastro dessa empresa");
+			}
 
-    if ($user['email'] === $email) {
-      array_push($errors, "Já existe um email cadastrado");
-    }
-  }
+			if ($user['email'] === $email) {
+			  array_push($errors, "Já existe um email cadastrado");
+			}
+		  }*/
 
-  // Finally, register user if there are no errors in the form
-  if (count($errors) == 0) {
-  	$password = md5($senha); //encrypt the password before saving in the database
+		  if(existeCNPJ($_POST['cnpj'])){
+			array_push($errors, "Já existe um cadastro com esse CNPJ");
+		  }
 
-  	$query = "INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, email, senha, confir_senha) 
-  			  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$email', '$password', '$confir_senha')";
-  	mysqli_query($db, $query);
-  	$_SESSION['success_flash'] = "Cadastrado com sucesso";
-  	header('location: index.php');
+		  if(existeEmail($_POST['email'])){
+			array_push($errors, "Já existe um cadastro com esse email");
+		  }
 
-  }
-}
+		  // Finally, register user if there are no errors in the form
+		  if (count($errors) == 0) {
+  			$password = md5($_POST['senha']); // --------- solucao temporaria;
 
-// LOGIN USER
-if (isset($_POST['login_user'])) {
-  $email = mysqli_real_escape_string($db, $_POST['email']);
-  $senha = mysqli_real_escape_string($db, $_POST['senha']);
+  			//$query = "INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha) 
+  			//		  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$endereco', '$responsavel' , '$telefone' , '$email', '$password', '$confir_senha')";
+  			//mysqli_query($db, $query);
 
-  if (empty($email) OR !filter_var($email,FILTER_VALIDATE_EMAIL)) {
-    array_push($errors, "Verifique o campo Email");
-  }
-  if (empty($senha)) {
-    array_push($errors, "Verifique o campo Senha");
-  }
+			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
 
-  if (count($errors) == 0) {
-    $senha = md5($senha);
-    $query = "SELECT * FROM empresa WHERE email='$email' AND senha='$senha'";
-    $results = mysqli_query($db, $query);
-	$user = mysqli_fetch_assoc($results);
-    if (mysqli_num_rows($results) == 1) {
-      $_SESSION['nomefantasia'] = $user['nomefantasia'];
-	  $_SESSION['idempresa'] = $user['id'];
-      header('location: empresa.php');
-    }else {
-      array_push($errors, "O email/senha estão errados, verifique e tente novamente");
-    }
-  }
-}
+  			$_SESSION['success_flash'] = "Cadastrado com sucesso";
+  			header('location: index.php');
 
-}
-else
-{
+		  }
+		}
 
-	if(isset($_SESSION['success_flash'])){
-	  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
-	  unset($_SESSION['success_flash']);
-	}
+		// LOGIN USER
+		if (isset($_POST['login_user'])) {
+		  //$email = mysqli_real_escape_string($db, $_POST['email']);
+		  //$senha = mysqli_real_escape_string($db, $_POST['senha']);
 
-	if(isset($_SESSION['error_flash'])){
-	  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
-	  unset($_SESSION['error_flash']);
-	}
+		  if (empty($_POST['email']) OR !filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)) {
+			array_push($errors, "Verifique o campo Email");
+		  }
+		  if (empty($_POST['senha'])) {
+			array_push($errors, "Verifique o campo Senha");
+		  }
 
-
-	  // initializing variables
-	$visao = "";
-	$missao    = "";
-	$valores    = "";
-	$objetivo[]    = "";
-	$perspectivas1    = "";
-	$perspectivas2    = "";
-	$perspectivas3    = "";
-
-	$errors = array(); 
-
-	// connect to the database
-	$db = mysqli_connect('localhost', 'root', '', 'inse');
-
-	// CADASTRAR IDENTIDADE ORGANIZACIONAL
-	if (isset($_POST['reg_indentidade'])) {
-		// receive all input values from the form
-		/*$visao = mysqli_real_escape_string($db, $_POST['visao']);
-		$missao = mysqli_real_escape_string($db, $_POST['missao']);
-		$valores = mysqli_real_escape_string($db, $_POST['valores']);
-		*/
-		// form validation: ensure that the form is correctly filled ...
-		// by adding (array_push()) corresponding error unto $errors array
-		if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
-		if (empty($_POST['missao'])) { array_push($errors, "O campo missão é obrigatório"); }
-		if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
-		if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
-		if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
-		$valores = $_POST['valor'];
-		if ($valores['0'] == '') { array_push($errors, "O campo Valores é obrigatório"); }
-		//if (empty($_POST['valor'])) { array_push($errors, "O campo valores é obrigatório"); }
-		
-		if (count($errors) == 0) {
-			/*$query = "INSERT INTO identidade (visao, missao, valores) 
-					VALUES('$visao', '$missao', '$valores')";
-			mysqli_query($db, $query);
-			//$_SESSION['success_flash'] = "Cadastrado com sucesso";*/
-
-			if($_GET['plano_estrategico'] == 'new'){
-				$_GET['plano_estrategico'] = inserirIdentidade();
-				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
+		  if (count($errors) == 0) {
+			$senha = md5($_POST['senha']);
+			if (loginCorreto($_POST['email'], $senha)){
+				header('location: empresa.php');
 			}
 			else{
-				alterarIdentidade();
+				array_push($errors, "O email/senha estão errados, verifique e tente novamente");
 			}
+			/*$query = "SELECT * FROM empresa WHERE email='$email' AND senha='$senha'";
+			$results = mysqli_query($db, $query);
+			$user = mysqli_fetch_assoc($results);
+			if (mysqli_num_rows($results) == 1) {
+			  $_SESSION['nomefantasia'] = $user['nomefantasia'];
+			  $_SESSION['idempresa'] = $user['id'];
+			  header('location: empresa.php');
+			}else {
+			  array_push($errors, "O email/senha estão errados, verifique e tente novamente");
+			}*/
+		  }
+		}
 
-			$i = 0;
-			foreach($_POST['valor'] as $valor){
-				$id = array_slice($_POST['id'],$i,1);
-				if($valor != ''){
-					if($id['0'] != 'new'){
-					alterarValor($valor, $id['0']);
-					echo 'VALOR ALTERADO';
-					}
-					else{
-						inserirValor($valor);
-					print_r('VALOR INSERIDO');
-					}
+	}
+	else
+	{
+
+		if(isset($_SESSION['success_flash'])){
+		  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
+		  unset($_SESSION['success_flash']);
+		}
+
+		if(isset($_SESSION['error_flash'])){
+		  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
+		  unset($_SESSION['error_flash']);
+		}
+
+
+		  // initializing variables
+		$visao = "";
+		$missao    = "";
+		$valores    = "";
+		$objetivo[]    = "";
+		$perspectivas1    = "";
+		$perspectivas2    = "";
+		$perspectivas3    = "";
+
+		$errors = array(); 
+
+		// connect to the database
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		// CADASTRAR IDENTIDADE ORGANIZACIONAL
+		if (isset($_POST['reg_indentidade'])) {
+			// receive all input values from the form
+			/*$visao = mysqli_real_escape_string($db, $_POST['visao']);
+			$missao = mysqli_real_escape_string($db, $_POST['missao']);
+			$valores = mysqli_real_escape_string($db, $_POST['valores']);
+			*/
+			// form validation: ensure that the form is correctly filled ...
+			// by adding (array_push()) corresponding error unto $errors array
+			if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
+			if (empty($_POST['missao'])) { array_push($errors, "O campo missão é obrigatório"); }
+			if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
+			if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
+			if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
+			$valores = $_POST['valor'];
+			if ($valores['0'] == '') { array_push($errors, "O campo Valores é obrigatório"); }
+			//if (empty($_POST['valor'])) { array_push($errors, "O campo valores é obrigatório"); }
+		
+			if (count($errors) == 0) {
+				/*$query = "INSERT INTO identidade (visao, missao, valores) 
+						VALUES('$visao', '$missao', '$valores')";
+				mysqli_query($db, $query);
+				//$_SESSION['success_flash'] = "Cadastrado com sucesso";*/
+
+				if($_GET['plano_estrategico'] == 'new'){
+					$_GET['plano_estrategico'] = inserirIdentidade();
+					header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 				}
-				$i++;
+				else{
+					alterarIdentidade();
+				}
+
+				$i = 0;
+				foreach($_POST['valor'] as $valor){
+					$id = array_slice($_POST['id'],$i,1);
+					if($valor != ''){
+						if($id['0'] != 'new'){
+							alterarValor($valor, $id['0']);
+						//echo 'VALOR ALTERADO';
+						}
+						else{
+							inserirValor($valor);
+						//print_r('VALOR INSERIDO');
+						}
+					}
+					$i++;
+				}
+				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
+			}
+		}
+
+		//CADASTRAR OBJETIVOS
+		if (isset($_POST['reg_objetivo'])) {
+
+			$objetivos = $_POST['objetivo'];
+			if ($objetivos['0'] == '') { array_push($errors, "O campo Objetivo é obrigatório"); }
+
+			if (count($errors) == 0){
+				$i = 0;
+				foreach($_POST['objetivo'] as $objetivo){
+					if ($objetivo != ''){
+						$id = array_slice($_POST['id'],$i,1);
+						if($id['0'] != 'new'){
+						alterarObjetivo($objetivo,'',$id['0']);
+						}
+						else{
+							inserirObjetivo($objetivo,'');
+						}
+					}
+					$i++;
+				}
+				header('location: objetivos.php?plano_estrategico='.$_GET['plano_estrategico']);
 			}
 		}
 	}
-
-	  // CADASTRAR OBJETIVOS
-	if (isset($_POST['reg_objetivo'])) {
-
-		$objetivos = $_POST['objetivo'];
-		if ($objetivos['0'] == '') { array_push($errors, "O campo Objetivo é obrigatório"); }
-
-		if (count($errors) == 0){
-			$i = 0;
-			foreach($_POST['objetivo'] as $objetivo){
-				if ($objetivo != ''){
-					$id = array_slice($_POST['id'],$i,1);
-					if($id['0'] != 'new'){
-					alterarObjetivo($objetivo,'',$id['0']);
-					}
-					else{
-						inserirObjetivo($objetivo,'');
-					}
-				}
-				$i++;	
-			}
-		}
-		
-	} 
-}
-
-
-
 ?>

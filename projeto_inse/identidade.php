@@ -1,12 +1,10 @@
-<?php include("includes/session.php");?>
-<?php 
-	include('server.php')
-?>
+﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
+<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
 
-<!-- Main -->
 
+<!-- Main -->
 			<div id="main" class="wrapper style4">
 				<div class="container">
 					<div class="row">
@@ -45,13 +43,19 @@ $(document).ready(function(){
 	$('#add_valor').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field'>Remover</a></div>");
+		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
 		//var_dump($_GET);
 	});
 
 	$('.valores_input').on("click",".remove_field", function(e){ //user click on remove text links
         e.preventDefault();
 		$(this).parent('div').remove();
+		var x = $(this).attr("id");
+		$.ajax({
+          url: "includes/functions.php",
+		  data: { removerValor: x },
+          type: "POST"})
+
 		x--;
     });
 

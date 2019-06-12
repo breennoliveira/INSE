@@ -1,8 +1,6 @@
-<?php include("includes/header.php");?>
+﻿<?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-<?php 
-	include('server.php')
-?>
+<?php include("server.php");?>
 
 <div id="main" class="wrapper style4">
 
@@ -17,19 +15,19 @@
 							  	<?php include('errors.php'); ?>
 							  	<div class="">
 							  	  <label>Razão Social</label>
-							  	  <input type="text" name="razaosocial" value="<?php echo $razaosocial; ?>">
+							  	  <input type="text" name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Nome fantasia</label>
-							  	  <input type="text" name="nomefantasia" value="<?php echo $nomefantasia; ?>">
+							  	  <input type="text" name="nomefantasia" value="<?php echo isset($_POST['nomefantasia']) ? $_POST['nomefantasia'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Numero CNPJ</label>
-							  	  <input type="text" name="cnpj" value="<?php echo $cnpj; ?>">
+							  	  <input type="text" name="cnpj" value="<?php echo isset($_POST['cnpj']) ? $_POST['cnpj'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Ramo de atuação</label><br>
-								  <select name="ramo">
+								  <select id="ramo" name="ramo">
 									<option value="Indústria">Indústria</option>
 									<option value="Comércio">Comércio</option>
 									<option value="Serviços">Serviços</option>
@@ -37,19 +35,19 @@
 							  	</div>
 								<div class="">
 							  	  <label>Endereço</label>
-							  	  <input type="text" name="endereço" value="<?php echo $endereço; ?>">
+							  	  <input type="text" name="endereco" value="<?php echo isset($_POST['endereco']) ? $_POST['endereco'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Nome do Responsável</label>
-							  	  <input type="text" name="nomeresponsavel" value="<?php echo $nomeresponsavel; ?>">
+							  	  <input type="text" name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Telefone</label>
-							  	  <input type="text" name="telefone" value="<?php echo $telefone; ?>">
+							  	  <input type="text" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>
-							  	  <input type="email" name="email" value="<?php echo $email; ?>">
+							  	  <input type="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Senha</label>
@@ -74,5 +72,8 @@
 				</div>
 			</div>
 
+<script type="text/javascript">
+	document.getElementById('ramo').value = "<?php echo $_POST['ramo'];?>"; // Para guardar o valor selecionado em ramo.
+</script>
 		
 <?php  include("includes/footer.php");?>

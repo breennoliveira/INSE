@@ -1,10 +1,10 @@
-<?php
+Ôªø<?php
 
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
 
 function validaCNPJ($cnpj = null) {
 
-	// Verifica se um n˙mero foi informado
+	// Verifica se um n√∫mero foi informado
 	if(empty($cnpj)) {
 		return false;
 	}
@@ -13,12 +13,12 @@ function validaCNPJ($cnpj = null) {
 	$cnpj = preg_replace("/[^0-9]/", "", $cnpj);
 	$cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
 	
-	// Verifica se o numero de digitos informados È igual a 14 
+	// Verifica se o numero de digitos informados √© igual a 14 
 	if (strlen($cnpj) != 14) {
 		return false;
 	}
 	
-	// Verifica se nenhuma das sequÍncias invalidas abaixo 
+	// Verifica se nenhuma das sequ√™ncias invalidas abaixo 
 	// foi digitada. Caso afirmativo, retorna falso
 	else if ($cnpj == '00000000000000' || 
 		$cnpj == '11111111111111' || 
@@ -33,7 +33,7 @@ function validaCNPJ($cnpj = null) {
 		return false;
 		
 	 // Calcula os digitos verificadores para verificar se o
-	 // CPF È v·lido
+	 // CPF √© v√°lido
 	 } else {   
 	 
 		$j = 5;
@@ -121,11 +121,67 @@ function possuiValores(){
 
 }
 
+function existeCNPJ($cnpj){
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE cnpj = ?");
+	mysqli_stmt_bind_param($stmt, "s", $cnpj);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $numrows;
+}
+
+function existeEmail($email){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE email = ?");
+	mysqli_stmt_bind_param($stmt, "s", $email);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $numrows;
+
+}
+
+function loginCorreto($email, $senha){
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE email = ? AND senha = ?");
+	mysqli_stmt_bind_param($stmt, "ss", $email, $senha);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$numrows = mysqli_num_rows($result);
+
+	if($numrows == 1){
+		$row = mysqli_fetch_array($result);
+		$_SESSION['nomefantasia'] = $row['nomefantasia'];
+		$_SESSION['idempresa'] = $row['id'];
+	}
+	mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $numrows;
+
+}
+
 //Listagens
 
 function listarPEEs(){
-
-	// Set variables
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -133,13 +189,14 @@ function listarPEEs(){
 	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-	 echo '<table>
-			<th>Titulo</th>
+	 echo '<table id="teste">
+			<th>T√≠tulo</th>
 			<th>Data Inicio</th>
-			<th>Data Fim</th>';
+			<th>Data Fim</th>
+			<th>Op√ß√µes</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'], '</td><td><a href=identidade.php?plano_estrategico=',$row['id'],'>Editar</a></tr>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -179,7 +236,7 @@ function listarObjetivos(){
 					<label>Objetivo</label>
 					<textarea name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
 					<input type='hidden' name='id[]' value=", $row['id'],"></input>
-					<a href='#' class='remove_field' style='margin-left:10px;'>Remove</a>
+					<a href='#' class='remove_field' id=", $row['id']," style='margin-left:10px;'>Remove</a>
 				  </div>";
 			$i++;
 		}
@@ -241,7 +298,7 @@ function listarIdentidade(){
 			echo "<div><br><label>Valores da empresa</label>
 					<input type='text' name='valor[]' value='", $row['valor'], "'></input>
 					<input type='hidden' name='id[]' value='", $row['id'],"'></input>
-					<a href='#' class='remove_field'>Remover</a></div>";
+					<a href='#' id='", $row['id'],"'class='remove_field'>Remover</a></div>";
 		}
 	}
 	else{
@@ -255,7 +312,22 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
-//InserÁıes
+//Inser√ß√µes
+
+function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $responsavel , $telefone , $email, $password, $confir_senha){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "ssssssssss", $razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $responsavel , $telefone , $email, $password, $confir_senha);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+	mysqli_close($db);
+}
 
 function inserirObjetivo($objetivo, $perspectiva){
 
@@ -303,7 +375,7 @@ function inserirValor($valor){
 }
 
 
-//AlteraÁıes
+//Altera√ß√µes
 
 function alterarObjetivo($objetivo, $perspectiva, $id){
 
@@ -351,5 +423,100 @@ function alterarValor($valor, $id){
 	mysqli_close($db);
 
 }
+
+//Remo√ß√µes
+/*
+function removerObjetivo($id){ 
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'DELETE FROM objetivo WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+}
+
+function removerValor($id){ 
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'DELETE FROM valor WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+}
+
+function removerPlano($id){ 
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'DELETE FROM plano_estrategico WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+}
+*/
+
+if(isset($_POST['removerObjetivo'])){ //Remover objetivo chamado por Ajax.. Nao achei um jeito melhor de fazer..
+	
+	$id = $_POST['removerObjetivo'];
+	if($id != 'new'){
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		$sql = 'DELETE FROM objetivo WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'i', $id);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+		mysqli_close($db);
+	}
+}
+
+if(isset($_POST['removerValor'])){ //Remover valor chamado por Ajax.. Nao achei um jeito melhor de fazer..
+
+	$id = $_POST['removerValor'];
+
+	if($id != 'new'){
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		$sql = 'DELETE FROM valor WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'i', $id);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+		mysqli_close($db);
+	}
+
+}
+
+if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei um jeito melhor de fazer..
+
+	$id = $_POST['removerPlano'];
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'DELETE FROM plano_estrategico WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	header('location: index.php');
+
+}
+
 
 ?>
