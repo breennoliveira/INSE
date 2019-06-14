@@ -168,9 +168,11 @@
 			if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
 			if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
 			if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
-			$valores = $_POST['valor'];
-			if ($valores['0'] == '') { array_push($errors, "O campo Valores é obrigatório"); }
-			//if (empty($_POST['valor'])) { array_push($errors, "O campo valores é obrigatório"); }
+			if(isset($_POST['valor'])) {
+				foreach($_POST['valor'] as $valor){
+					if ($valor == '') { array_push($errors, "O campo Valores é obrigatório"); break;}
+				}
+			}
 		
 			if (count($errors) == 0) {
 				/*$query = "INSERT INTO identidade (visao, missao, valores) 
@@ -187,29 +189,30 @@
 				}
 
 				$i = 0;
-				foreach($_POST['valor'] as $valor){
-					$id = array_slice($_POST['id'],$i,1);
-					if($valor != ''){
-						if($id['0'] != 'new'){
-							alterarValor($valor, $id['0']);
-						//echo 'VALOR ALTERADO';
+				if(isset($_POST['valor'])){
+					foreach($_POST['valor'] as $valor){
+						$id = array_slice($_POST['id'],$i,1);
+						if($valor != ''){
+							if($id['0'] != 'new'){
+								alterarValor($valor, $id['0']);
+							//echo 'VALOR ALTERADO';
+							}
+							else{
+								inserirValor($valor);
+							//print_r('VALOR INSERIDO');
+							}
 						}
-						else{
-							inserirValor($valor);
-						//print_r('VALOR INSERIDO');
-						}
+						$i++;
 					}
-					$i++;
+					header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 				}
-				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 			}
 		}
 
 		//CADASTRAR OBJETIVOS
 		if (isset($_POST['reg_objetivo'])) {
 
-			$objetivos = $_POST['objetivo'];
-			if ($objetivos['0'] == '') { array_push($errors, "O campo Objetivo é obrigatório"); }
+			if(empty($_POST['objetivo'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
 
 			if (count($errors) == 0){
 				$i = 0;

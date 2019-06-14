@@ -55,7 +55,6 @@ $(document).ready(function(){
           url: "includes/functions.php",
 		  data: { removerValor: x },
           type: "POST"})
-
 		x--;
     });
 

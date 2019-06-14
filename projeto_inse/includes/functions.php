@@ -1,6 +1,8 @@
-﻿<?php
+<?php
 //functions.php é usado para insert/select/update/remove, ou seja, tudo que tiver a ver com banco de dados
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
+
+
 
 function validaCNPJ($cnpj = null) {
 
@@ -269,24 +271,24 @@ function listarIdentidade(){
 
 	echo "<div class='input-group'>
 			<label>Titulo do Plano Estrategico</label>
-				<input type='text' style='width: 100%;' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
+				<input type='text' style='width: 100%;' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : (isset($_POST['titulo']) ? $_POST['titulo'] : ''), "'></input>
 		  </div>
 		  <br>
 		  <div class='input-group'>
 		  <table>
 			<td><label>Data Inicio</label>
-				<input type='date' name='comeco' value='", !empty($row['comeco']) ? $row['comeco'] : '' ,"'></input></td>
+				<input type='date' name='comeco' value='", !empty($row['comeco']) ? $row['comeco'] : (isset($_POST['comeco']) ? $_POST['comeco'] : '') ,"'></input></td>
 			<td><label>Data Fim</label>
-				<input type='date' name='fim' value='", !empty($row['fim']) ? $row['fim'] : '' ,"'></input></td>
+				<input type='date' name='fim' value='", !empty($row['fim']) ? $row['fim'] : (isset($_POST['fim']) ? $_POST['fim'] : '') ,"'></input></td>
 		  </table>
 		  </div>
 		  <div class='input-group'>
 			<label>Visao da empresa</label>
-				<textarea name='visao' maxlength='255' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : '', "</textarea>
+				<textarea name='visao' maxlength='255' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : (isset($_POST['visao']) ? $_POST['visao'] : ''), "</textarea>
 		  </div><br>
 		  <div class='input-group'>
 		  	<label>Missao da empresa</label>
-				<textarea name='missao' maxlength='255' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : '', "</textarea>
+				<textarea name='missao' maxlength='255' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : (isset($_POST['missao']) ? $_POST['missao'] : ''), "</textarea>
 		  </div>";
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM valor WHERE plano_estrategico = ?");
@@ -295,6 +297,7 @@ function listarIdentidade(){
 	$result = mysqli_stmt_get_result($stmt);
 	echo "<div class='valores_input'>";
 	if(mysqli_num_rows($result) > 0){
+		$i=0;
 
 		while($row = mysqli_fetch_array($result)){
 
@@ -303,16 +306,80 @@ function listarIdentidade(){
 					<input type='hidden'style='width: 100%;' name='id[]' value='", $row['id'],"'></input>
 					<a href='#' id='", $row['id'],"'class='remove_field'>Remover</a></div>";
 		}
+		if(isset($_POST['valor'])){
+			foreach ($_POST['valor'] as $valor){
+				$id = array_slice($_POST['id'],$i,1);
+				if($id['0'] == 'new'){
+					echo "<div><br><label>Valores da empresa</label>
+						<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $valor, "'></input>
+						<input type='hidden'style='width: 100%;' name='id[]' value='new'></input>
+						<a href='#' id='new'class='remove_field'>Remover</a></div>";
+				}
+				$i++;
+			}
+		}
+
 	}
 	else{
-		echo "<label>Valores da empresa</label>
-				<input type='text'style='width: 100%;' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
-				<input type='hidden' style='width: 100%;' name='id[]' value='new'></input>";
+		if(isset($_POST['valor'])){
+			foreach ($_POST['valor'] as $valor){
+				echo "<div><br><label>Valores da empresa</label>
+					<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $valor, "'></input>
+					<input type='hidden'style='width: 100%;' name='id[]' value='new'></input>
+					<a href='#' id='new'class='remove_field'>Remover</a></div>";
+			}
+		}
+		else{
+			echo "<label>Valores da empresa</label>
+					<input type='text'style='width: 100%;' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
+					<input type='hidden' style='width: 100%;' name='id[]' value='new'></input>";
+		}
 	}
 	echo "</div>";
 	//echo "</table><div align='right'><button class='more' id='add_valor' name='add_valor'>Adicionar Valor</button></div>";
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
+}
+
+function listarRamos(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT *, CAST(CONVERT(atividade USING utf8) AS binary) FROM ramo_atuacao WHERE ramo = ?");
+
+	$x = "Industrial";
+	mysqli_stmt_bind_param($stmt, "s", $x);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "<select id='ramo' name='ramo'><optgroup label='Industrial'>";
+
+	while($row = mysqli_fetch_array($result)){
+		echo "<option>",utf8_encode($row['atividade']),"</option>";
+	}
+
+	$x = "Comercial";
+	mysqli_stmt_bind_param($stmt, "s", $x);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "</optgroup><optgroup label='Comercial'>";
+
+	while($row = mysqli_fetch_array($result)){
+		echo "<option>",utf8_encode($row['atividade']),"</option>";
+	}
+
+	$x = "Servicos";
+	mysqli_stmt_bind_param($stmt, "s", $x);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "</optgroup><optgroup label='Serviços'>";
+
+	while($row = mysqli_fetch_array($result)){
+		echo "<option>",utf8_encode($row['atividade']),"</option>";
+	}
+	
+	echo "</optgroup></select>";
 }
 
 //Inserções

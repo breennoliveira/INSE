@@ -1,4 +1,4 @@
-﻿<?php include("includes/header.php");?>
+<?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
 <?php include("server.php");?>
 
@@ -27,11 +27,12 @@
 							  	</div>
 							  	<div class="">
 							  	  <label>Ramo de atuação</label><br>
-								  <select id="ramo" name="ramo">
+								  <!--<select id="ramo" name="ramo">
 									<option value="Indústria">Indústria</option>
 									<option value="Comércio">Comércio</option>
 									<option value="Serviços">Serviços</option>
-								  </select>
+								  </select>-->
+								  <?php listarRamos() ?>
 							  	</div>
 								<div class="">
 							  	  <label>Endereço</label>
