@@ -1,4 +1,5 @@
 ﻿<?php require "includes/functions.php";
+//server.php é usado para validação da campos, e identificar qual ação será feita insert/update
 
 	if(!isset($_SESSION['idempresa'])){
 		//session has not started

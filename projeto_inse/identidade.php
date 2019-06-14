@@ -13,7 +13,7 @@
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<h2>Identidade Organizacional</h2>
+									<h2>Informações Organizacionais</h2>
 									<span class="byline">Utilize o formulário abaixo para cadastrar os dados do plano estratégico, como a visão, a missão e os valores organizacionais.</span>
 								</header>
 								<form method="post" action="identidade.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">
@@ -43,7 +43,7 @@ $(document).ready(function(){
 	$('#add_valor').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' maxlength='100' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
+		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' style='width: 100%;' maxlength='100' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
 		//var_dump($_GET);
 	});
 

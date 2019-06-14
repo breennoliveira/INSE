@@ -40,7 +40,7 @@ $(document).ready(function(){
 	$('#add_objetivo').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.objetivos_input').append("<div><br><label>Objetivo</label><textarea name='objetivo[]' maxlength='255' value='new' style='resize: none;'></textarea><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' id='new' style='margin-left:10px;'>Remove</a></div>");
+		$('.objetivos_input').append("<div><br><label>Objetivo</label><textarea name='objetivo[]' maxlength='255' value='new' style='resize: none;'></textarea><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' id='new' style='margin-left:10px;'>Remover</a></div>");
 		//var_dump($_GET);
 	});
 

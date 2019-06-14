@@ -13,9 +13,9 @@
 							<hr>
 								<form method="post" action="login.php">
 							  	<?php include('errors.php'); ?>
-							  	<div class="input-group">
+								  <div class="input-group">
 							  		<label>Digite seu email</label>
-							  		<input type="text" name="email" >
+							  		<input type="email" name="email" >
 							  	</div>
 							  	<div class="input-group">
 							  		<label>Digite sua senha</label>
@@ -24,7 +24,7 @@
 							  	<hr>
 							  	<div class="input-group">
 							  		<button type="submit" class="button" name="login_user">Login</button>
-							  	</div>
+								  </div>
 							  	<hr>
 							  	<p>
 							  		Ainda não possui cadastro? <a href="register.php">Clique aqui</a>

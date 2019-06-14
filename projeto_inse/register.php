@@ -67,13 +67,11 @@
 							  	</p>
 							  </form>
 						</header>
-						
 					</section>
 				</div>
-			</div>
-
+</div>
 <script type="text/javascript">
 	document.getElementById('ramo').value = "<?php echo $_POST['ramo'];?>"; // Para guardar o valor selecionado em ramo.
 </script>
-		
+
 <?php  include("includes/footer.php");?>

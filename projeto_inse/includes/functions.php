@@ -1,5 +1,5 @@
 ﻿<?php
-
+//functions.php é usado para insert/select/update/remove, ou seja, tudo que tiver a ver com banco de dados
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
 
 function validaCNPJ($cnpj = null) {
@@ -196,7 +196,7 @@ function listarPEEs(){
 			<th>Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Inativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -269,14 +269,17 @@ function listarIdentidade(){
 
 	echo "<div class='input-group'>
 			<label>Titulo do Plano Estrategico</label>
-				<input type='text' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
-		  </div><br>
-		  <div class='input-group'><table>
+				<input type='text' style='width: 100%;' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : '', "'></input>
+		  </div>
+		  <br>
+		  <div class='input-group'>
+		  <table>
 			<td><label>Data Inicio</label>
 				<input type='date' name='comeco' value='", !empty($row['comeco']) ? $row['comeco'] : '' ,"'></input></td>
 			<td><label>Data Fim</label>
 				<input type='date' name='fim' value='", !empty($row['fim']) ? $row['fim'] : '' ,"'></input></td>
-		  </table></div>
+		  </table>
+		  </div>
 		  <div class='input-group'>
 			<label>Visao da empresa</label>
 				<textarea name='visao' maxlength='255' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : '', "</textarea>
@@ -296,15 +299,15 @@ function listarIdentidade(){
 		while($row = mysqli_fetch_array($result)){
 
 			echo "<div><br><label>Valores da empresa</label>
-					<input type='text' maxlength='100' name='valor[]' value='", $row['valor'], "'></input>
-					<input type='hidden' name='id[]' value='", $row['id'],"'></input>
+					<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $row['valor'], "'></input>
+					<input type='hidden'style='width: 100%;' name='id[]' value='", $row['id'],"'></input>
 					<a href='#' id='", $row['id'],"'class='remove_field'>Remover</a></div>";
 		}
 	}
 	else{
 		echo "<label>Valores da empresa</label>
-				<input type='text' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
-				<input type='hidden' name='id[]' value='new'></input>";
+				<input type='text'style='width: 100%;' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
+				<input type='hidden' style='width: 100%;' name='id[]' value='new'></input>";
 	}
 	echo "</div>";
 	//echo "</table><div align='right'><button class='more' id='add_valor' name='add_valor'>Adicionar Valor</button></div>";
@@ -517,7 +520,6 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
 
-	//echo '<script type="text/javascript">window.location = "http://localhost/inse/projeto_inse/pee-list.php"</script>';
 }
 
 
