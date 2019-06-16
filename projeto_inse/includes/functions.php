@@ -3,7 +3,7 @@
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
 
 
-
+// CNPJ Stuff
 function validaCNPJ($cnpj = null) {
 
 	// Verifica se um número foi informado
@@ -65,6 +65,11 @@ function validaCNPJ($cnpj = null) {
 		return (($cnpj{12} == $digito1) and ($cnpj{13} == $digito2));
 	 
 	}
+}
+
+function adicionaMascaraCNPJ($cnpj){
+
+	return preg_replace("/([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})/", "$1.$2.$3/$4-$5", $cnpj);
 }
 
 //Checagens
@@ -362,7 +367,7 @@ function listarEmpresa(){
 			</div>
 			<div class="">
 				<label>Numero CNPJ</label>
-				<input type="text" maxlength="18" name="cnpj" disabled value="',$row['cnpj'],'">
+				<input type="text" maxlength="18" name="cnpj" disabled value="',adicionaMascaraCNPJ($row['cnpj']),'">
 			</div>
 			<div class="">
 				<label>Ramo de atuação</label><br>
