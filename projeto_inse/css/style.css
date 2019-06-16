@@ -804,4 +804,15 @@
 		font-weight: 700;
 	}
 
+    hyperlink {
+        border: 0;
+        padding: 0;
+        display: inline;
+        background: none;
+        text-decoration: underline;
+        color: blue;
+    }
+    hyperlink:hover {
+        cursor: pointer;
+    }
 
