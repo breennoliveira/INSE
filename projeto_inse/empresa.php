@@ -17,8 +17,7 @@
 								<form method="post" action="empresa.php">
 									<?php include('errors.php'); ?>
 									<?php listarEmpresa();
-									$ramo = utf8_encode(getRamo());
-									var_dump($_POST)?>
+									$ramo = utf8_encode(getRamo());?>
 									<hr>
 								</form>
 						</header>
