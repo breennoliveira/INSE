@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 14, 2019 at 08:48 PM
--- Server version: 5.7.26
--- PHP Version: 7.2.18
+-- Generation Time: 16-Jun-2019 às 20:30
+-- Versão do servidor: 5.7.21
+-- PHP Version: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,79 +25,76 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `empresa`
+-- Estrutura da tabela `empresa`
 --
 
 DROP TABLE IF EXISTS `empresa`;
 CREATE TABLE IF NOT EXISTS `empresa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `razaosocial` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nomefantasia` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cnpj` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ramo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `endereco` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `responsavel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telefone` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `senha` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `confir_senha` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `razaosocial` varchar(100) NOT NULL,
+  `nomefantasia` varchar(100) NOT NULL,
+  `cnpj` varchar(14) NOT NULL,
+  `ramo` varchar(100) NOT NULL,
+  `endereco` varchar(255) NOT NULL,
+  `numero` varchar(4) DEFAULT NULL,
+  `complemento` varchar(255) DEFAULT NULL,
+  `bairro` varchar(255) NOT NULL,
+  `cidade` varchar(255) NOT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `responsavel` varchar(255) NOT NULL,
+  `telefone` varchar(13) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  `confir_senha` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `empresa`
+-- Extraindo dados da tabela `empresa`
 --
 
-INSERT INTO `empresa` (`id`, `razaosocial`, `nomefantasia`, `cnpj`, `ramo`, `endereco`, `responsavel`, `telefone`, `email`, `senha`, `confir_senha`) VALUES
-(1, 'Exemplo Empresa', 'Nome Empresa', '12345678', 'Alimentos', '', '', '', 'empresa@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(2, 'Exemplo Empresa2', 'Nome Empresa2', '123456789', 'Alimentos2', '', '', '', 'empresa2@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(3, 'Exemplo Empresa3', 'Nome Empresa3', '123456789', 'Alimentos3', '', '', '', 'empresa3@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '12345'),
-(4, 'Exemplo Empresa4', 'Nome Empresa4', '123456789', 'Alimentos4', '', '', '', 'empresa4@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '123456'),
-(5, 'Exemplo Empresa5', 'Nome Empresa5', '12345678', 'Alimentos5', '', '', '', 'empresa5@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(6, 'Exemplo Empresa6', 'Empresa Nome6', '12345678', 'Alimentos6', '', '', '', 'empresa6@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(8, 'Simple Organic SA', 'Simple Organic', '123456789', 'Cosméticos', '', '', '', 'simple@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
-(9, 'Exemplo Empresa10', 'Maria Thereza Miranda de Camargo', '12345678', 'Cosméticos', '', '', '', 'mmcamargo90@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
-(10, 'Exemplo Empresa16', 'Empresa 16', '12345678', 'Cosméticos', '', '', '', 'empresa16@gmail.com', '202cb962ac59075b964b07152d234b70', '123'),
-(27, 'Brenno', 'Brenno Oliveira Fernandes', '83534813000199', 'ComÃ©rcio', 'Rua AmÃ©rico de Campos, 9', 'Brenno Oliveira Fernandes', '19982286247', 'breennoliveira@live.com', '202cb962ac59075b964b07152d234b70', '123'),
-(28, 'Brennoooo', 'LALALALALA', '61138356000180', 'GrÃ¡fica', 'asdasd', 'asdasd', '1123712', 'kaeno.oliveira@gmail.com', '202cb962ac59075b964b07152d234b70', '123');
+INSERT INTO `empresa` (`id`, `razaosocial`, `nomefantasia`, `cnpj`, `ramo`, `endereco`, `numero`, `complemento`, `bairro`, `cidade`, `cep`, `responsavel`, `telefone`, `email`, `senha`, `confir_senha`) VALUES
+(1, 'Exemplo Empresa', 'Nome Empresa', '12345678', 'Alimentos', '', NULL, NULL, '', '', NULL, '', '', 'empresa@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
+(2, 'Exemplo Empresa2', 'Nome Empresa2', '123456789', 'Alimentos2', '', NULL, NULL, '', '', NULL, '', '', 'empresa2@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
+(3, 'Exemplo Empresa3', 'Nome Empresa3', '123456789', 'Alimentos3', '', NULL, NULL, '', '', NULL, '', '', 'empresa3@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '12345'),
+(4, 'Exemplo Empresa4', 'Nome Empresa4', '123456789', 'Alimentos4', '', NULL, NULL, '', '', NULL, '', '', 'empresa4@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '123456'),
+(5, 'Exemplo Empresa5', 'Nome Empresa5', '12345678', 'Alimentos5', '', NULL, NULL, '', '', NULL, '', '', 'empresa5@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
+(6, 'Exemplo Empresa6', 'Empresa Nome6', '12345678', 'Alimentos6', '', NULL, NULL, '', '', NULL, '', '', 'empresa6@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
+(8, 'Simple Organic SA', 'Simple Organic', '123456789', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'simple@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
+(9, 'Exemplo Empresa10', 'Maria Thereza Miranda de Camargo', '12345678', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'mmcamargo90@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
+(10, 'Exemplo Empresa16', 'Empresa 16', '12345678', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'empresa16@gmail.com', '202cb962ac59075b964b07152d234b70', '123'),
+(27, 'Brenno', 'Brenno Oliveira Fernandes', '83534813000199', 'ComÃ©rcio', 'Rua AmÃ©rico de Campos, 9', NULL, NULL, '', '', NULL, 'Brenno Oliveira Fernandes', '19982286247', 'breennoliveira@live.com', '202cb962ac59075b964b07152d234b70', '123'),
+(28, 'Exemplo Empresa10', 'nome fantasia 10', '66941770000147', 'VeÃ­culos', 'Travessa SÃ£o Benedito', '124', '', 'Centro', 'Serra Negra', '13930-000', 'Maria Thereza Miranda de Camargo', '1938928073', 'mth-2008@hotmail.com', '202cb962ac59075b964b07152d234b70', '123');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivo`
+-- Estrutura da tabela `objetivo`
 --
 
 DROP TABLE IF EXISTS `objetivo`;
 CREATE TABLE IF NOT EXISTS `objetivo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `objetivo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `objetivo` varchar(255) NOT NULL,
   `plano_estrategico` int(11) NOT NULL,
-  `perspectiva_bsc` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `perspectiva_bsc` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `plano_estrategico_idx` (`plano_estrategico`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `objetivo`
---
-
-INSERT INTO `objetivo` (`id`, `objetivo`, `plano_estrategico`, `perspectiva_bsc`) VALUES
-(109, 'adad', 44, ''),
-(110, 'ada', 44, '');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plano_estrategico`
+-- Estrutura da tabela `plano_estrategico`
 --
 
 DROP TABLE IF EXISTS `plano_estrategico`;
 CREATE TABLE IF NOT EXISTS `plano_estrategico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `visao` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `missao` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `visao` varchar(255) NOT NULL,
+  `missao` varchar(255) NOT NULL,
   `comeco` date NOT NULL,
   `fim` date NOT NULL,
   `ativo` tinyint(4) NOT NULL,
@@ -105,20 +102,19 @@ CREATE TABLE IF NOT EXISTS `plano_estrategico` (
   `empresa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `empresa_plano` (`empresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `plano_estrategico`
+-- Extraindo dados da tabela `plano_estrategico`
 --
 
 INSERT INTO `plano_estrategico` (`id`, `titulo`, `visao`, `missao`, `comeco`, `fim`, `ativo`, `publicado`, `empresa`) VALUES
-(43, 'asdasd', 'asdasd', 'asd', '2019-06-12', '2019-06-16', 0, 0, 1),
-(44, 'asdasdasdasd', 'asdasd', 'asdada', '2019-06-13', '2019-06-19', 0, 0, 1);
+(53, 'Plano EstratÃ©gico Maithe', 'visao da maithe', 'missao da maithe ', '2019-06-16', '2019-06-30', 0, 0, 28);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ramo_atuacao`
+-- Estrutura da tabela `ramo_atuacao`
 --
 
 DROP TABLE IF EXISTS `ramo_atuacao`;
@@ -130,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `ramo_atuacao` (
 ) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `ramo_atuacao`
+-- Extraindo dados da tabela `ramo_atuacao`
 --
 
 INSERT INTO `ramo_atuacao` (`id`, `atividade`, `ramo`) VALUES
@@ -163,44 +159,43 @@ INSERT INTO `ramo_atuacao` (`id`, `atividade`, `ramo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `valor`
+-- Estrutura da tabela `valor`
 --
 
 DROP TABLE IF EXISTS `valor`;
 CREATE TABLE IF NOT EXISTS `valor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `valor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `valor` varchar(255) NOT NULL,
   `plano_estrategico` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `plano_valor` (`plano_estrategico`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `valor`
+-- Extraindo dados da tabela `valor`
 --
 
 INSERT INTO `valor` (`id`, `valor`, `plano_estrategico`) VALUES
-(80, 'asdasd', 44),
-(81, 'asdasd', 44);
+(79, 'valor maithe', 53);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `objetivo`
+-- Limitadores para a tabela `objetivo`
 --
 ALTER TABLE `objetivo`
   ADD CONSTRAINT `plano_objetivo` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
--- Constraints for table `plano_estrategico`
+-- Limitadores para a tabela `plano_estrategico`
 --
 ALTER TABLE `plano_estrategico`
   ADD CONSTRAINT `empresa_plano` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
--- Constraints for table `valor`
+-- Limitadores para a tabela `valor`
 --
 ALTER TABLE `valor`
   ADD CONSTRAINT `plano_valor` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

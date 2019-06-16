@@ -344,7 +344,7 @@ function listarIdentidade(){
 function listarRamos(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT *, CAST(CONVERT(atividade USING utf8) AS binary) FROM ramo_atuacao WHERE ramo = ?");
+	$stmt = mysqli_prepare($db, "SELECT * FROM ramo_atuacao WHERE ramo = ?");
 
 	$x = "Industrial";
 	mysqli_stmt_bind_param($stmt, "s", $x);
