@@ -1,12 +1,9 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
-<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 
 <!-- Main -->
-
-
-
 		<div id="main" class="wrapper style4">
 				<div class="container">
 					<div class="row">
@@ -37,6 +34,7 @@ $(document).ready(function(){
 			type: "POST",
 			url: "includes/functions.php",
 			data: { removerPlano: x}});
+			window.location.reload();
 		//$('#teste').append(x);
 		//$('#teste').load();
 	})

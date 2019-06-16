@@ -1,4 +1,5 @@
 ﻿<?php require "includes/functions.php";
+//server.php é usado para validação da campos, e identificar qual ação será feita insert/update
 
 	if(!isset($_SESSION['idempresa'])){
 		//session has not started
@@ -21,7 +22,12 @@
 		$ramo    = "";
 		$email    = "";
 		$endereço = "";
-		$nomeresponsavel = "";
+		$numero = "";
+		$complemento= "";
+		$bairro = "";
+		$cidade = "";
+		$cep = "";
+		$responsavel = "";
 		$telefone = "";
 		$errors = array(); 
 
@@ -47,7 +53,15 @@
 		  if (empty($_POST['cnpj'])) { array_push($errors, "CNPJ é obrigatório"); } else{
 		  if (!validaCNPJ($_POST['cnpj'])) { array_push($errors, "CNPJ inválido"); } }
 		  if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
-		  if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		  if (empty($_POST['endereco'])) { array_push($errors, "Endereço é obrigatório"); }
+		  if (empty($_POST['numero'])) { array_push($errors, "Número é obrigatório, caso não tenha número, digite SN"); }
+		  if (empty($_POST['bairro'])) { array_push($errors, "Bairro é obrigatório"); }
+		  if (empty($_POST['cidade'])) { array_push($errors, "Cidade é obrigatório"); }
+		  if (empty($_POST['cep'])) { array_push($errors, "CEP é obrigatório"); }
+		  if (empty($_POST['responsavel'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+		  if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
+		   if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		   if ($_POST['email'] != $_POST['confir_email']) { array_push($errors, "Os emails não são iguais"); } 
 		  if (empty($_POST['senha'])) { array_push($errors, "Senha é obrigatória"); }
 		  if ($_POST['senha'] != $_POST['confir_senha']) { array_push($errors, "As senhas não são iguais"); } 
 
@@ -83,7 +97,7 @@
   			//		  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$endereco', '$responsavel' , '$telefone' , '$email', '$password', '$confir_senha')";
   			//mysqli_query($db, $query);
 
-			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
+			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['cep'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
 
   			$_SESSION['success_flash'] = "Cadastrado com sucesso";
   			header('location: index.php');
@@ -167,9 +181,11 @@
 			if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
 			if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
 			if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
-			$valores = $_POST['valor'];
-			if ($valores['0'] == '') { array_push($errors, "O campo Valores é obrigatório"); }
-			//if (empty($_POST['valor'])) { array_push($errors, "O campo valores é obrigatório"); }
+			if(isset($_POST['valor'])) {
+				foreach($_POST['valor'] as $valor){
+					if ($valor == '') { array_push($errors, "O campo Valores é obrigatório"); break;}
+				}
+			}
 		
 			if (count($errors) == 0) {
 				/*$query = "INSERT INTO identidade (visao, missao, valores) 
@@ -186,29 +202,30 @@
 				}
 
 				$i = 0;
-				foreach($_POST['valor'] as $valor){
-					$id = array_slice($_POST['id'],$i,1);
-					if($valor != ''){
-						if($id['0'] != 'new'){
-							alterarValor($valor, $id['0']);
-						//echo 'VALOR ALTERADO';
+				if(isset($_POST['valor'])){
+					foreach($_POST['valor'] as $valor){
+						$id = array_slice($_POST['id'],$i,1);
+						if($valor != ''){
+							if($id['0'] != 'new'){
+								alterarValor($valor, $id['0']);
+							//echo 'VALOR ALTERADO';
+							}
+							else{
+								inserirValor($valor);
+							//print_r('VALOR INSERIDO');
+							}
 						}
-						else{
-							inserirValor($valor);
-						//print_r('VALOR INSERIDO');
-						}
+						$i++;
 					}
-					$i++;
+					header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 				}
-				header('location: identidade.php?plano_estrategico='.$_GET['plano_estrategico']);
 			}
 		}
 
 		//CADASTRAR OBJETIVOS
 		if (isset($_POST['reg_objetivo'])) {
 
-			$objetivos = $_POST['objetivo'];
-			if ($objetivos['0'] == '') { array_push($errors, "O campo Objetivo é obrigatório"); }
+			if(empty($_POST['objetivo'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
 
 			if (count($errors) == 0){
 				$i = 0;
