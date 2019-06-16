@@ -22,7 +22,12 @@
 		$ramo    = "";
 		$email    = "";
 		$endereço = "";
-		$nomeresponsavel = "";
+		$numero = "";
+		$complemento= "";
+		$bairro = "";
+		$cidade = "";
+		$cep = "";
+		$responsavel = "";
 		$telefone = "";
 		$errors = array(); 
 
@@ -48,7 +53,15 @@
 		  if (empty($_POST['cnpj'])) { array_push($errors, "CNPJ é obrigatório"); } else{
 		  if (!validaCNPJ($_POST['cnpj'])) { array_push($errors, "CNPJ inválido"); } }
 		  if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
-		  if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		  if (empty($_POST['endereco'])) { array_push($errors, "Endereço é obrigatório"); }
+		  if (empty($_POST['numero'])) { array_push($errors, "Número é obrigatório, caso não tenha número, digite SN"); }
+		  if (empty($_POST['bairro'])) { array_push($errors, "Bairro é obrigatório"); }
+		  if (empty($_POST['cidade'])) { array_push($errors, "Cidade é obrigatório"); }
+		  if (empty($_POST['cep'])) { array_push($errors, "CEP é obrigatório"); }
+		  if (empty($_POST['responsavel'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+		  if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
+		   if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		   if ($_POST['email'] != $_POST['confir_email']) { array_push($errors, "Os emails não são iguais"); } 
 		  if (empty($_POST['senha'])) { array_push($errors, "Senha é obrigatória"); }
 		  if ($_POST['senha'] != $_POST['confir_senha']) { array_push($errors, "As senhas não são iguais"); } 
 
@@ -84,7 +97,7 @@
   			//		  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$endereco', '$responsavel' , '$telefone' , '$email', '$password', '$confir_senha')";
   			//mysqli_query($db, $query);
 
-			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
+			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['cep'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
 
   			$_SESSION['success_flash'] = "Cadastrado com sucesso";
   			header('location: index.php');

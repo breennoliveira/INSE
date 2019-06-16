@@ -384,20 +384,21 @@ function listarRamos(){
 
 //Inserções
 
-function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $responsavel , $telefone , $email, $password, $confir_senha){
+function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$cnpj = preg_replace("/[^0-9]/", "", $cnpj);
 	$cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
 
-	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, numero, complemento, bairro, cidade, cep, responsavel, telefone, email, senha, confir_senha)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "ssssssssss", $razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $responsavel , $telefone , $email, $password, $confir_senha);
+	mysqli_stmt_bind_param($stmt, "sssssssssssssss", $razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
+	
 
 	mysqli_close($db);
 }
@@ -412,7 +413,6 @@ function inserirObjetivo($objetivo, $perspectiva){
 	mysqli_stmt_bind_param($stmt, "sis", $objetivo, $_GET['plano_estrategico'], $perspectiva);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
-
 	mysqli_close($db);
 
 }
