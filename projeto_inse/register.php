@@ -1,8 +1,6 @@
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-<?php 
-	include('server.php')
-?>
+<?php include("server.php");?>
 
 <div id="main" class="wrapper style4">
 
@@ -17,39 +15,59 @@
 							  	<?php include('errors.php'); ?>
 							  	<div class="">
 							  	  <label>Razão Social</label>
-							  	  <input type="text" name="razaosocial" value="<?php echo $razaosocial; ?>">
+							  	  <input type="text" maxlength='100' name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Nome fantasia</label>
-							  	  <input type="text" name="nomefantasia" value="<?php echo $nomefantasia; ?>">
+							  	  <input type="text" maxlength='100' name="nomefantasia" value="<?php echo isset($_POST['nomefantasia']) ? $_POST['nomefantasia'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Numero CNPJ</label>
-							  	  <input type="text" name="cnpj" value="<?php echo $cnpj; ?>">
+							  	  <input type="text" maxlength='18' name="cnpj" value="<?php echo isset($_POST['cnpj']) ? $_POST['cnpj'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Ramo de atuação</label><br>
-								  <select name="ramo">
-									<option value="Indústria">Indústria</option>
-									<option value="Comércio">Comércio</option>
-									<option value="Serviços">Serviços</option>
-								  </select>
+								  <?php listarRamos() ?>
 							  	</div>
 								<div class="">
 							  	  <label>Endereço</label>
-							  	  <input type="text" name="endereço" value="<?php echo $endereço; ?>">
+							  	  <input type="text" maxlength='255' name="endereco" value="<?php echo isset($_POST['endereco']) ? $_POST['endereco'] : '' ?>">
+							  	</div>
+								  <div style="float : left;">
+							  	  <label>Numero</label>
+							  	  <input type="text" maxlength='255' name="numero" value="<?php echo isset($_POST['numero']) ? $_POST['numero'] : '' ?>">
+								  </div>								
+								  <div style="float: left;" class="">
+							  	  <label>Complemento</label>
+							  	  <input type="text"  style="width: 80%;" maxlength='255' name="complemento" value="<?php echo isset($_POST['complemento']) ? $_POST['complemento'] : '' ?>">
+								  </div>								
+								  <div>
+							  	  <label>Bairro</label>
+							  	  <input type="text"  style="width: 25.8%;" maxlength='255' name="bairro" value="<?php echo isset($_POST['bairro']) ? $_POST['bairro'] : '' ?>">
+								  </div>							
+								  <div style="float: left;">
+							  	  <label>Cidade</label>
+							  	  <input type="text" style="width: 80%;" maxlength='255' name="cidade" value="<?php echo isset($_POST['cidade']) ? $_POST['cidade'] : '' ?>">
+								  </div>								  								
+								  <div class="">
+							  	  <label>CEP</label>
+							  	  <input type="text" style="width: 10%;" maxlength='255' name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Nome do Responsável</label>
-							  	  <input type="text" name="nomeresponsavel" value="<?php echo $nomeresponsavel; ?>">
+							  	  <input type="text" maxlength='255' name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Telefone</label>
-							  	  <input type="text" name="telefone" value="<?php echo $telefone; ?>">
+							  	  <input type="text" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>
-							  	  <input type="email" name="email" value="<?php echo $email; ?>">
+							  	  <input type="email" maxlength='100' name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Confirmação de Email</label>
+							  	  <input type="email" maxlength='100' name="confir_email">
 							  	</div>
 							  	<div class="">
 							  	  <label>Senha</label>
@@ -69,10 +87,11 @@
 							  	</p>
 							  </form>
 						</header>
-						
 					</section>
 				</div>
-			</div>
+</div>
+<script type="text/javascript">
+	document.getElementById('ramo').value = "<?php echo $_POST['ramo'];?>"; // Para guardar o valor selecionado em ramo.
+</script>
 
-		
 <?php  include("includes/footer.php");?>

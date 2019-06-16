@@ -1,16 +1,10 @@
 <!DOCTYPE HTML>
-<!--
-	Solarize by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
 
-
-
-<html>
+<html lang="pt-br">
 	<head>
-		<title><?php echo "INSE"?></title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>INSE</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+		<!--<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />-->
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
@@ -21,6 +15,7 @@
 		<script src="js/init.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<!--<script src="js/jquery-3.4.1.min.js"></script>-->
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -38,5 +33,4 @@
 					<div class="container">
 							
 						<!-- Logo -->
-							<h1><a href="#" id="logo">INSE</a></h1>
-						
+							<h1><a href="#" id="logo">INSE</a></h1
