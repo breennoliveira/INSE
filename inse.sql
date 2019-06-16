@@ -1,133 +1,20 @@
--- phpMyAdmin SQL Dump
--- version 4.7.9
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: 16-Jun-2019 às 20:30
--- Versão do servidor: 5.7.21
--- PHP Version: 5.6.35
+-- MySQL Workbench Forward Engineering
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+-- -----------------------------------------------------
+-- Table `inse`.`ramo_atuacao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `inse`.`ramo_atuacao` ;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `inse`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `empresa`
---
-
-DROP TABLE IF EXISTS `empresa`;
-CREATE TABLE IF NOT EXISTS `empresa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `razaosocial` varchar(100) NOT NULL,
-  `nomefantasia` varchar(100) NOT NULL,
-  `cnpj` varchar(14) NOT NULL,
-  `ramo` varchar(100) NOT NULL,
-  `endereco` varchar(255) NOT NULL,
-  `numero` varchar(4) DEFAULT NULL,
-  `complemento` varchar(255) DEFAULT NULL,
-  `bairro` varchar(255) NOT NULL,
-  `cidade` varchar(255) NOT NULL,
-  `cep` varchar(9) DEFAULT NULL,
-  `responsavel` varchar(255) NOT NULL,
-  `telefone` varchar(13) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(100) NOT NULL,
-  `confir_senha` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `empresa`
---
-
-INSERT INTO `empresa` (`id`, `razaosocial`, `nomefantasia`, `cnpj`, `ramo`, `endereco`, `numero`, `complemento`, `bairro`, `cidade`, `cep`, `responsavel`, `telefone`, `email`, `senha`, `confir_senha`) VALUES
-(1, 'Exemplo Empresa', 'Nome Empresa', '12345678', 'Alimentos', '', NULL, NULL, '', '', NULL, '', '', 'empresa@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(2, 'Exemplo Empresa2', 'Nome Empresa2', '123456789', 'Alimentos2', '', NULL, NULL, '', '', NULL, '', '', 'empresa2@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(3, 'Exemplo Empresa3', 'Nome Empresa3', '123456789', 'Alimentos3', '', NULL, NULL, '', '', NULL, '', '', 'empresa3@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '12345'),
-(4, 'Exemplo Empresa4', 'Nome Empresa4', '123456789', 'Alimentos4', '', NULL, NULL, '', '', NULL, '', '', 'empresa4@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '123456'),
-(5, 'Exemplo Empresa5', 'Nome Empresa5', '12345678', 'Alimentos5', '', NULL, NULL, '', '', NULL, '', '', 'empresa5@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(6, 'Exemplo Empresa6', 'Empresa Nome6', '12345678', 'Alimentos6', '', NULL, NULL, '', '', NULL, '', '', 'empresa6@gmail.com', '25d55ad283aa400af464c76d713c07ad', '12345678'),
-(8, 'Simple Organic SA', 'Simple Organic', '123456789', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'simple@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
-(9, 'Exemplo Empresa10', 'Maria Thereza Miranda de Camargo', '12345678', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'mmcamargo90@gmail.com', '9c7e833b65d98201c54e9b14552db1a3', 'lukm14109020'),
-(10, 'Exemplo Empresa16', 'Empresa 16', '12345678', 'Cosméticos', '', NULL, NULL, '', '', NULL, '', '', 'empresa16@gmail.com', '202cb962ac59075b964b07152d234b70', '123'),
-(27, 'Brenno', 'Brenno Oliveira Fernandes', '83534813000199', 'ComÃ©rcio', 'Rua AmÃ©rico de Campos, 9', NULL, NULL, '', '', NULL, 'Brenno Oliveira Fernandes', '19982286247', 'breennoliveira@live.com', '202cb962ac59075b964b07152d234b70', '123'),
-(28, 'Exemplo Empresa10', 'nome fantasia 10', '66941770000147', 'VeÃ­culos', 'Travessa SÃ£o Benedito', '124', '', 'Centro', 'Serra Negra', '13930-000', 'Maria Thereza Miranda de Camargo', '1938928073', 'mth-2008@hotmail.com', '202cb962ac59075b964b07152d234b70', '123');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `objetivo`
---
-
-DROP TABLE IF EXISTS `objetivo`;
-CREATE TABLE IF NOT EXISTS `objetivo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `objetivo` varchar(255) NOT NULL,
-  `plano_estrategico` int(11) NOT NULL,
-  `perspectiva_bsc` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `plano_estrategico_idx` (`plano_estrategico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `plano_estrategico`
---
-
-DROP TABLE IF EXISTS `plano_estrategico`;
-CREATE TABLE IF NOT EXISTS `plano_estrategico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(100) NOT NULL,
-  `visao` varchar(255) NOT NULL,
-  `missao` varchar(255) NOT NULL,
-  `comeco` date NOT NULL,
-  `fim` date NOT NULL,
-  `ativo` tinyint(4) NOT NULL,
-  `publicado` tinyint(4) NOT NULL,
-  `empresa` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `empresa_plano` (`empresa`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `plano_estrategico`
---
-
-INSERT INTO `plano_estrategico` (`id`, `titulo`, `visao`, `missao`, `comeco`, `fim`, `ativo`, `publicado`, `empresa`) VALUES
-(53, 'Plano EstratÃ©gico Maithe', 'visao da maithe', 'missao da maithe ', '2019-06-16', '2019-06-30', 0, 0, 28);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `ramo_atuacao`
---
-
-DROP TABLE IF EXISTS `ramo_atuacao`;
-CREATE TABLE IF NOT EXISTS `ramo_atuacao` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `atividade` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ramo` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Extraindo dados da tabela `ramo_atuacao`
---
+CREATE TABLE IF NOT EXISTS `inse`.`ramo_atuacao` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `atividade` VARCHAR(25) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `ramo` VARCHAR(15) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 INSERT INTO `ramo_atuacao` (`id`, `atividade`, `ramo`) VALUES
 (1, 'Gráfica', 'Industrial'),
@@ -156,51 +43,103 @@ INSERT INTO `ramo_atuacao` (`id`, `atividade`, `ramo`) VALUES
 (24, 'Assistência Técnica', 'Servicos'),
 (25, 'Segurança', 'Servicos');
 
--- --------------------------------------------------------
+-- -----------------------------------------------------
+-- Table `inse`.`empresa`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `inse`.`empresa` ;
 
---
--- Estrutura da tabela `valor`
---
-
-DROP TABLE IF EXISTS `valor`;
-CREATE TABLE IF NOT EXISTS `valor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `valor` varchar(255) NOT NULL,
-  `plano_estrategico` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `inse`.`empresa` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `razaosocial` VARCHAR(100) NOT NULL,
+  `nomefantasia` VARCHAR(100) NOT NULL,
+  `cnpj` VARCHAR(14) NOT NULL,
+  `ramo` INT(11) NOT NULL,
+  `endereco` VARCHAR(255) NOT NULL,
+  `numero` VARCHAR(4) NULL DEFAULT NULL,
+  `complemento` VARCHAR(255) NULL DEFAULT NULL,
+  `bairro` VARCHAR(255) NOT NULL,
+  `cidade` VARCHAR(255) NOT NULL,
+  `cep` VARCHAR(9) NULL DEFAULT NULL,
+  `responsavel` VARCHAR(255) NOT NULL,
+  `telefone` VARCHAR(13) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `senha` VARCHAR(100) NOT NULL,
+  `confir_senha` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `plano_valor` (`plano_estrategico`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+  UNIQUE INDEX `email` (`email` ASC) ,
+  INDEX `ramo_atuacao` (`ramo` ASC) ,
+  CONSTRAINT `ramo_atuacao`
+    FOREIGN KEY (`ramo`)
+    REFERENCES `inse`.`ramo_atuacao` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
---
--- Extraindo dados da tabela `valor`
---
+-- -----------------------------------------------------
+-- Table `inse`.`plano_estrategico`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `inse`.`plano_estrategico` ;
 
-INSERT INTO `valor` (`id`, `valor`, `plano_estrategico`) VALUES
-(79, 'valor maithe', 53);
+CREATE TABLE IF NOT EXISTS `inse`.`plano_estrategico` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(100) NOT NULL,
+  `visao` VARCHAR(255) NOT NULL,
+  `missao` VARCHAR(255) NOT NULL,
+  `comeco` DATE NOT NULL,
+  `fim` DATE NOT NULL,
+  `ativo` TINYINT(4) NOT NULL,
+  `publicado` TINYINT(4) NOT NULL,
+  `empresa` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `empresa_plano` (`empresa` ASC) ,
+  CONSTRAINT `empresa_plano`
+    FOREIGN KEY (`empresa`)
+    REFERENCES `inse`.`empresa` (`id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
---
--- Constraints for dumped tables
---
 
---
--- Limitadores para a tabela `objetivo`
---
-ALTER TABLE `objetivo`
-  ADD CONSTRAINT `plano_objetivo` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+-- -----------------------------------------------------
+-- Table `inse`.`objetivo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `inse`.`objetivo` ;
 
---
--- Limitadores para a tabela `plano_estrategico`
---
-ALTER TABLE `plano_estrategico`
-  ADD CONSTRAINT `empresa_plano` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+CREATE TABLE IF NOT EXISTS `inse`.`objetivo` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `objetivo` VARCHAR(255) NOT NULL,
+  `plano_estrategico` INT(11) NOT NULL,
+  `perspectiva_bsc` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `plano_estrategico_idx` (`plano_estrategico` ASC) ,
+  CONSTRAINT `plano_objetivo`
+    FOREIGN KEY (`plano_estrategico`)
+    REFERENCES `inse`.`plano_estrategico` (`id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
---
--- Limitadores para a tabela `valor`
---
-ALTER TABLE `valor`
-  ADD CONSTRAINT `plano_valor` FOREIGN KEY (`plano_estrategico`) REFERENCES `plano_estrategico` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- -----------------------------------------------------
+-- Table `inse`.`valor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `inse`.`valor` ;
+
+CREATE TABLE IF NOT EXISTS `inse`.`valor` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `valor` VARCHAR(255) NOT NULL,
+  `plano_estrategico` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `plano_valor` (`plano_estrategico` ASC) ,
+  CONSTRAINT `plano_valor`
+    FOREIGN KEY (`plano_estrategico`)
+    REFERENCES `inse`.`plano_estrategico` (`id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

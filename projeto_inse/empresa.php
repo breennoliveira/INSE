@@ -1,26 +1,97 @@
-﻿<?php include("includes/session.php");?>
-<?php include("includes/header.php");?>
+﻿<?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 
-<!-- Main -->
+<div id="main" class="wrapper style4">
 
-			<div id="main" class="wrapper style4">
-				<div class="container">
-					<div class="row">
-						<?php include("includes/sidebar.php");?>
-						<!-- Content -->
-						<div id="content" class="8u skel-cell-important">
-							<section>
-								<header class="major">
-									<h2>Olá! Seja bem-vindo.</h2>
-									<span class="byline">Leia atentamente as orientações abaixo.</span>
-								</header>
-								<p>Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. Duis pretium velit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Aenean lectus lorem, imperdiet at, ultrices eget, ornare et, wisi. Pellentesque adipiscing purus ac magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque pede. Donec pulvinar ullamcorper metus. In eu odio at lectus pulvinar mollis. Vestibulum sem magna, elementum ut, vestibulum eu, facilisis quis, arcu. Mauris a dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed blandit. Phasellus pellentesque, ante nec iaculis lobortis lorem mauris quis nunc.</p>
-								<p>Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. Duis pretium velit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Aenean lectus lorem, imperdiet at, ultrices eget, ornare et, wisi. Pellentesque adipiscing purus ac magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque pede. Donec pulvinar ullamcorper metus. In eu odio at lectus pulvinar mollis. Vestibulum sem magna, elementum ut, vestibulum eu, facilisis quis, arcu. Mauris a dolor. Nulla facilisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-								<p>Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. Duis pretium velit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Aenean lectus lorem, imperdiet at, ultrices eget, ornare et, wisi. Pellentesque adipiscing purus ac magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque pede. Donec pulvinar ullamcorper metus. In eu odio at lectus pulvinar mollis. Vestibulum sem magna, elementum ut, vestibulum eu, facilisis quis, arcu. Mauris a dolor. Nulla facilisi. Cum sociis natoque penatibus. Sed blandit. Phasellus pellentesque.</p>
-							</section>
-						</div>
-					</div>
+				<!-- Content -->
+				<div id="content" class="container">
+					<section>
+						<header class="major">
+							<h2>Crie sua conta</h2>
+							<span class="byline">Registre-se em nosso site e aproveite nossos serviços</span>
+								<hr>
+								<form method="post" action="register.php">
+							  	<?php include('errors.php'); ?>
+							  	<div class="">
+							  	  <label>Razão Social</label>
+							  	  <input type="text" maxlength='100' name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
+							  	</div>
+							  	<div class="">
+							  	  <label>Nome fantasia</label>
+							  	  <input type="text" maxlength='100' name="nomefantasia" value="<?php echo isset($_POST['nomefantasia']) ? $_POST['nomefantasia'] : '' ?>">
+							  	</div>
+							  	<div class="">
+							  	  <label>Numero CNPJ</label>
+							  	  <input type="text" maxlength='18' name="cnpj" value="<?php echo isset($_POST['cnpj']) ? $_POST['cnpj'] : '' ?>">
+							  	</div>
+							  	<div class="">
+							  	  <label>Ramo de atuação</label><br>
+								  <?php listarRamos() ?>
+							  	</div>
+								<div class="">
+							  	  <label>Endereço</label>
+							  	  <input type="text" maxlength='255' name="endereco" value="<?php echo isset($_POST['endereco']) ? $_POST['endereco'] : '' ?>">
+							  	</div>
+								  <div style="float : left;">
+							  	  <label>Numero</label>
+							  	  <input type="text" maxlength='255' name="numero" value="<?php echo isset($_POST['numero']) ? $_POST['numero'] : '' ?>">
+								  </div>								
+								  <div style="float: left;" class="">
+							  	  <label>Complemento</label>
+							  	  <input type="text"  style="width: 80%;" maxlength='255' name="complemento" value="<?php echo isset($_POST['complemento']) ? $_POST['complemento'] : '' ?>">
+								  </div>								
+								  <div>
+							  	  <label>Bairro</label>
+							  	  <input type="text"  style="width: 25.8%;" maxlength='255' name="bairro" value="<?php echo isset($_POST['bairro']) ? $_POST['bairro'] : '' ?>">
+								  </div>							
+								  <div style="float: left;">
+							  	  <label>Cidade</label>
+							  	  <input type="text" style="width: 80%;" maxlength='255' name="cidade" value="<?php echo isset($_POST['cidade']) ? $_POST['cidade'] : '' ?>">
+								  </div>								  								
+								  <div class="">
+							  	  <label>CEP</label>
+							  	  <input type="text" style="width: 10%;" maxlength='255' name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : '' ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Nome do Responsável</label>
+							  	  <input type="text" maxlength='255' name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Telefone</label>
+							  	  <input type="text" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
+							  	</div>
+							  	<div class="">
+							  	  <label>Endereço de Email</label>
+							  	  <input type="email" maxlength='100' name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Confirmação de Email</label>
+							  	  <input type="email" maxlength='100' name="confir_email">
+							  	</div>
+							  	<div class="">
+							  	  <label>Senha</label>
+							  	  <input type="password" name="senha">
+							  	</div>
+							  	<div class="">
+							  	  <label>Confirmação de senha</label>
+							  	  <input type="password" name="confir_senha">
+							  	  <hr>
+							  	</div>
+							  	<div class="">
+							  	  <button type="submit" class="button" name="reg_user">Criar</button>
+							  	</div>
+							  	<hr>
+							  	<p>
+							  	Já possui cadastro? <a href="login.php">Clique aqui</a>
+							  	</p>
+							  </form>
+						</header>
+					</section>
 				</div>
-			</div>
+</div>
+<script type="text/javascript">
+	document.getElementById('ramo').value = "<?php echo $_POST['ramo'];?>"; // Para guardar o valor selecionado em ramo.
+</script>
+
 <?php  include("includes/footer.php");?>

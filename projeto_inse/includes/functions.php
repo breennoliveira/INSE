@@ -391,11 +391,27 @@ function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $n
 	$cnpj = preg_replace("/[^0-9]/", "", $cnpj);
 	$cnpj = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
 
+	$sql = 'SELECT * FROM ramo_atuacao WHERE atividade = ?';
+
+	$ramo = utf8_decode($ramo);
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $ramo);
+	mysqli_stmt_execute($stmt);
+
+	$result = mysqli_stmt_get_result($stmt);
+	
+	$row = mysqli_fetch_array($result);
+
+	var_dump($row);
+
+	sleep(5);
+
 	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, numero, complemento, bairro, cidade, cep, responsavel, telefone, email, senha, confir_senha)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "sssssssssssssss", $razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha);
+	mysqli_stmt_bind_param($stmt, "sssssssssssssss", $razaosocial, $nomefantasia, $cnpj, $row['id'], $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	
