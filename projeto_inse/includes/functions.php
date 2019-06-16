@@ -341,6 +341,79 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
+function listarEmpresa(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
+
+	echo '<div class="">
+				<label>Razão Social</label>
+				<input type="text" maxlength="100" name="razaosocial" disabled value="',$row['razaosocial'],'">
+			</div>
+			<div class="">
+				<label>Nome fantasia</label>
+				<input type="text" maxlength="100" name="nomefantasia" value="',$row['nomefantasia'],'">
+			</div>
+			<div class="">
+				<label>Numero CNPJ</label>
+				<input type="text" maxlength="18" name="cnpj" disabled value="',$row['cnpj'],'">
+			</div>
+			<div class="">
+				<label>Ramo de atuação</label><br>
+				',listarRamos(),'
+			</div>
+			<div class="">
+				<label>Endereço</label>
+				<input type="text" maxlength="255" name="endereco" value="',$row['endereco'],'">
+			</div>
+				<div style="float : left;">
+				<label>Numero</label>
+				<input type="text" maxlength="255" name="numero" value="',$row['numero'],'">
+				</div>								
+				<div style="float: left;" class="">
+				<label>Complemento</label>
+				<input type="text"  style="width: 80%;" maxlength="255" name="complemento" value="',$row['complemento'],'">
+				</div>								
+				<div>
+				<label>Bairro</label>
+				<input type="text"  style="width: 25.8%;" maxlength="255" name="bairro" value="',$row['bairro'],'">
+				</div>							
+				<div style="float: left;">
+				<label>Cidade</label>
+				<input type="text" style="width: 80%;" maxlength="255" name="cidade" value="',$row['cidade'],'">
+				</div>								  								
+				<div class="">
+				<label>CEP</label>
+				<input type="text" style="width: 10%;" maxlength="255" name="cep" value="',$row['cep'],'">
+			</div>
+			<div class="">
+				<label>Nome do Responsável</label>
+				<input type="text" maxlength="255" name="responsavel" value="',$row['responsavel'],'">
+			</div>
+			<div class="">
+				<label>Telefone</label>
+				<input type="text" maxlength="100" placeholder="(DDD) X XXXX XXXX" name="telefone" value="',$row['telefone'],'">
+			</div>
+			<div class="">
+				<label>Endereço de Email</label>
+				<input type="email" maxlength="100" name="email" value="',$row['email'],'">
+			</div>
+			<hr>
+			<div class="">
+				<button type="submit" class="button" name="alt_empresa">Salvar</button>
+			</div>';
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
 function listarRamos(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -382,6 +455,30 @@ function listarRamos(){
 	echo "</optgroup></select>";
 }
 
+//Getter
+
+function getRamo(){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$ramo = mysqli_fetch_array($result);
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM ramo_atuacao WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $ramo['ramo']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
+
+	return $row['atividade'];
+
+}
+
 //Inserções
 
 function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha){
@@ -403,15 +500,11 @@ function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $n
 	
 	$row = mysqli_fetch_array($result);
 
-	var_dump($row);
-
-	sleep(5);
-
 	$sql = 'INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, numero, complemento, bairro, cidade, cep, responsavel, telefone, email, senha, confir_senha)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "sssssssssssssss", $razaosocial, $nomefantasia, $cnpj, $row['id'], $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha);
+	mysqli_stmt_bind_param($stmt, "sssisssssssssss", $razaosocial, $nomefantasia, $cnpj, $row['id'], $endereco, $numero, $complemento, $bairro, $cidade, $cep, $responsavel , $telefone , $email, $password, $confir_senha);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	
@@ -465,6 +558,32 @@ function inserirValor($valor){
 
 
 //Alterações
+
+function alterarEmpresa(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'SELECT * FROM ramo_atuacao WHERE atividade = ?';
+
+	$ramo = utf8_decode($_POST['ramo']);
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $ramo);
+	mysqli_stmt_execute($stmt);
+
+	$result = mysqli_stmt_get_result($stmt);
+	
+	$row = mysqli_fetch_array($result);
+
+	$sql = 'UPDATE empresa SET nomefantasia = ?, ramo = ?, endereco = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, cep = ?, responsavel = ?, telefone = ?, email = ? WHERE id = ?';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'sssssssssssi', $_POST['nomefantasia'], $row['id'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['cep'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $_SESSION['idempresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
 
 function alterarObjetivo($objetivo, $perspectiva, $id){
 

@@ -244,5 +244,24 @@
 				header('location: objetivos.php?plano_estrategico='.$_GET['plano_estrategico']);
 			}
 		}
+
+		if(isset($_POST['alt_empresa'])) {
+			
+			if (empty($_POST['nomefantasia'])) { array_push($errors, "Nome fantasia é obrigatório"); }
+			if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
+			if (empty($_POST['endereco'])) { array_push($errors, "Endereço é obrigatório"); }
+			if (empty($_POST['numero'])) { array_push($errors, "Número é obrigatório, caso não tenha número, digite SN"); }
+			if (empty($_POST['bairro'])) { array_push($errors, "Bairro é obrigatório"); }
+			if (empty($_POST['cidade'])) { array_push($errors, "Cidade é obrigatório"); }
+			if (empty($_POST['cep'])) { array_push($errors, "CEP é obrigatório"); }
+			if (empty($_POST['responsavel'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+			if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
+			if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+
+			if(count($errors) == 0){
+				alterarEmpresa();
+			}
+
+		}
 	}
 ?>
