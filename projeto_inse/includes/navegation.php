@@ -25,7 +25,7 @@
 									<li><a href="register.php">Criar conta</a></li>
 									<li><a href="login.php">Login</a></li>
 									<?php endif ?>
-									<li><a href="">Contato</a></li>
+									<li><a href="contato.php">Contato</a></li>
 									<!-- logged in user information -->
 									<?php  if (isset($_SESSION['nomefantasia'])) : ?>
 									    <li><a href="pee-list.php">Meus PEEs</a></li>
