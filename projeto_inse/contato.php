@@ -1,8 +1,6 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-<?php include("server.php");?>
-<?php header ('Content-type: text/html; charset=UTF-8'); ?>
 
 <div id="main" class="wrapper style4">
 
