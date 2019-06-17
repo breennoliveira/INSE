@@ -234,31 +234,53 @@ function listarObjetivos(){
 	mysqli_stmt_bind_param($stmt, "i", $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-	echo "<div class='objetivos_input'>";
+	echo "<style>
+			table {
+			  border-collapse: collapse;
+			  width: 150%;
+			}
+
+			td, th {
+
+			  text-align: left;
+			  padding: 8px;
+			}
+			</style><div class='objetivos_input'>";
 	if(mysqli_num_rows($result) > 0){
 
 		while($row = mysqli_fetch_array($result)){
 
-			echo "<div>
-					<label>Objetivo</label>
-					<textarea maxlength='255' name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
+			echo "<table>
+					<th><b>Objetivo</b></th><th><b>Perspectiva do BSC</b></th>
+					<tr><td><textarea maxlength='255' rows='3' name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
+					<td><input type='radio' name='perspectiva_bsc[", $i ,"]' value='Econômico-Financeira'", ($row['perspectiva_bsc'] == 'Econômico-Financeira' ? 'checked' : ''), ">Econômico-Financeira<br>
+					<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Clientes'", ($row['perspectiva_bsc'] == 'Clientes' ? 'checked' : ''), ">Clientes<br>
+					<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Processos Internos'", ($row['perspectiva_bsc'] == 'Processos Internos' ? 'checked' : ''), ">Processos Internos<br>
+					<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Aprendizado e Crescimento'", ($row['perspectiva_bsc'] == 'Aprendizado e Crescimento' ? 'checked' : ''), ">Aprendizado e Crescimento<br>
 					<input type='hidden' name='id[]' value=", $row['id'],"></input>
-					<a href='#' class='remove_field' id=", $row['id']," style='margin-left:10px;'>Remove</a>
-				  </div>";
+					<a href='#' class='remove_field' id=", $row['id']," style='margin-left:10px;'>Remove</a></td></tr>
+				  </table>";
 			$i++;
 		}
 	}
 	else{
 
-		echo "<div>
-				<label>Objetivo</label>
-				<textarea maxlength='255' name='objetivo[]' value='new' style='resize: none;'></textarea>
-				<input type='hidden' name='id[]' value='new'></input>
-			  </div>";
+		echo "<table>
+				<th>Objetivo</th><th>Perspectiva do BSC</th>
+				<tr><td><textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea></td>
+				<td><input type='radio' name='perspectiva_bsc[", $i ,"]' value='Econômico-Financeira'>Econômico-Financeira<br>
+				<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Clientes'>Clientes<br>
+				<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Processos Internos'>Processos Internos<br>
+				<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Aprendizado e Crescimento'>Aprendizado e Crescimento<br>
+				<input type='hidden' name='id[]' value='new'></input></td></tr>
+			  </table>";
+			  $i++;
 	}
 	echo '</div>';
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
+
+	return $i;
 }
 
 function listarIdentidade(){

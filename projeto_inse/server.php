@@ -225,19 +225,24 @@
 		//CADASTRAR OBJETIVOS
 		if (isset($_POST['reg_objetivo'])) {
 
-			if(empty($_POST['objetivo'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
+			if(count($_POST['objetivo']) != count($_POST['id'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
+			if(count($_POST['perspectiva_bsc']) != count($_POST['id'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); }
 
 			if (count($errors) == 0){
 				$i = 0;
 				foreach($_POST['objetivo'] as $objetivo){
 					if ($objetivo != ''){
 						$id = array_slice($_POST['id'],$i,1);
+						$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'],$i,1);
 						if($id['0'] != 'new'){
-						alterarObjetivo($objetivo,'',$id['0']);
+						alterarObjetivo($objetivo,$perspectiva_bsc['0'],$id['0']);
 						}
 						else{
-							inserirObjetivo($objetivo,'');
+							inserirObjetivo($objetivo,$perspectiva_bsc['0']);
 						}
+					}
+					else{
+						array_push($errors, "O campo Objetivo é obrigatório");
 					}
 					$i++;
 				}
