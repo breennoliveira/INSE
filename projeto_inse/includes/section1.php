@@ -12,7 +12,7 @@
 							<h3>Como funciona?</h3>
 							<p>Partindo do uso do plano estratégico empresarial, víncula-se as estratégias com o Balanced Scorecard (BSC). Para cada estratégia é atribuido um valor para cada dimensão da sustentabilidade (ambiental, social e econômica). Assim, defini-se o grau de contribuição de cada estratégia, usando o Triple Bottom Line (TBL). Com as métricas definidas, calcula-se os indicadores de sustentabilidade para cada estratégia, uma média para cada dimensão da sustentabilidade e uma nota final de sustentabiliade geral da empresa.
 </p>
-							<a href="#" class="button">Leia o material completo</a>
+							<a href="https://www.ijier.net/index.php/ijier/article/view/1311" class="button">Leia o material completo</a>
 						</div>
 					</div>
 				</section>
