@@ -612,9 +612,11 @@
 	}
 
 	.homepage #nav {
-		position: static;
-		right: none;
-		text-align: center;
+    position: absolute;
+    left: 0px;
+    height: 40px;
+    width: 100%;
+    text-align: center;
 	}
 
 	#logo {
@@ -717,7 +719,6 @@
     text-transform: uppercase;
     color: white;
     background: url(../images/LogoINSE-01.png) no-repeat;
-    
     background-position: center;
 }
 

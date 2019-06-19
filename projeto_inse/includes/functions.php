@@ -203,7 +203,7 @@ function listarPEEs(){
 			<th>Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Inativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';

@@ -1,7 +1,6 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->

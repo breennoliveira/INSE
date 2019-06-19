@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-
 <html lang="pt-br">
 	<head>
 		<title>INSE</title>
@@ -17,7 +16,6 @@
 		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<!--<script src="js/jquery-3.4.1.min.js"></script>-->
 		<noscript>
-			<link rel="shortcut icon" href="images/LogoINSE-01.ico" type="image/x-icon"/>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -32,7 +30,5 @@
 			<!-- Header -->
 				<div id="header">
 					<div class="container">
-							
-						<!-- Logo -->
 						
 		
