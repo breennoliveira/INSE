@@ -711,15 +711,15 @@
 
 /* Banner */
 
-	#banner {
-		padding: 6em 0em 3em 0em;
-		text-align: center;
-		text-transform: uppercase;
-		color: white;
-		background: url(../images/banner3.jpg) no-repeat;
-		background-size: cover;
-		background-position: center;
-	}
+#banner {
+    padding: 6em 0em 3em 0em;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    background: url(../images/LogoINSE-01.png) no-repeat;
+    
+    background-position: center;
+}
 
 		#banner .container {
 			padding: 0em 8em;

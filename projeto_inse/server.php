@@ -100,7 +100,7 @@
 			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['cep'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
 
   			$_SESSION['success_flash'] = "Cadastrado com sucesso";
-  			header('location: index.php');
+  			header('location: login.php');
 
 		  }
 		}
