@@ -18,7 +18,7 @@
 								</header>
 								<form method="post" id="uau_objetivo" name="reg_objetivo" action="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">
 								<?php include('errors.php'); ?>
-							  	<?php $i = listarObjetivos()?>
+							  	<?php $i = listarObjetivosnew()?>
 								<br>
 								<div class="input-group" align="right">
 										<input type="button" class="small" id="add_objetivo" value="Novo Objetivo"></input>
@@ -40,14 +40,17 @@ $(document).ready(function(){
 	$('#add_objetivo').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.objetivos_input').append("<table><th><b>Objetivo</b></th><th><b>Perspectiva do BSC</b></th><tr><td><textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea></td><td><input type='radio' name='perspectiva_bsc[" + x + "]' value='Econômico-Financeira'>Econômico-Financeira<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Clientes'>Clientes<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Processos Internos'>Processos Internos<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Aprendizado e Crescimento'>Aprendizado e Crescimento<br><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' id='new' style='margin-left:10px;'>Remover</a></td></tr></table>");
+
+		$('.objetivos_input').append("<div class='input-group'><label>Objetivo</label><textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' id='new' style='margin-left:10px;'>Remove</a></div>");
+
+		//$('.objetivos_input').append("<table><th><b>Objetivo</b></th><th><b>Perspectiva do BSC</b></th><tr><td><textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea></td><td><input type='radio' name='perspectiva_bsc[" + x + "]' value='Econômico-Financeira'>Econômico-Financeira<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Clientes'>Clientes<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Processos Internos'>Processos Internos<br><input type='radio' name='perspectiva_bsc[" + x + "]' value='Aprendizado e Crescimento'>Aprendizado e Crescimento<br><input type='hidden' name='id[]' value='new'></input><a href='#' class='remove_field' id='new' style='margin-left:10px;'>Remover</a></td></tr></table>");
 		//var_dump($_GET);
 	});
 
 	$('.objetivos_input').on("click",".remove_field", function(e){ //user click on remove text links
         e.preventDefault();
-		//$(this).parent('div').remove();
-		$(this).closest('table').remove();
+		$(this).parent('div').remove();
+		//$(this).closest('table').remove();    ---    sera usado para perspectivas em estrategia
 		//$('#uau_objetivo').submit();
 		var x = $(this).attr("id");
 		$.ajax({

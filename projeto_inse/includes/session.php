@@ -7,6 +7,7 @@ if(session_status() == PHP_SESSION_NONE){
   	session_destroy();
   	unset($_SESSION['nomefantasia']);
 	unset($_SESSION['idempresa']);
+	unset($_SESSION['idusuario']);
   	header("location: login.php");
   }
 ?>

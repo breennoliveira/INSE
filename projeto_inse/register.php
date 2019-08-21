@@ -13,6 +13,7 @@
 								<hr>
 								<form method="post" action="register.php">
 							  	<?php include('errors.php'); ?>
+								<h3>Informações da Empresa</h3>
 							  	<div class="">
 							  	  <label>Razão Social</label>
 							  	  <input type="text" maxlength='100' name="razaosocial" value="<?php echo isset($_POST['razaosocial']) ? $_POST['razaosocial'] : '' ?>">
@@ -45,21 +46,35 @@
 							  	  <label>Bairro</label>
 							  	  <input type="text"  style="width: 25.8%;" maxlength='255' name="bairro" value="<?php echo isset($_POST['bairro']) ? $_POST['bairro'] : '' ?>">
 								  </div>							
-								  <div style="float: left;">
+								  <div style="float: left;" class="">
 							  	  <label>Cidade</label>
 							  	  <input type="text" style="width: 80%;" maxlength='255' name="cidade" value="<?php echo isset($_POST['cidade']) ? $_POST['cidade'] : '' ?>">
-								  </div>								  								
+								  </div>
+								  <div style="float: left;" class="">	
+							  	  <label>Estado</label>
+							  	  <input type="text" style="width: 80%;" maxlength='255' name="estado" value="<?php echo isset($_POST['estado']) ? $_POST['estado'] : '' ?>">
+								  </div>		
 								  <div class="">
 							  	  <label>CEP</label>
 							  	  <input type="text" style="width: 10%;" maxlength='255' name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : '' ?>">
 							  	</div>
+								<br>
+								<h3>Informações do Responsável</h3>
 								<div class="">
-							  	  <label>Nome do Responsável</label>
-							  	  <input type="text" maxlength='255' name="responsavel" value="<?php echo isset($_POST['responsavel']) ? $_POST['responsavel'] : '' ?>">
+							  	  <label>Nome</label>
+							  	  <input type="text" style="width: 50.4%;" maxlength='255' name="nome" value="<?php echo isset($_POST['nome']) ? $_POST['nome'] : '' ?>">
 							  	</div>
 								<div class="">
+							  	  <label>Sobrenome</label>
+							  	  <input type="text" style="width: 50.4%;" maxlength='255' name="sobrenome" value="<?php echo isset($_POST['sobrenome']) ? $_POST['sobrenome'] : '' ?>">
+							  	</div>
+								<div class="">
+							  	  <label>Gênero</label>
+							  	  <input type="text" style="width: 50.4%;" maxlength='255' name="genero" value="<?php echo isset($_POST['genero']) ? $_POST['genero'] : '' ?>">
+							  	</div>
+								<div>
 							  	  <label>Telefone</label>
-							  	  <input type="text" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
+							  	  <input type="text" style="width: 12%;" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>

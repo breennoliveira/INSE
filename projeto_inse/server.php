@@ -48,6 +48,7 @@
 
 		  // form validation: ensure that the form is correctly filled ...
 		  // by adding (array_push()) corresponding error unto $errors array
+		  
 		  if (empty($_POST['razaosocial'])) { array_push($errors, "Razão Social é obrigatório"); }
 		  if (empty($_POST['nomefantasia'])) { array_push($errors, "Nome fantasia é obrigatório"); }
 		  if (empty($_POST['cnpj'])) { array_push($errors, "CNPJ é obrigatório"); } else{
@@ -55,31 +56,17 @@
 		  if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
 		  if (empty($_POST['endereco'])) { array_push($errors, "Endereço é obrigatório"); }
 		  if (empty($_POST['numero'])) { array_push($errors, "Número é obrigatório, caso não tenha número, digite SN"); }
-		  if (empty($_POST['bairro'])) { array_push($errors, "Bairro é obrigatório"); }
 		  if (empty($_POST['cidade'])) { array_push($errors, "Cidade é obrigatório"); }
+		  if (empty($_POST['estado'])) { array_push($errors, "Estado é obrigatório"); }
 		  if (empty($_POST['cep'])) { array_push($errors, "CEP é obrigatório"); }
-		  if (empty($_POST['responsavel'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+		  if (empty($_POST['nome'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+		  if (empty($_POST['sobrenome'])) { array_push($errors, "Sobrenome de responsável é obrigatório"); }
+		  if (empty($_POST['genero'])) { array_push($errors, "Gênero é obrigatório"); }
 		  if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
 		   if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
 		   if ($_POST['email'] != $_POST['confir_email']) { array_push($errors, "Os emails não são iguais"); } 
 		  if (empty($_POST['senha'])) { array_push($errors, "Senha é obrigatória"); }
 		  if ($_POST['senha'] != $_POST['confir_senha']) { array_push($errors, "As senhas não são iguais"); } 
-
-		  // first check the database to make sure 
-		  // a user does not already exist with the same username and/or email
-		  /*$user_check_query = "SELECT * FROM empresa WHERE cnpj='$cnpj' OR email='$email' LIMIT 1";
-		  $result = mysqli_query($db, $user_check_query);
-		  $user = mysqli_fetch_assoc($result);
-  
-		  if ($user) { // if user exists
-			if ($user['cnpj'] === $cnpj) {
-			  array_push($errors, "Já existe um cadastro dessa empresa");
-			}
-
-			if ($user['email'] === $email) {
-			  array_push($errors, "Já existe um email cadastrado");
-			}
-		  }*/
 
 		  if(existeCNPJ($_POST['cnpj'])){
 			array_push($errors, "Já existe um cadastro com esse CNPJ");
@@ -91,13 +78,24 @@
 
 		  // Finally, register user if there are no errors in the form
 		  if (count($errors) == 0) {
-  			$password = md5($_POST['senha']); // --------- solucao temporaria;
+  			//$password = md5($_POST['senha']); // --------- solucao temporaria;
+
+			$options = [
+				'memory_cost' => 1<<17, // 128 Mb
+				'time_cost'   => 4,
+				'threads'     => 4,
+			];
+
+			$senha = password_hash($_POST['senha'], PASSWORD_ARGON2ID, $options);
+
+			var_dump($senha);
+
 
   			//$query = "INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha) 
   			//		  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$endereco', '$responsavel' , '$telefone' , '$email', '$password', '$confir_senha')";
   			//mysqli_query($db, $query);
 
-			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['cep'], $_POST['responsavel'], $_POST['telefone'], $_POST['email'], $password, $_POST['confir_senha']);
+			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['estado'], $_POST['cep'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_POST['telefone'], $_POST['email'], $senha);
 
   			$_SESSION['success_flash'] = "Cadastrado com sucesso";
   			header('location: login.php');
@@ -118,8 +116,9 @@
 		  }
 
 		  if (count($errors) == 0) {
-			$senha = md5($_POST['senha']);
-			if (loginCorreto($_POST['email'], $senha)){
+			
+			//$senha = md5($_POST['senha']);
+			if (loginCorreto($_POST['email'], $_POST['senha'])){
 				header('location: empresa.php');
 			}
 			else{
@@ -170,10 +169,6 @@
 		// CADASTRAR IDENTIDADE ORGANIZACIONAL
 		if (isset($_POST['reg_indentidade'])) {
 			// receive all input values from the form
-			/*$visao = mysqli_real_escape_string($db, $_POST['visao']);
-			$missao = mysqli_real_escape_string($db, $_POST['missao']);
-			$valores = mysqli_real_escape_string($db, $_POST['valores']);
-			*/
 			// form validation: ensure that the form is correctly filled ...
 			// by adding (array_push()) corresponding error unto $errors array
 			if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
@@ -226,19 +221,19 @@
 		if (isset($_POST['reg_objetivo'])) {
 
 			if(count($_POST['objetivo']) != count($_POST['id'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
-			if(count($_POST['perspectiva_bsc']) != count($_POST['id'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); }
+			//if(count($_POST['perspectiva_bsc']) != count($_POST['id'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); }         Sera usado para linkar perspectiva com estrategia
 
 			if (count($errors) == 0){
 				$i = 0;
 				foreach($_POST['objetivo'] as $objetivo){
 					if ($objetivo != ''){
 						$id = array_slice($_POST['id'],$i,1);
-						$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'],$i,1);
+						//$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'],$i,1);       Sera usado para linkar perspectiva com estrategia
 						if($id['0'] != 'new'){
-						alterarObjetivo($objetivo,$perspectiva_bsc['0'],$id['0']);
+						alterarObjetivo($objetivo,$id['0']);
 						}
 						else{
-							inserirObjetivo($objetivo,$perspectiva_bsc['0']);
+							inserirObjetivo($objetivo);
 						}
 					}
 					else{
@@ -253,18 +248,19 @@
 		if(isset($_POST['alt_empresa'])) {
 			
 			if (empty($_POST['nomefantasia'])) { array_push($errors, "Nome fantasia é obrigatório"); }
-			if (empty($_POST['ramo'])) { array_push($errors, "Ramo de atução é obrigatório"); }
 			if (empty($_POST['endereco'])) { array_push($errors, "Endereço é obrigatório"); }
 			if (empty($_POST['numero'])) { array_push($errors, "Número é obrigatório, caso não tenha número, digite SN"); }
-			if (empty($_POST['bairro'])) { array_push($errors, "Bairro é obrigatório"); }
 			if (empty($_POST['cidade'])) { array_push($errors, "Cidade é obrigatório"); }
+			if (empty($_POST['estado'])) { array_push($errors, "Estado é obrigatório"); }
 			if (empty($_POST['cep'])) { array_push($errors, "CEP é obrigatório"); }
-			if (empty($_POST['responsavel'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+			if (empty($_POST['nome'])) { array_push($errors, "Nome de responsável é obrigatório"); }
+			if (empty($_POST['sobrenome'])) { array_push($errors, "Sobrenome de responsável é obrigatório"); }
+			if (empty($_POST['genero'])) { array_push($errors, "Gênero é obrigatório"); }
 			if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
-			if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
 
 			if(count($errors) == 0){
 				alterarEmpresa();
+				header('location: empresa.php');
 			}
 
 		}
