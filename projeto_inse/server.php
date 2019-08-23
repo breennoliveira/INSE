@@ -15,20 +15,6 @@
 		  unset($_SESSION['error_flash']);
 		}
 
-		// initializing variables
-		$razaosocial = "";
-		$nomefantasia    = "";
-		$cnpj    = "";
-		$ramo    = "";
-		$email    = "";
-		$endereço = "";
-		$numero = "";
-		$complemento= "";
-		$bairro = "";
-		$cidade = "";
-		$cep = "";
-		$responsavel = "";
-		$telefone = "";
 		$errors = array(); 
 
 
@@ -63,8 +49,8 @@
 		  if (empty($_POST['sobrenome'])) { array_push($errors, "Sobrenome de responsável é obrigatório"); }
 		  if (empty($_POST['genero'])) { array_push($errors, "Gênero é obrigatório"); }
 		  if (empty($_POST['telefone'])) { array_push($errors, "Telefone é obrigatório"); }
-		   if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
-		   if ($_POST['email'] != $_POST['confir_email']) { array_push($errors, "Os emails não são iguais"); } 
+		  if (empty($_POST['email'])) { array_push($errors, "Email é obrigatório"); }
+		  if ($_POST['email'] != $_POST['confir_email']) { array_push($errors, "Os emails não são iguais"); } 
 		  if (empty($_POST['senha'])) { array_push($errors, "Senha é obrigatória"); }
 		  if ($_POST['senha'] != $_POST['confir_senha']) { array_push($errors, "As senhas não são iguais"); } 
 
@@ -78,7 +64,6 @@
 
 		  // Finally, register user if there are no errors in the form
 		  if (count($errors) == 0) {
-  			//$password = md5($_POST['senha']); // --------- solucao temporaria;
 
 			$options = [
 				'memory_cost' => 1<<17, // 128 Mb
@@ -86,14 +71,7 @@
 				'threads'     => 4,
 			];
 
-			$senha = password_hash($_POST['senha'], PASSWORD_ARGON2ID, $options);
-
-			var_dump($senha);
-
-
-  			//$query = "INSERT INTO empresa (razaosocial, nomefantasia, cnpj, ramo, endereco, responsavel, telefone, email, senha, confir_senha) 
-  			//		  VALUES('$razaosocial', '$nomefantasia', '$cnpj', '$ramo', '$endereco', '$responsavel' , '$telefone' , '$email', '$password', '$confir_senha')";
-  			//mysqli_query($db, $query);
+			$senha = password_hash($_POST['senha'], PASSWORD_ARGON2ID, $options);  // hash com argon2id
 
 			inserirEmpresa($_POST['razaosocial'], $_POST['nomefantasia'], $_POST['cnpj'], $_POST['ramo'], $_POST['endereco'], $_POST['numero'], $_POST['complemento'], $_POST['bairro'], $_POST['cidade'], $_POST['estado'], $_POST['cep'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_POST['telefone'], $_POST['email'], $senha);
 
@@ -105,8 +83,6 @@
 
 		// LOGIN USER
 		if (isset($_POST['login_user'])) {
-		  //$email = mysqli_real_escape_string($db, $_POST['email']);
-		  //$senha = mysqli_real_escape_string($db, $_POST['senha']);
 
 		  if (empty($_POST['email']) OR !filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)) {
 			array_push($errors, "Verifique o campo Email");
@@ -151,16 +127,6 @@
 		  unset($_SESSION['error_flash']);
 		}
 
-
-		  // initializing variables
-		$visao = "";
-		$missao    = "";
-		$valores    = "";
-		$objetivo[]    = "";
-		$perspectivas1    = "";
-		$perspectivas2    = "";
-		$perspectivas3    = "";
-
 		$errors = array(); 
 
 		// connect to the database
@@ -173,20 +139,17 @@
 			// by adding (array_push()) corresponding error unto $errors array
 			if (empty($_POST['visao'])) { array_push($errors, "O campo visão é obrigatório"); }
 			if (empty($_POST['missao'])) { array_push($errors, "O campo missão é obrigatório"); }
-			if (empty($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }
+			if (!isset($_POST['valor'])) { array_push($errors, "O campo Valores é obrigatório"); }else{
+				$valor = $_POST['valor'];
+				if(count($_POST['valor']) == 1 && $valor[0] == ''){
+					array_push($errors, "O campo Valores é obrigatório");
+				}
+			};
 			if (empty($_POST['comeco'])) { array_push($errors, "O campo Data Inicio é obrigatório"); }
 			if (empty($_POST['fim'])) { array_push($errors, "O campo Data Fim é obrigatório"); }
-			if(isset($_POST['valor'])) {
-				foreach($_POST['valor'] as $valor){
-					if ($valor == '') { array_push($errors, "O campo Valores é obrigatório"); break;}
-				}
-			}
+			
 		
 			if (count($errors) == 0) {
-				/*$query = "INSERT INTO identidade (visao, missao, valores) 
-						VALUES('$visao', '$missao', '$valores')";
-				mysqli_query($db, $query);
-				//$_SESSION['success_flash'] = "Cadastrado com sucesso";*/
 
 				if($_GET['plano_estrategico'] == 'new'){
 					$_GET['plano_estrategico'] = inserirIdentidade();
@@ -219,29 +182,96 @@
 
 		//CADASTRAR OBJETIVOS
 		if (isset($_POST['reg_objetivo'])) {
-
-			if(count($_POST['objetivo']) != count($_POST['id'])){ array_push($errors, "O campo Objetivo é obrigatório"); }
+			
+			if(!isset($_POST['objid'])){ array_push($errors, "O campo Objetivo é obrigatório"); }else{ if(count($_POST['objetivo']) != count($_POST['objid'])){ array_push($errors, "O campo Objetivo é obrigatório"); }}
 			//if(count($_POST['perspectiva_bsc']) != count($_POST['id'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); }         Sera usado para linkar perspectiva com estrategia
 
 			if (count($errors) == 0){
-				$i = 0;
 				foreach($_POST['objetivo'] as $objetivo){
 					if ($objetivo != ''){
-						$id = array_slice($_POST['id'],$i,1);
+						$objid = array_slice($_POST['objid'],0,1);
+						$_POST['objid'] = array_slice($_POST['objid'], 1);
 						//$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'],$i,1);       Sera usado para linkar perspectiva com estrategia
-						if($id['0'] != 'new'){
-						alterarObjetivo($objetivo,$id['0']);
+						if($objid['0'] != 'new'){
+							alterarObjetivo($objetivo,$objid['0']);
 						}
 						else{
 							inserirObjetivo($objetivo);
 						}
 					}
-					else{
-						array_push($errors, "O campo Objetivo é obrigatório");
-					}
 					$i++;
 				}
 				header('location: objetivos.php?plano_estrategico='.$_GET['plano_estrategico']);
+			}
+		}
+
+		if (isset($_POST['reg_estrategia'])) {
+
+			if(!isset($_POST['estid'])) { array_push($errors, "O campo Estratégia é obrigatório"); }else{ if(count($_POST['estrategia']) != count($_POST['estid'])){ array_push($errors, "O campo Estratégia é obrigatório"); if (count($_POST['perspectiva_bsc']) != count($_POST['estid'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); } }}
+			//if(!isset($_POST['perspectiva_bsc'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório");}else{ if (count($_POST['perspectiva_bsc']) != count($_POST['estid'])){ array_push($errors, "O campo Perspectiva do BSC é obrigatório"); }}
+			
+			if (count($errors) == 0){
+				$count = 0;
+				foreach($_POST['estrategia'] as $estrategia){
+					$estid = array_slice($_POST['estid'], $count, 1);
+					$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'], $count, 1);
+					if (strlen(trim($estrategia))){
+						if($estid['0'] != 'new'){
+							alterarEstrategia($estrategia, $perspectiva_bsc['0'], $estid['0']);
+						}
+						else{
+							inserirEstrategia($estrategia, $perspectiva_bsc['0'], $_GET['objetivo']);
+						}
+					}
+					$count++;
+				}
+				header('location: estrategias.php?plano_estrategico='.$_GET['plano_estrategico'].'&objetivo='.$_GET['objetivo']);
+			}
+		}
+
+		if (isset($_POST['reg_meta'])) {
+			
+			if(!isset($_POST['metid'])){ array_push($errors, "O campo Meta é obrigatório"); }else{ if(count($_POST['meta']) != count($_POST['metid'])){ array_push($errors, "O campo Meta é obrigatório"); }}
+
+			if (count($errors) == 0){
+				foreach($_POST['meta'] as $meta){
+					if ($meta != ''){
+						$metid = array_slice($_POST['metid'], 0, 1);
+						$data_limite = array_slice($_POST['data_limite'], 0, 1);
+						$_POST['metid'] = array_slice($_POST['metid'], 1);
+						$_POST['data_limite'] = array_slice($_POST['data_limite'], 1);
+						if($metid['0'] != 'new'){
+							alterarMeta($meta, $data_limite['0'] , $metid['0']);
+						}
+						else{
+							inserirMeta($meta, $data_limite['0'], $_GET['objetivo']);
+						}
+					}
+					$i++;
+				}
+				header('location: metas.php?plano_estrategico='.$_GET['plano_estrategico'].'&objetivo='.$_GET['objetivo']);
+			}
+		}
+
+		if (isset($_POST['reg_indicador'])) {
+			
+			if(!isset($_POST['indid'])){ array_push($errors, "O campo Indicador é obrigatório"); }else{ if(count($_POST['indicador']) != count($_POST['indid'])){ array_push($errors, "O campo indicador é obrigatório"); }}
+
+			if (count($errors) == 0){
+				foreach($_POST['indicador'] as $indicador){
+					if ($indicador != ''){
+						$indid = array_slice($_POST['indid'],0,1);
+						$_POST['indid'] = array_slice($_POST['indid'], 1);
+						if($indid['0'] != 'new'){
+							alterarIndicador($indicador,$indid['0']);
+						}
+						else{
+							inserirIndicador($indicador, $_GET['meta']);
+						}
+					}
+					$i++;
+				}
+				header('location: indicadores.php?plano_estrategico='.$_GET['plano_estrategico'].'&objetivo='.$_GET['objetivo'].'&meta='.$_GET['meta']);
 			}
 		}
 

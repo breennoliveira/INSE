@@ -170,7 +170,49 @@
 		outline: 0;
 		padding: 0.75em;
 		text-decoration: none;
-		width: 60%;
+		width: 100%;
+	}
+
+	input[type="date"]{
+		appearance: none;
+		-webkit-appearance: none;
+		color: inherit;
+		font-family: inherit;
+		font-size: 18px;
+		border:1px solid #2B8334;
+		text-align: center;
+		background: inherit;
+		padding: 7px 0px 8px 0px;
+		display: inline-block !important;
+		visibility: visible !important;
+	}
+
+	input[type="date"]:focus {
+		color: inherit;
+		box-shadow: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+	}
+
+	/* Removes the clear button from date inputs */
+	input[type="date"]::-webkit-clear-button {
+		display: none;
+	}
+
+	/* Removes the spin button */
+	input[type="date"]::-webkit-inner-spin-button { 
+		display: none;
+	}
+
+	/* Always display the drop down caret */
+	input[type="date"]::-webkit-calendar-picker-indicator {
+		color: #696969;
+	}
+
+	input[type="radio"]
+	{
+		vertical-align: top;
+		margin: 0px;
 	}
 
 	input[type="password"],
@@ -417,30 +459,59 @@
 
 	table {
 		width: 100%;
+		border-collapse: collapse;
+		margin: 0px;
 	}
 
-		table.default {
-			width: 100%;
+		td {
+			padding: 0px 0px 0px 8px;
 		}
 
-			table.default tbody tr {
-				border-bottom: solid 1px #2B8334;
-			}
+		td.left {
+			padding: 0px;
+			text-align: left;
+		}
 
-			table.default td {
-				padding: 0.5em 1em 0.5em 1em;
-			}
+		td.right {
+			text-align: right;
+		}
 
-			table.default th {
-				font-weight: 700;
-				padding: 0.5em 1em 0.5em 1em;
-				text-align: left;
-			}
+		td.center {
+			text-align: center;
+		}
 
-			table.default thead {
-				background: #555555;
-				color: #fff;
-			}
+		th {
+			font-weight: 700;
+			padding: 0px 0px 0px 8px;
+			text-align: left;
+			font-weight: bold;
+		}
+
+		th.left {
+			font-weight: 700;
+			padding: 0px;
+			text-align: left;
+			font-weight: bold;
+		}
+
+		th.right {
+			font-weight: 700;
+			text-align: right;
+			font-weight: bold;
+		}
+
+		th.center {
+			font-weight: 700;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		thead {
+			background: #555555;
+			color: #fff;
+		}
+
+
 
 /* Button */
 
@@ -486,8 +557,9 @@
 		input[type="reset"].alt,
 		input[type="button"].alt,
 		.button.alt {
-			border-color: inherit;
-			color: inherit;
+			border-color: #2B8334;
+			color: white;
+			background: #2B8334;
 		}
 
 			input[type="submit"].alt:hover,
@@ -510,7 +582,44 @@
 		input[type="button"].small,
 		.button.small {
 			font-size: 0.8em;
+			width: auto;
+			margin: 5px 0px 10px;
 		}
+
+		input[type="submit"].remove,
+		input[type="reset"].remove,
+		input[type="button"].remove,
+		.button.remove {
+			border-color: #910924;
+			color: #910924;
+		}
+
+		input[type="submit"].remove:hover,
+		input[type="reset"].remove:hover,
+		input[type="button"].remove:hover,
+		.button.remove:hover {
+			background: #910924;
+			color: white;
+		}
+
+		#add_objetivo,
+		#add_estrategia,
+		#add_indicador,
+		#add_meta{
+			float: right;
+		}
+
+		.clearfix {
+		  overflow: auto;
+		}
+
+/* Container */
+
+	.container.small{
+	
+		padding: 5px 0px 15px 0px;
+
+	}
 
 /* Wrapper */
 
@@ -862,4 +971,3 @@
     hyperlink:hover {
         cursor: pointer;
     }
-

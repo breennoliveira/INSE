@@ -41,11 +41,11 @@ $(document).ready(function(){
 	$('#add_valor').click(function(e){
 		e.preventDefault();
 		x++;
-		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' style='width: 100%;' maxlength='100' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><a href='#' id='new' class='remove_field'>Remover</a></div>");
+		$('.valores_input').append("<div><br><label>Valores da empresa</label><input type='text' style='width: 100%;' maxlength='100' placeholder='Insira um valor aqui' name='valor[]'></input><input type='hidden' name='id[]' value='new'></input><button type='button' id='new' class='button small remove'>Remover</a></div>");
 		//var_dump($_GET);
 	});
 
-	$('.valores_input').on("click",".remove_field", function(e){ //user click on remove text links
+	$('.valores_input').on("click",".button.small.remove", function(e){ //user click on remove text links
         e.preventDefault();
 		$(this).parent('div').remove();
 		var x = $(this).attr("id");

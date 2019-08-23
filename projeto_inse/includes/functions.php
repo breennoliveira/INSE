@@ -267,7 +267,7 @@ function listarObjetivos(){
 		while($row = mysqli_fetch_array($result)){
 
 			echo "<table>
-					<th><b>Objetivo</b></th><th><b>Perspectiva do BSC</b></th>
+					<th><Objetivo</th><th>Perspectiva do BSC</th>
 					<tr><td><textarea maxlength='255' rows='3' name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
 					<!--<td><input type='radio' name='perspectiva_bsc[", $i ,"]' value='Econômico-Financeira'", ($row['perspectiva_bsc'] == 'Econômico-Financeira' ? 'checked' : ''), ">Econômico-Financeira<br>
 					<input type='radio' name='perspectiva_bsc[", $i ,"]' value='Clientes'", ($row['perspectiva_bsc'] == 'Clientes' ? 'checked' : ''), ">Clientes<br>
@@ -301,8 +301,6 @@ function listarObjetivos(){
 
 function listarObjetivosnew(){
 
-	$i = 0;
-
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM objetivo WHERE plano_estrategico = ?");
@@ -316,28 +314,119 @@ function listarObjetivosnew(){
 
 		while($row = mysqli_fetch_array($result)){
 
-			echo "<div class='input-group'>
-					<label>Objetivo</label>
-						<textarea maxlength='255' rows='3' name='objetivo[]' value=", $i, " style='resize: none;'>", $row['objetivo'], "</textarea>
-						<input type='hidden' name='id[]' value=", $row['id'],"></input>
-						<a href='#' class='remove_field' id=", $row['id']," style='margin-left:10px;'>Remove</a>
-						<div class='input-group' align='right'>
-							<button class='button fit' data-toggle='modal' data-target='#myModal'>Estratégias</button>
-						</div>
-						<div class='input-group' align='right'>
-							<button class='button fit' data-toggle='modal' data-target='#myModal'>Metas</button>
-						</div>
+			echo "<div><h4>Objetivo</h4>
+						<textarea maxlength='255' rows='3' name='objetivo[]' style='resize: none;'>", $row['objetivo'], "</textarea>
+						<input type='hidden' name='objid[]' value=", $row['id'],"></input>
+						<a href=estrategias.php?plano_estrategico=", $_GET['plano_estrategico'], "&objetivo=", $row['id'], "><button type='button' class='button small'>Estratégias</button></a>
+						<a href=metas.php?plano_estrategico=", $_GET['plano_estrategico'], "&objetivo=", $row['id'], "><button type='button' class='button small'>Metas</button></a>
+						<button type='button' class='button small remove' id=", $row['id'],">Remover</button>
 				  </div>";
+		}
+	}
+	else{
+
+		echo "<div>
+					<h4>Objetivo</h4>
+						<textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea>
+						<input type='hidden' name='objid[]' value='new'></input>
+				  </div>";
+	}
+
+	echo "</div>";
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+}
+
+function listarEstrategias($idobjetivo){
+
+	$count = 0;
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM estrategia WHERE objetivo = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "<div class='estrategias_input'>";
+
+	if(mysqli_num_rows($result) > 0){
+
+		while($row = mysqli_fetch_array($result)){
+
+			echo "<table>
+					<th class='left'>Estratégia</th><th>Perspectiva do BSC</th>
+					<tr><td class='left'><textarea maxlength='255' rows='3' name='estrategia[]' value=", $count, " style='resize: none;'>", $row['estrategia'], "</textarea>
+					<button type='button' class='button small remove' id=", $row['id'], ">Remover</button></td>
+					<td><input type='radio' name='perspectiva_bsc[", $count , "]' value='Econômico-Financeira'", ($row['perspectiva_bsc'] == 'Econômico-Financeira' ? 'checked' : ''), ">Econômico-Financeira<br>
+					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Clientes'", ($row['perspectiva_bsc'] == 'Clientes' ? 'checked' : ''), ">Clientes<br>
+					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Processos Internos'", ($row['perspectiva_bsc'] == 'Processos Internos' ? 'checked' : ''), ">Processos Internos<br>
+					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Aprendizado e Crescimento'", ($row['perspectiva_bsc'] == 'Aprendizado e Crescimento' ? 'checked' : ''), ">Aprendizado e Crescimento<br>
+					<input type='hidden' name='estid[]' value=", $row['id'], "></input>
+					</td></tr>
+				  </table>";
+			$count++;
+		}
+	}
+	else{
+
+		echo "<table>
+				<th class='left'>Estratégia</th><th>Perspectiva do BSC</th>
+				<tr><td class='left'><textarea maxlength='255' rows='3' name='estrategia[]' value='new' style='resize: none;'></textarea></td>
+				<td><input type='radio' name='perspectiva_bsc[", $count , "]' value='Econômico-Financeira'>Econômico-Financeira<br>
+				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Clientes'>Clientes<br>
+				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Processos Internos'>Processos Internos<br>
+				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Aprendizado e Crescimento'>Aprendizado e Crescimento<br>
+				<input type='hidden' name='estid[]' value='new'></input></td></tr>
+			  </table>";
+			  $count++;
+	}
+
+	echo "</div>";
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+	return $count;
+}
+
+function listarMetas($idobjetivo){
+
+	$i = 0;
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM meta WHERE objetivo = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "<div class='metas_input'>";
+
+	if(mysqli_num_rows($result) > 0){
+
+		while($row = mysqli_fetch_array($result)){
+
+			echo "<table><th class='left' width='100%'>Meta</th><th>Data limite</th>
+						<tr><td class='left'><input type='text' maxlength='255' name='meta[]' value='", $row['meta'], "'></input>
+						<a href=indicadores.php?plano_estrategico=", $_GET['plano_estrategico'], "&objetivo=", $idobjetivo, "&meta=", $row['id'] , ">
+						<button type='button' class='button small'>Indicadores</button></a>
+						<button type='button' class='button small remove' id=", $row['id'],">Remover</button>
+						<td><input type='date' name='data_limite[]' value='", !empty($row['data_limite']) ? $row['data_limite'] : (isset($_POST['data_limite']) ? $_POST['data_limite'] : '') ,"'></input></td>
+						<input type='hidden' name='metid[]' value=", $row['id'],"></input></td></tr>
+					</table>";
 			$i++;
 		}
 	}
 	else{
 
-		echo "<div class='input-group'>
-					<label>Objetivo</label>
-						<textarea maxlength='255' rows='3' name='objetivo[]' value='new' style='resize: none;'></textarea>
-						<input type='hidden' name='id[]' value='new'></input>
-				  </div>";
+		echo "<table>
+				<th class='left' width='100%'>Meta</th><th>Data limite</th>
+				<tr><td class='left'><input type='text' maxlength='255' name='meta[]' placeholder='Insira uma Meta aqui'></input></td>
+				<td><input type='date' name='data_limite[]' value='", isset($_POST['data_limite']) ? $_POST['data_limite'] : '' ,"'></input>
+				<input type='hidden' name='metid[]' value='new'></input></td></tr>
+			</table>";
 
 			  $i++;
 	}
@@ -348,7 +437,42 @@ function listarObjetivosnew(){
 	mysqli_close($db);
 
 	return $i;
+}
 
+function listarIndicadores($idmeta){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM indicador WHERE meta = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idmeta);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo "<div class='indicadores_input'>";
+
+	if(mysqli_num_rows($result) > 0){
+
+		while($row = mysqli_fetch_array($result)){
+
+			echo "<div><h4>Indicador</h4>
+						<textarea maxlength='255' rows='3' name='indicador[]' style='resize: none;'>", $row['indicador'], "</textarea>
+						<input type='hidden' name='indid[]' value=", $row['id'],"></input>
+						<button type='button' class='button small remove' id=", $row['id'],">Remove</a>
+					</div>";
+		}
+	}
+	else{
+
+		echo "<div><h4>Indicador</h4>
+				<textarea maxlength='255' rows='3' name='indicador[]' value='new' style='resize: none;'></textarea>
+				<input type='hidden' name='indid[]' value='new'></input>
+			</div>";
+	}
+
+	echo "</div>";
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
 }
 
 function listarIdentidade(){
@@ -365,24 +489,24 @@ function listarIdentidade(){
 	//$date = date('d-m-Y', strtotime($date_from_sql)); //Convert date from php for use ----- not needed
 
 	echo "<div class='input-group'>
-			<label>Titulo do Plano Estrategico</label>
+			<h4>Titulo do Plano Estrategico</h4>
 				<input type='text' style='width: 100%;' name='titulo' maxlength='100' value='", !empty($row['titulo']) ? $row['titulo'] : (isset($_POST['titulo']) ? $_POST['titulo'] : ''), "'></input>
 		  </div>
 		  <br>
 		  <div class='input-group'>
 		  <table>
-			<td><label>Data Inicio</label>
+			<td class='center'><h4>Data Inicio</h4>
 				<input type='date' name='comeco' value='", !empty($row['comeco']) ? $row['comeco'] : (isset($_POST['comeco']) ? $_POST['comeco'] : '') ,"'></input></td>
-			<td><label>Data Fim</label>
+			<td class='center'><h4>Data Fim</h4>
 				<input type='date' name='fim' value='", !empty($row['fim']) ? $row['fim'] : (isset($_POST['fim']) ? $_POST['fim'] : '') ,"'></input></td>
 		  </table>
 		  </div>
 		  <div class='input-group'>
-			<label>Visao da empresa</label>
+			<h4>Visao da empresa</h4>
 				<textarea name='visao' maxlength='255' style='resize: none;'>", !empty($row['visao']) ? $row['visao'] : (isset($_POST['visao']) ? $_POST['visao'] : ''), "</textarea>
 		  </div><br>
 		  <div class='input-group'>
-		  	<label>Missao da empresa</label>
+		  	<h4>Missao da empresa</h4>
 				<textarea name='missao' maxlength='255' style='resize: none;'>", !empty($row['missao']) ? $row['missao'] : (isset($_POST['missao']) ? $_POST['missao'] : ''), "</textarea>
 		  </div>";
 
@@ -398,8 +522,8 @@ function listarIdentidade(){
 
 			echo "<div><br><label>Valores da empresa</label>
 					<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $row['valor'], "'></input>
-					<input type='hidden'style='width: 100%;' name='id[]' value='", $row['id'],"'></input>
-					<a href='#' id='", $row['id'],"'class='remove_field'>Remover</a></div>";
+					<input type='hidden' name='id[]' value='", $row['id'],"'></input>
+					<button type='button' id='", $row['id'],"'class='button small remove'>Remover</a></div>";
 		}
 		if(isset($_POST['valor'])){
 			foreach ($_POST['valor'] as $valor){
@@ -408,7 +532,7 @@ function listarIdentidade(){
 					echo "<div><br><label>Valores da empresa</label>
 						<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $valor, "'></input>
 						<input type='hidden'style='width: 100%;' name='id[]' value='new'></input>
-						<a href='#' id='new'class='remove_field'>Remover</a></div>";
+						<button type='button' id='new'class='button small remove'>Remover</button></div>";
 				}
 				$i++;
 			}
@@ -420,14 +544,13 @@ function listarIdentidade(){
 			foreach ($_POST['valor'] as $valor){
 				echo "<div><br><label>Valores da empresa</label>
 					<input type='text' style='width: 100%;' maxlength='100' name='valor[]' value='", $valor, "'></input>
-					<input type='hidden'style='width: 100%;' name='id[]' value='new'></input>
-					<a href='#' id='new'class='remove_field'>Remover</a></div>";
+					<input type='hidden'style='width: 100%;' name='id[]' value='new'></input>", count($_POST['valor']) == 1 && $valor == '' ? "</div>" : "<button type='button' id='new' class='button small remove'>Remover</button></div>";
 			}
 		}
 		else{
-			echo "<label>Valores da empresa</label>
+			echo "<div><br><label>Valores da empresa</label>
 					<input type='text'style='width: 100%;' maxlength='100' name='valor[]' placeholder='Insira um valor aqui'></input>
-					<input type='hidden' style='width: 100%;' name='id[]' value='new'></input>";
+					<input type='hidden' style='width: 100%;' name='id[]' value='new'></input></div>";
 		}
 	}
 	echo "</div>";
@@ -676,10 +799,52 @@ function inserirObjetivo($objetivo){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'INSERT INTO `objetivo` (objetivo, plano_estrategico) VALUES (?, ?)';
+	$sql = 'INSERT INTO objetivo (objetivo, plano_estrategico) VALUES (?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
 	mysqli_stmt_bind_param($stmt, "si", $objetivo, $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function inserirEstrategia($estrategia, $perspectiva_bsc, $objid){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO estrategia (estrategia, perspectiva_bsc, objetivo) VALUES (?, ?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "ssi", $estrategia, $perspectiva_bsc, $objid);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function inserirMeta($meta , $data, $objid){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO meta (meta, data_limite, objetivo) VALUES (?, ?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "ssi", $meta, $data, $objid);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function inserirIndicador($indicador, $metid){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'INSERT INTO indicador (indicador, meta) VALUES (?, ?)';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "si", $indicador, $metid);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
@@ -791,6 +956,48 @@ function alterarObjetivo($objetivo, $id){
 
 }
 
+function alterarEstrategia($estrategia, $perspectiva_bsc, $id){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE estrategia SET estrategia = ?, perspectiva_bsc = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'ssi', $estrategia, $perspectiva_bsc, $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function alterarMeta($meta, $data, $id){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE meta SET meta = ?, data_limite = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'ssi', $meta, $data, $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+function alterarIndicador($indicador, $id){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'UPDATE indicador SET indicador = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'si', $indicador, $id);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
 function alterarIdentidade(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -873,6 +1080,54 @@ if(isset($_POST['removerObjetivo'])){ //Remover objetivo chamado por Ajax.. Nao 
 		$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 		$sql = 'DELETE FROM objetivo WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'i', $id);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+		mysqli_close($db);
+	}
+}
+
+if(isset($_POST['removerEstrategia'])){ //Remover objetivo chamado por Ajax.. Nao achei um jeito melhor de fazer..
+	
+	$id = $_POST['removerEstrategia'];
+	if($id != 'new'){
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		$sql = 'DELETE FROM estrategia WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'i', $id);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+		mysqli_close($db);
+	}
+}
+
+if(isset($_POST['removerMeta'])){ //Remover objetivo chamado por Ajax.. Nao achei um jeito melhor de fazer..
+	
+	$id = $_POST['removerMeta'];
+	if($id != 'new'){
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		$sql = 'DELETE FROM meta WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'i', $id);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+		mysqli_close($db);
+	}
+}
+
+if(isset($_POST['removerIndicador'])){ //Remover objetivo chamado por Ajax.. Nao achei um jeito melhor de fazer..
+	
+	$id = $_POST['removerIndicador'];
+	if($id != 'new'){
+		$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+		$sql = 'DELETE FROM indicador WHERE id = ?';
 	
 		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
 		mysqli_stmt_bind_param($stmt, 'i', $id);
