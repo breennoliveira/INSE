@@ -13,8 +13,9 @@
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+									<a href="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>"><</a>
 									<h2>Metas</h2>
-									<span class="byline">Utilize o formulário abaixo para cadastrar as metas presentes no plano estratégico empresarial.</span>
+									<span class="byline">Utilize o formulário abaixo para cadastrar as metas relacionadas ao seguinte objetivo:</span>
 								</header>
 								<form method='post' name='reg_meta'>
 									<?php include('errors.php'); ?>

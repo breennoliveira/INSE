@@ -13,8 +13,9 @@
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
+									<a href="metas.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>&objetivo=<?php echo $_GET['objetivo']?>"><</a>
 									<h2>Indicadores</h2>
-									<span class="byline">Utilize o formulário abaixo para cadastrar os Indicadores presentes no plano estratégico empresarial.</span>
+									<span class="byline">Utilize o formulário abaixo para cadastrar os Indicadores relacionados a seguinte meta:</span>
 								</header>
 								<form method='post' name='reg_indicador'>
 									<?php include('errors.php'); ?>

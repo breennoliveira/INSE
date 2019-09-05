@@ -139,7 +139,19 @@
 	{
 		
 	}
-	
+
+select {
+	border-color: #2B8334;
+	vertical-align: top;
+}
+
+		select.center {
+			display:block;
+			margin-left: auto;
+			margin-right: auto;
+			width: auto;
+		}
+
 	textarea {
 		-moz-appearance: none;
 		-webkit-appearance: none;
@@ -211,7 +223,6 @@
 
 	input[type="radio"]
 	{
-		vertical-align: top;
 		margin: 0px;
 	}
 
@@ -297,6 +308,12 @@
 				display: block;
 				width: 100%;
 			}
+
+	.icon {
+		width:32px;
+		height:32px;
+		
+	}
 
 /* Icon */
 
@@ -465,6 +482,7 @@
 
 		td {
 			padding: 0px 0px 0px 8px;
+			vertical-align:top;
 		}
 
 		td.left {
@@ -511,7 +529,36 @@
 			color: #fff;
 		}
 
+		col {
+		}
 
+			col.c1 {
+				width:10%;
+			}
+
+			col.c2 {
+				width: 20%;
+			}
+
+			col.c3 {
+				width: 30%;
+			}
+
+			col.c4 {
+				width: 40%;
+			}
+
+			col.c5 {
+				width: 50%;
+			}
+
+			col.c6 {
+				width: 60%;
+			}
+
+			col.c7 {
+				width: 70%;
+			}
 
 /* Button */
 
@@ -861,7 +908,7 @@
 /* Main */
 
 	#main {
-		padding: 4em 0;
+		padding: 4em 0 0 0;
 	}
 
 		#main #content .major, #main #sidebar .major {

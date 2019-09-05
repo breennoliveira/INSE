@@ -213,14 +213,18 @@
 			if (count($errors) == 0){
 				$count = 0;
 				foreach($_POST['estrategia'] as $estrategia){
-					$estid = array_slice($_POST['estid'], $count, 1);
 					$perspectiva_bsc = array_slice($_POST['perspectiva_bsc'], $count, 1);
+					$impacto_ambiental = array_slice($_POST['ambiental'], $count, 1);
+					$impacto_economico = array_slice($_POST['economica'], $count, 1);
+					$impacto_social = array_slice($_POST['social'], $count, 1);
+					$grau_contribuicao = array_slice($_POST['grau'], $count, 1);
+					$estid = array_slice($_POST['estid'], $count, 1);
 					if (strlen(trim($estrategia))){
 						if($estid['0'] != 'new'){
-							alterarEstrategia($estrategia, $perspectiva_bsc['0'], $estid['0']);
+							alterarEstrategia($estrategia, $perspectiva_bsc['0'], $impacto_ambiental['0'], $impacto_economico['0'], $impacto_social['0'], $grau_contribuicao['0'], $estid['0']);
 						}
 						else{
-							inserirEstrategia($estrategia, $perspectiva_bsc['0'], $_GET['objetivo']);
+							inserirEstrategia($estrategia, $perspectiva_bsc['0'], $impacto_ambiental['0'], $impacto_economico['0'], $impacto_social['0'], $grau_contribuicao['0'], $_GET['objetivo']);
 						}
 					}
 					$count++;

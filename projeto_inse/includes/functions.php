@@ -344,6 +344,15 @@ function listarEstrategias($idobjetivo){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
+	$stmt = mysqli_prepare($db, "SELECT objetivo FROM objetivo WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
+
+	echo "<h4>Objetivo</h4><textarea maxlength='255' disabled style='resize:none;' >", $row['objetivo'], "</textarea><br>";
+
 	$stmt = mysqli_prepare($db, "SELECT * FROM estrategia WHERE objetivo = ?");
 	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
 	mysqli_stmt_execute($stmt);
@@ -356,15 +365,30 @@ function listarEstrategias($idobjetivo){
 		while($row = mysqli_fetch_array($result)){
 
 			echo "<table>
-					<th class='left'>Estratégia</th><th>Perspectiva do BSC</th>
+					<col class='c4'><th class='left'><br>Estratégia</th></col><th><br>Perspectiva do BSC</th><th><br>Impacto</th><th class='center'>Grau de Contribuição<br>Triple Bottom Line</th>
 					<tr><td class='left'><textarea maxlength='255' rows='3' name='estrategia[]' value=", $count, " style='resize: none;'>", $row['estrategia'], "</textarea>
 					<button type='button' class='button small remove' id=", $row['id'], ">Remover</button></td>
 					<td><input type='radio' name='perspectiva_bsc[", $count , "]' value='Econômico-Financeira'", ($row['perspectiva_bsc'] == 'Econômico-Financeira' ? 'checked' : ''), ">Econômico-Financeira<br>
 					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Clientes'", ($row['perspectiva_bsc'] == 'Clientes' ? 'checked' : ''), ">Clientes<br>
 					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Processos Internos'", ($row['perspectiva_bsc'] == 'Processos Internos' ? 'checked' : ''), ">Processos Internos<br>
 					<input type='radio' name='perspectiva_bsc[", $count , "]' value='Aprendizado e Crescimento'", ($row['perspectiva_bsc'] == 'Aprendizado e Crescimento' ? 'checked' : ''), ">Aprendizado e Crescimento<br>
-					<input type='hidden' name='estid[]' value=", $row['id'], "></input>
-					</td></tr>
+					<input type='hidden' name='estid[]' value=", $row['id'], "></input></td>
+					<td><img class='icon' src='images/ambiental.png' alt='Sustentabilidade Ambiental' title='Sustentabilidade Ambiental'><select name='ambiental[", $count , "]'>
+					<option value='100' ", ($row['impacto_ambiental'] == '100' ? 'selected' : ''), ">100</option>
+					<option value='200' ", ($row['impacto_ambiental'] == '200' ? 'selected' : ''), ">200</option>
+					<option value='300' ", ($row['impacto_ambiental'] == '300' ? 'selected' : ''), ">300</option></select><br>
+					<img class='icon' src='images/economica.png' alt='Sustentabilidade Econômica' title='Sustentabilidade Econômica'><select name='economica[", $count , "]'>
+					<option value='100' ", ($row['impacto_economico'] == '100' ? 'selected' : ''), ">100</option>
+					<option value='200' ", ($row['impacto_economico'] == '200' ? 'selected' : ''), ">200</option>
+					<option value='300' ", ($row['impacto_economico'] == '300' ? 'selected' : ''), ">300</option></select><br>
+					<img class='icon' src='images/social.png' alt='Sustentabilidade Social' title='Sustentabilidade Social'><select name='social[", $count , "]'>
+					<option value='100' ", ($row['impacto_social'] == '100' ? 'selected' : ''), ">100</option>
+					<option value='200' ", ($row['impacto_social'] == '200' ? 'selected' : ''), ">200</option>
+					<option value='300' ", ($row['impacto_social'] == '300' ? 'selected' : ''), ">300</option></select></td>
+					<td><select class='center' name='grau[", $count , "]'>
+					<option value='1' ", ($row['grau_contribuicao'] == '1' ? 'selected' : ''), ">1</option>
+					<option value='2' ", ($row['grau_contribuicao'] == '2' ? 'selected' : ''), ">2</option>
+					<option value='3' ", ($row['grau_contribuicao'] == '3' ? 'selected' : ''), ">3</option></select></td></tr>
 				  </table>";
 			$count++;
 		}
@@ -372,13 +396,29 @@ function listarEstrategias($idobjetivo){
 	else{
 
 		echo "<table>
-				<th class='left'>Estratégia</th><th>Perspectiva do BSC</th>
+				<col class='c4'><th class='left'><br>Estratégia</th></col><th><br>Perspectiva do BSC</th><th><br>Impacto</th><th class='center'>Grau de Contribuição<br>Triple Bottom Line</th>
 				<tr><td class='left'><textarea maxlength='255' rows='3' name='estrategia[]' value='new' style='resize: none;'></textarea></td>
 				<td><input type='radio' name='perspectiva_bsc[", $count , "]' value='Econômico-Financeira'>Econômico-Financeira<br>
 				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Clientes'>Clientes<br>
 				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Processos Internos'>Processos Internos<br>
 				<input type='radio' name='perspectiva_bsc[", $count , "]' value='Aprendizado e Crescimento'>Aprendizado e Crescimento<br>
-				<input type='hidden' name='estid[]' value='new'></input></td></tr>
+				<input type='hidden' name='estid[]' value='new'></input></td>
+				<td><img class='icon' src='images/ambiental.png' alt='Sustentabilidade Ambiental' title='Sustentabilidade Ambiental'><select name='ambiental[", $count , "]'>
+				<option value='100'>100</option>
+				<option value='200'>200</option>
+				<option value='300'>300</option></select><br>
+				<img class='icon' src='images/economica.png' alt='Sustentabilidade Econômica' title='Sustentabilidade Econômica'><select name='economica[", $count , "]'>
+				<option value='100'>100</option>
+				<option value='200'>200</option>
+				<option value='300'>300</option></select><br>
+				<img class='icon' src='images/social.png' alt='Sustentabilidade Social' title='Sustentabilidade Social'><select name='social[", $count , "]'>
+				<option value='100'>100</option>
+				<option value='200'>200</option>
+				<option value='300'>300</option></select></td>
+				<td><select class='center' name='grau[", $count , "]'>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option></select></td></tr>
 			  </table>";
 			  $count++;
 	}
@@ -396,6 +436,15 @@ function listarMetas($idobjetivo){
 	$i = 0;
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT objetivo FROM objetivo WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
+
+	echo "<h4>Objetivo</h4><textarea maxlength='255' disabled style='resize:none;' >", $row['objetivo'], "</textarea><br>";
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM meta WHERE objetivo = ?");
 	mysqli_stmt_bind_param($stmt, "i", $idobjetivo);
@@ -442,6 +491,16 @@ function listarMetas($idobjetivo){
 function listarIndicadores($idmeta){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$stmt = mysqli_prepare($db, "SELECT meta FROM meta WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $idmeta);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
+
+	echo "<h4>Meta</h4><input type='text' maxlength='255' disabled value='", $row['meta'], "'></input><br>";
+
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM indicador WHERE meta = ?");
 	mysqli_stmt_bind_param($stmt, "i", $idmeta);
@@ -809,14 +868,14 @@ function inserirObjetivo($objetivo){
 
 }
 
-function inserirEstrategia($estrategia, $perspectiva_bsc, $objid){
+function inserirEstrategia($estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $objid){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'INSERT INTO estrategia (estrategia, perspectiva_bsc, objetivo) VALUES (?, ?, ?)';
+	$sql = 'INSERT INTO estrategia (estrategia, perspectiva_bsc, impacto_ambiental, impacto_economico, impacto_social, grau_contribuicao, objetivo) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "ssi", $estrategia, $perspectiva_bsc, $objid);
+	mysqli_stmt_bind_param($stmt, "ssiiiii", $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $objid);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
@@ -956,18 +1015,17 @@ function alterarObjetivo($objetivo, $id){
 
 }
 
-function alterarEstrategia($estrategia, $perspectiva_bsc, $id){
+function alterarEstrategia($estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $id){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'UPDATE estrategia SET estrategia = ?, perspectiva_bsc = ? WHERE id = ?';
+	$sql = 'UPDATE estrategia SET estrategia = ?, perspectiva_bsc = ?, impacto_ambiental = ?, impacto_economico = ?, impacto_social = ?, grau_contribuicao = ? WHERE id = ?';
 	
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'ssi', $estrategia, $perspectiva_bsc, $id);
+	mysqli_stmt_bind_param($stmt, 'ssiiiii', $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $id);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
-
 }
 
 function alterarMeta($meta, $data, $id){
