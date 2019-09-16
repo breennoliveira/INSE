@@ -871,15 +871,17 @@ function inserirObjetivo($objetivo){
 function inserirEstrategia($estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $objid){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	
+	$indicador = $impacto_economico * $impacto_social * $impacto_ambiental * $grau_contribuicao;
+	$indicador = $indicador/10000000;
 
-	$sql = 'INSERT INTO estrategia (estrategia, perspectiva_bsc, impacto_ambiental, impacto_economico, impacto_social, grau_contribuicao, objetivo) VALUES (?, ?, ?, ?, ?, ?, ?)';
+	$sql = 'INSERT INTO estrategia (estrategia, perspectiva_bsc, impacto_ambiental, impacto_economico, impacto_social, grau_contribuicao, indicador_sustentabilidade, objetivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "ssiiiii", $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $objid);
+	mysqli_stmt_bind_param($stmt, "ssiiiii", $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $indicador, $objid);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
-
 }
 
 function inserirMeta($meta , $data, $objid){
@@ -1018,11 +1020,14 @@ function alterarObjetivo($objetivo, $id){
 function alterarEstrategia($estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $id){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	
+	$indicador = $impacto_economico * $impacto_social * $impacto_ambiental * $grau_contribuicao;
+	$indicador = $indicador/10000000;
 
-	$sql = 'UPDATE estrategia SET estrategia = ?, perspectiva_bsc = ?, impacto_ambiental = ?, impacto_economico = ?, impacto_social = ?, grau_contribuicao = ? WHERE id = ?';
+	$sql = 'UPDATE estrategia SET estrategia = ?, perspectiva_bsc = ?, impacto_ambiental = ?, impacto_economico = ?, impacto_social = ?, grau_contribuicao = ?, indicador_sustentabilidade = ? WHERE id = ?';
 	
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'ssiiiii', $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $id);
+	mysqli_stmt_bind_param($stmt, 'ssiiiiii', $estrategia, $perspectiva_bsc, $impacto_ambiental, $impacto_economico, $impacto_social, $grau_contribuicao, $indicador, $id);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
@@ -1087,6 +1092,34 @@ function alterarValor($valor, $id){
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
 
+}
+
+//Calculos
+
+function calcularIndicadorPorDimensao(){
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	
+	$sql = 'SELECT * FROM estrategia WHERE objetivo = ? AND perspectiva_bsc = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	
+	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], );
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	$row = mysqli_fetch_array($result);
+	
+	foreach($row as $row){
+		
+		
+		
+	}
+	
+	$sql = 'UPDATE estrategia SET indicador = ? WHERE id = ?';
+
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	
+	mysqli_close($db);
 }
 
 //Remoções
