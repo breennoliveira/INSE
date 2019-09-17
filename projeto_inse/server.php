@@ -229,7 +229,7 @@
 					}
 					$count++;
 				}
-				calcularIndicadorPorEstrategia();
+				calcularIndicadores();
 				header('location: estrategias.php?plano_estrategico='.$_GET['plano_estrategico'].'&objetivo='.$_GET['objetivo']);
 			}
 		}
