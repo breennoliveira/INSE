@@ -732,13 +732,18 @@ select {
 
 		.wrapper.style4 {
 			background: white;
+            margin-left: -15%;
 		}
 
-		.wrapper.style5 {
-			background: #2B8334;
-			text-align: center;
-			color: white;
-		}
+        .wrapper.style4.center{
+            margin: 0 auto;
+        }
+
+        .wrapper.style5 {
+            background: #2B8334;
+            text-align: center;
+            color: white;
+        }
 
 			.wrapper.style5 .image {
 				display: block;

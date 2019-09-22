@@ -219,7 +219,7 @@ function listarPEEs(){
 			<th>Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | <a>Ativo</a> | <input type="image" class="removerPlano" id="', $row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -1111,104 +1111,120 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
 	
-	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[0]);
+	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[0]); // Econômico-Financeira
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	if(mysqli_num_rows($result) != 0){
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+		
 		if(mysqli_num_rows($result) == 1){
-			
+			$row = mysqli_fetch_array($result);
 			$economico[0] += $row['impacto_economico'];
 			$economico[1] += $row['impacto_social'];
 			$economico[2] += $row['impacto_ambiental'];
+			$economico[3] += $row['indicador_sustentabilidade'];
 		}else{
+			$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 			foreach($row as $row2){
 		
 				$economico[0] += $row2['impacto_economico'];
 				$economico[1] += $row2['impacto_social'];
 				$economico[2] += $row2['impacto_ambiental'];
+				$economico[3] += $row2['indicador_sustentabilidade'];
 			}
 		}
 
 		$economico[0] /= mysqli_num_rows($result);
 		$economico[1] /= mysqli_num_rows($result);
 		$economico[2] /= mysqli_num_rows($result);
-		$economico[3] = ($economico[0] + $economico[1] + $economico[2])/3;
+		$economico[3] /= mysqli_num_rows($result);
+		//$economico[3] = ($economico[0] + $economico[1] + $economico[2])/3;
 	}
 
-	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[1]);
+	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[1]); // Clientes
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
 	if(mysqli_num_rows($result) != 0){
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 		if(mysqli_num_rows($result) == 1){
+			$row = mysqli_fetch_array($result);
 			$clientes[0] += $row['impacto_economico'];
 			$clientes[1] += $row['impacto_social'];
 			$clientes[2] += $row['impacto_ambiental'];
+			$clientes[3] += $row['indicador_sustentabilidade'];
 		}else{
+			$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 			foreach($row as $row2){
 		
 				$clientes[0] += $row2['impacto_economico'];
 				$clientes[1] += $row2['impacto_social'];
 				$clientes[2] += $row2['impacto_ambiental'];
+				$clientes[3] += $row2['indicador_sustentabilidade'];
 			}
 		}
 
 		$clientes[0] /= mysqli_num_rows($result);
 		$clientes[1] /= mysqli_num_rows($result);
 		$clientes[2] /= mysqli_num_rows($result);
-		$clientes[3] = ($clientes[0] + $clientes[1] + $clientes[2])/3;
+		$clientes[3] /= mysqli_num_rows($result);
+		//$clientes[3] = ($clientes[0] + $clientes[1] + $clientes[2])/3; 
 	}
 
-	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[2]);
+	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[2]); // Processos Internos
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
 	if(mysqli_num_rows($result) != 0){
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 		if(mysqli_num_rows($result) == 1){
+			$row = mysqli_fetch_array($result);
 			$processos[0] += $row['impacto_economico'];
 			$processos[1] += $row['impacto_social'];
 			$processos[2] += $row['impacto_ambiental'];
+			$processos[3] += $row['indicador_sustentabilidade'];
 		}else{
+			$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 			foreach($row as $row2){
 		
 				$processos[0] += $row2['impacto_economico'];
 				$processos[1] += $row2['impacto_social'];
 				$processos[2] += $row2['impacto_ambiental'];
+				$processos[3] += $row2['indicador_sustentabilidade'];
 			}
 		}
 
 		$processos[0] /= mysqli_num_rows($result);
 		$processos[1] /= mysqli_num_rows($result);
 		$processos[2] /= mysqli_num_rows($result);
-		$processos[3] = ($processos[0] + $processos[1] + $processos[2])/3;
+		$processos[3] /= mysqli_num_rows($result);
+		//$processos[3] = ($processos[0] + $processos[1] + $processos[2])/3;
 	}
 
-	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[3]);
+	mysqli_stmt_bind_param($stmt, 'is', $_GET['objetivo'], $perspectiva_bsc[3]); // Aprendizado e Crescimento
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
 	if(mysqli_num_rows($result) != 0){
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 		if(mysqli_num_rows($result) == 1){
+			$row = mysqli_fetch_array($result);
 			$aprendizado[0] += $row['impacto_economico'];
 			$aprendizado[1] += $row['impacto_social'];
 			$aprendizado[2] += $row['impacto_ambiental'];
+			$aprendizado[3] += $row['indicador_sustentabilidade'];
 		}else{
+			$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 			foreach($row as $row2){
 		
 				$aprendizado[0] += $row2['impacto_economico'];
 				$aprendizado[1] += $row2['impacto_social'];
 				$aprendizado[2] += $row2['impacto_ambiental'];
+				$aprendizado[3] += $row2['indicador_sustentabilidade'];
 			}
 		}
 
 		$aprendizado[0] /= mysqli_num_rows($result);
 		$aprendizado[1] /= mysqli_num_rows($result);
 		$aprendizado[2] /= mysqli_num_rows($result);
-		$aprendizado[3] = ($aprendizado[0] + $aprendizado[1] + $aprendizado[2])/3;
+		$aprendizado[3] /= mysqli_num_rows($result);
+		//$aprendizado[3] = ($aprendizado[0] + $aprendizado[1] + $aprendizado[2])/3;
 	}
 
 	$impacto_economico = ($economico[0] + $clientes[0] + $processos[0] + $aprendizado[0])/4;
@@ -1261,16 +1277,16 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[3], $dimensao[2], $aprendizado[2], $_GET['plano_estrategico']); // Aprendizado e Crescimento / Impacto Ambiental
 	mysqli_stmt_execute($stmt);
 
-	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[0], $dimensao[3], $economico[3], $_GET['plano_estrategico']); // Economico-Financeira / Impacto Geral
+	mysqli_stmt_bind_param($stmt, 'ssdi', $perspectiva_bsc[0], $dimensao[3], $economico[3], $_GET['plano_estrategico']); // Economico-Financeira / Impacto Geral
 	mysqli_stmt_execute($stmt);
 
-	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[1], $dimensao[3], $clientes[3], $_GET['plano_estrategico']); // Clientes / Impacto Geral
+	mysqli_stmt_bind_param($stmt, 'ssdi', $perspectiva_bsc[1], $dimensao[3], $clientes[3], $_GET['plano_estrategico']); // Clientes / Impacto Geral
 	mysqli_stmt_execute($stmt);
 
-	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[2], $dimensao[3], $processos[3], $_GET['plano_estrategico']); // Processos Internos / Impacto Geral
+	mysqli_stmt_bind_param($stmt, 'ssdi', $perspectiva_bsc[2], $dimensao[3], $processos[3], $_GET['plano_estrategico']); // Processos Internos / Impacto Geral
 	mysqli_stmt_execute($stmt);
 
-	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[3], $dimensao[3], $aprendizado[3], $_GET['plano_estrategico']); // Aprendizado e Crescimento / Impacto Geral
+	mysqli_stmt_bind_param($stmt, 'ssdi', $perspectiva_bsc[3], $dimensao[3], $aprendizado[3], $_GET['plano_estrategico']); // Aprendizado e Crescimento / Impacto Geral
 	mysqli_stmt_execute($stmt);
 
 	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[4], $dimensao[0], $impacto_economico, $_GET['plano_estrategico']); // Geral / Impacto Economico
@@ -1282,7 +1298,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[4], $dimensao[2], $impacto_ambiental, $_GET['plano_estrategico']); // Geral / Impacto Ambiental
 	mysqli_stmt_execute($stmt);
 
-	mysqli_stmt_bind_param($stmt, 'ssii', $perspectiva_bsc[4], $dimensao[3], $impacto_geral, $_GET['plano_estrategico']); // Geral / Impacto Geral
+	mysqli_stmt_bind_param($stmt, 'ssdi', $perspectiva_bsc[4], $dimensao[3], $impacto_geral, $_GET['plano_estrategico']); // Geral / Impacto Geral
 	mysqli_stmt_execute($stmt);
 
 	mysqli_close($db);

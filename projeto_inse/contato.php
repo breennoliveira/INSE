@@ -1,7 +1,7 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-<div id="main" class="wrapper style4">
+<div id="main" class="wrapper">
 
 				<!-- Content -->
 				<div id="content" class="container">

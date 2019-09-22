@@ -6,12 +6,8 @@
 								</header>									
 								<ul class="default">
 									<li><a href="identidade.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">Identidade Organizacional</a></li>
-									<li><a href="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">Objetivos</a></li>
-									<li><a href="#">Metas</a></li>
-									<li><a href="#">Indicadores</a></li>
-									<li><a href="#">Estratégias</a></li>
-									<li><a href="#">Indicadores de Sustentabilidade</a></li>
-									<li><a href="#">Histórico</a></li>
+									<li><a href="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">Plano Estratégico</a></li>
+									<li><a href="resumo?plano_estrategico=<?php echo $_GET['plano_estrategico']?>">Resumo de Sustentabilidade</a></li>
 								</ul>
 							</section>
 						</div>
