@@ -10,7 +10,7 @@
 									<!-- logged in user information -->
 									<?php  if (isset($_SESSION['nomefantasia'])) : ?>
 									    <li><a href="pee-list.php">Meus PEEs</a></li>
-										<li><a href="empresa.php"><?php echo $_SESSION['nomefantasia']?></a></li>
+										<li><a href="empresa_inicio.php"><?php echo $_SESSION['nomefantasia']?></a></li>
 									    <li><a href="index.php?logout='1'" style="color: red;"> Sair</a></li>
 									<?php endif ?>
 								</ul>
