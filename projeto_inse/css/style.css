@@ -1018,3 +1018,14 @@ select {
     hyperlink:hover {
         cursor: pointer;
     }
+
+    .butt {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        text-align: center;
+        vertical-align: middle;
+        height: 200px;
+        width: 200px;
+        cursor: pointer;
+        margin-left: 30px;
+    }
