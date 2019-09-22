@@ -765,6 +765,24 @@ function listarRamos(){
 	echo "</optgroup></select>";
 }
 
+
+function listarFuncionalidades(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT DISTINCT nome_func FROM funcionalidade");
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	while($row = mysqli_fetch_array($result)){
+
+		echo "<tr><td>";
+		echo "<input type='checkbox' name='nome_func'  value='nome_func'";
+		echo "/>";
+		echo $row['nome_func'];
+		echo "</td></tr><br>";
+	}
+}
+
 //Getter
 
 function getRamo(){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
@@ -790,6 +808,45 @@ function getRamo(){ // Retorna o ramo de atuação da empresa que está logada n
 }
 
 //Inserções
+
+function inserirPermissao ($funcionalidade, $grupo)
+{
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	//grupo
+	$sql = 'INSERT INTO grupo (grupo)
+			VALUES (?)';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $grupo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	$grupo = mysqli_insert_id($db);
+	
+	//funcionalidades
+	$sql = 'SELECT DISTINCT nome_func FROM funcionalidade';
+	$nome_func = utf8_decode($nome_func);
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	//mysqli_stmt_bind_param($stmt, "s", $nome_func);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);	
+	$row = mysqli_fetch_array($result);
+
+	//permissoes
+	$sql = 'INSERT INTO permissao (funcionalidade, grupo)
+			VALUES (?, ?)';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "ii", $row['id'], $grupo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	$permissao = mysqli_insert_id($db);
+	
+	mysqli_close($db);
+
+}
+
+
+
 
 function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $cep, $nome, $sobrenome, $genero , $telefone , $email, $senha){
 

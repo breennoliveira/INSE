@@ -299,5 +299,28 @@
 			}
 
 		}
+
+
+				// REGISTER PERMISSIONS
+		if (isset($_POST['reg_permissions'])) {
+	  
+		  if (empty($_POST['grupo'])) { array_push($errors, "Nome do grupo é obrigatório"); }
+		  if (empty($_POST['nome_func'])) { array_push($errors, "Selecione ao menos uma funcionalidade"); }
+
+		  // Finally, register user if there are no errors in the form
+		  if (count($errors) == 0) {
+
+			$options = [
+				'memory_cost' => 1<<17, // 128 Mb
+				'time_cost'   => 4,
+				'threads'     => 4,
+			];
+
+			inserirPermissao($_POST['nome_func'], $_POST['grupo']);
+			$_SESSION['success_flash'] = "Cadastrado com sucesso";
+  			header('location: gerenciar_permiss.php');
+
+		  }
+		}
 	}
 ?>

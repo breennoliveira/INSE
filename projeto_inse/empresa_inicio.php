@@ -16,8 +16,8 @@
 								<hr>
 								<div style="display: flex; justify-content: center;">
 								<input class="butt" type="button" onclick="window.location.href = 'empresa.php';" value="ALTERAR DADOS CADASTRAIS"/>
-								<input class="butt" type="button" onclick="window.location.href = 'empresa.php';" value="NOVO USUARIO"/>
-								<input class="butt" type="button" onclick="window.location.href = 'empresa.php';" value="NOVO GRUPO"/>
+								<input class="butt" type="button" onclick="window.location.href = 'gerenciar_usuarios.php';" value="GERENCIAR USUARIOS"/>
+								<input class="butt" type="button" onclick="window.location.href = 'gerenciar_permiss.php';" value="GERENCIAR PERMISSOES"/>
 								<input class="butt" type="button" onclick="window.location.href = 'empresa.php';" value=""/>
 								</div>
 								<hr>
