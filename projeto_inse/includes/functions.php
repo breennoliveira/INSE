@@ -769,14 +769,14 @@ function listarRamos(){
 function listarFuncionalidades(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT DISTINCT nome_func FROM funcionalidade");
+	$stmt = mysqli_prepare($db, "SELECT * FROM funcionalidade");
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
 	while($row = mysqli_fetch_array($result)){
 
 		echo "<tr><td>";
-		echo "<input type='checkbox' name='nome_func'  value='nome_func'";
+		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
 		echo "/>";
 		echo $row['nome_func'];
 		echo "</td></tr><br>";
@@ -811,42 +811,32 @@ function getRamo(){ // Retorna o ramo de atuação da empresa que está logada n
 
 function inserirPermissao ($funcionalidade, $grupo)
 {
-
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-
-	//grupo
-	$sql = 'INSERT INTO grupo (grupo)
-			VALUES (?)';
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $grupo);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_close($stmt);
-	$grupo = mysqli_insert_id($db);
-	
-	//funcionalidades
-	$sql = 'SELECT DISTINCT nome_func FROM funcionalidade';
-	$nome_func = utf8_decode($nome_func);
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	//mysqli_stmt_bind_param($stmt, "s", $nome_func);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);	
-	$row = mysqli_fetch_array($result);
 
 	//permissoes
 	$sql = 'INSERT INTO permissao (funcionalidade, grupo)
 			VALUES (?, ?)';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "ii", $row['id'], $grupo);
+	mysqli_stmt_bind_param($stmt, "ii", $funcionalidade, $grupo);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
-	$permissao = mysqli_insert_id($db);
 	
 	mysqli_close($db);
 
 }
 
+function inserirGrupo ($grupo){
 
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
+	$sql = 'INSERT INTO grupo (grupo) VALUES (?)';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $grupo);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+	return mysqli_insert_id($db);
+}
 
 function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $cep, $nome, $sobrenome, $genero , $telefone , $email, $senha){
 
@@ -1486,8 +1476,10 @@ if(isset($_POST['removerValor'])){ //Remover valor chamado por Ajax.. Nao achei 
 }
 
 if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei um jeito melhor de fazer..
-
+	
 	$id = $_POST['removerPlano'];
+
+	console_log(var_dump($_POST['removerPlano']));
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -1501,5 +1493,11 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 
 }
 
-
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
 ?>

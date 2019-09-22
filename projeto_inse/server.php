@@ -17,7 +17,6 @@
 
 		$errors = array(); 
 
-
 		// connect to the database
 		$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -309,17 +308,12 @@
 
 		  // Finally, register user if there are no errors in the form
 		  if (count($errors) == 0) {
-
-			$options = [
-				'memory_cost' => 1<<17, // 128 Mb
-				'time_cost'   => 4,
-				'threads'     => 4,
-			];
-
-			inserirPermissao($_POST['nome_func'], $_POST['grupo']);
+			$grupo = inserirGrupo($_POST['grupo']);
+		    foreach($_POST['nome_func'] as $func){
+				inserirPermissao($func[0], $grupo);
+			}
 			$_SESSION['success_flash'] = "Cadastrado com sucesso";
   			header('location: gerenciar_permiss.php');
-
 		  }
 		}
 	}

@@ -15,7 +15,7 @@
 			<?php endif ?>
 		</header>
 	</div>
-	<?php var_dump($_POST) ?>
+
 <script>
 $(document).ready(function(){
 
@@ -24,11 +24,18 @@ $(document).ready(function(){
 		$.ajax({
 			type: "POST",
 			url: "includes/functions.php",
-			data: { removerPlano: x}});
-			//window.location.reload();
+			data:{removerPlano: x},
+			success:function(data){
+				console.log('success');
+				console.log(x)},
+			error:function(){
+				console.log('failed');
+			}
+			});
+		//window.location.reload();
 		//$('#teste').append(x);
 		//$('#teste').load();
-	})
+	});
 
 });
 </script>
