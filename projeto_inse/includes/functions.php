@@ -637,8 +637,6 @@ function listarUsuario(){
 	$result = mysqli_stmt_get_result($stmt);
 	$usuario = mysqli_fetch_array($result);
 
-	$senha = 
-
 	echo '<div class="">
 		  <label>Nome</label>
 			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="nome" value="',$usuario['nome'],'">

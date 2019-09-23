@@ -4,8 +4,8 @@
 <?php include("includes/navegation.php");?>
 
 <!-- Main -->
-	<div id="main" class="wrapper style4 center 7u">
-		<header class="major">
+	<div id="main" class="wrapper style4">
+		<header class="container2">
 			<?php if(possuiPEECriado() == 0) : ?>
 				<div align="right"><a href="identidade.php?plano_estrategico=new">Clique aqui para criar o seu primeiro Plano Estratégico</a></div>
 			<!-- Mostrar lista de PEE's criados da empresa -->

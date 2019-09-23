@@ -1,6 +1,6 @@
 <!-- Section Three -->
 			<div class="wrapper style4">
-				<section class="container">
+				<section class="container2">
 					<header class="major">
 						<h2>Sustentabilidade</h2>
 						<span class="byline">A sustentabilidade é um termo utilizado para indicar a capacidade de auto sustentação e manutenção,
