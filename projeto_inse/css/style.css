@@ -478,6 +478,7 @@ select {
 		width: 100%;
 		border-collapse: collapse;
 		margin: 0px;
+        border: 0px;
 	}
 
 		td {
@@ -559,6 +560,29 @@ select {
 			col.c7 {
 				width: 70%;
 			}
+
+    table.resumo {
+        background: white;
+        border: solid black 2px;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+        table.resumo thead {
+            background: gray;
+            color: black;
+            line-height: 2em;
+        }
+
+            table.resumo th, table.resumo td {
+                border: solid black 2px;
+                text-align: center;
+            }
+
+                table.resumo td.highlight {
+                    background: #322B83;
+                    color: white;
+                }
 
 /* Button */
 
@@ -668,6 +692,17 @@ select {
 
 	}
 
+    .container2 {
+        margin-left: 18%;
+        margin-right: auto;
+        /* width: (containers) */
+        width: 1700px;
+    }
+
+        .container2.center {
+            margin: 0 40%;
+        }
+
 /* Wrapper */
 
 	.wrapper {
@@ -730,7 +765,7 @@ select {
 				font-size: 1.6em;
 			}
 
-		.wrapper.style4 {
+		.wrapper.style4{
 			background: white;
             margin-left: -15%;
 		}

@@ -1,5 +1,5 @@
 						<!-- Sidebar -->
-						<div id="sidebar" class="4u">
+						<div id="sidebar" class="3u">
 							<section>
 								<header class="major">
 									<h2>Menu</h2>

@@ -1,10 +1,10 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
-<div id="main" class="wrapper">
+<div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
+				<div id="content" class="container2 center">
 					<section>
 						<header class="major">
 							<h2>Converse com a gente!</h2>
