@@ -157,7 +157,7 @@ function listarPEEs(){
 			<th class="center">Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td class="left">', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -699,6 +699,18 @@ function listarRamos(){
 	}
 	
 	echo "</optgroup></select>";
+}
+
+function listarGrupos(){
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT * FROM grupo ");
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	echo "<select id='grupo' name='grupo'>";
+	while($row = mysqli_fetch_array($result)){
+		echo "<option>",utf8_encode($row['grupo']),"</option>";
+	}
+	echo "</select>";
 }
 
 function listarFuncionalidades(){
