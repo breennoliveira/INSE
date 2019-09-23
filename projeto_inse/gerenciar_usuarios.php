@@ -19,7 +19,7 @@
 									<?php 
 
 										$db = mysqli_connect('localhost', 'root', '', 'inse');
-										$stmt = mysqli_prepare($db, "SELECT u.email, u.nome, e.razaosocial, g.grupo FROM usuario as u INNER JOIN empresa as e on u.empresa = e.id INNER JOIN grupo as g on u.grupo = g.id");
+										$stmt = mysqli_prepare($db, "SELECT u.id, u.email, u.nome, e.razaosocial, g.grupo FROM usuario as u INNER JOIN empresa as e on u.empresa = e.id INNER JOIN grupo as g on u.grupo = g.id");
 										mysqli_stmt_execute($stmt);
 										$result = mysqli_stmt_get_result($stmt);
 									?>
@@ -45,7 +45,7 @@
 											<td><?php echo $row['email'];?></td>
 											<td><?php echo $row['grupo'];?></td>
 											<td>
-												<form action="usuario.php?id=<?php echo $_SESSION['idusuario']?>" method="post">
+												<form action="usuario.php?idusuario=<?php echo $row['id']?>" method="post">
 													<input type="hidden" name="">
 													<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
 												</form>

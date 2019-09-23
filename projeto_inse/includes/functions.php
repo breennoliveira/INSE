@@ -621,7 +621,7 @@ function listarEmpresa(){
 
 
 
-function listarUsuario(){
+function listarUsuario($id){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
 	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
@@ -630,7 +630,7 @@ function listarUsuario(){
 	$empresa = mysqli_fetch_array($result);
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM usuario WHERE id = ?");
-	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idusuario']);
+	mysqli_stmt_bind_param($stmt, "i", $id);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$usuario = mysqli_fetch_array($result);
@@ -658,7 +658,7 @@ function listarUsuario(){
 		<br>
 		<h3>Funcionalidades do sistema</h3>
 			<div class="">
-				<label>Grupo de acessoo</label><br>
+				<label>Grupo de acesso</label><br>
 				', listarGrupos(),'
 			</div>
 		<br>
@@ -747,13 +747,15 @@ function getRamo(){ // Retorna o ramo de atuação da empresa que está logada n
 	return $row['atividade'];
 }
 
-function getGrupo(){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
+function getGrupo($idusuario){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
+	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT * FROM usuario WHERE id = ?");
-	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idusuario']);
+	mysqli_stmt_bind_param($stmt, "i", $idusuario);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$grupo = mysqli_fetch_array($result);
+	
 	$stmt = mysqli_prepare($db, "SELECT * FROM grupo WHERE id = ?");
 	mysqli_stmt_bind_param($stmt, "i", $grupo['grupo']);
 	mysqli_stmt_execute($stmt);

@@ -16,8 +16,8 @@
 								<hr>
 								<form method="post" action="usuario.php">
 									<?php include('errors.php'); ?>
-									<?php listarUsuario();
-									$grupo = utf8_encode(getGrupo());?>
+									<?php listarUsuario($_GET['idusuario']);
+									$grupo = utf8_encode(getGrupo($_GET['idusuario']));?>
 									<hr>
 								</form>
 						</header>
