@@ -10,7 +10,7 @@
 					<section>
 						<header class="major">
 							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
-							<span class="byline">Para começar clique em MEUS PEES.</span>
+							<span class="byline"></span>
 								<hr>
 								Abaixo você pode alterar o cadastro da sua empresa.
 								<hr>
