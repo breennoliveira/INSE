@@ -14,9 +14,9 @@
 								<hr>
 								Abaixo você pode alterar dados cadastrais.
 								<hr>
-								<form method="post" action="usuario.php">
+								<form method="post" action="usuario.php?idusuario=<?php echo $_GET['idusuario']?>">
 									<?php include('errors.php'); ?>
-									<?php listarUsuario($_GET['idusuario']);
+									<?php listarUsuario();
 									$grupo = utf8_encode(getGrupo($_GET['idusuario']));?>
 									<hr>
 								</form>

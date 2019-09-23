@@ -43,14 +43,12 @@
 							  	  <label>Escolha um grupo de acesso </label>
 								  <br>
 								  <br>
-								  <form action="" method="">
 								  <?php listarGrupos() ?>
 							  	</div>
 								<br>
 								<div class="">
 							  	  <button type="submit" class="button" name="reg_usuario">Criar</button>
 							  	</div>
-								 </form>
 							 </form>
 						</header>
 					</section>

@@ -522,6 +522,8 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 
 	}
 
+
+
 	echo "</table>";
 }
 
@@ -621,7 +623,7 @@ function listarEmpresa(){
 
 
 
-function listarUsuario($id){
+function listarUsuario(){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
 	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
@@ -630,14 +632,16 @@ function listarUsuario($id){
 	$empresa = mysqli_fetch_array($result);
 
 	$stmt = mysqli_prepare($db, "SELECT * FROM usuario WHERE id = ?");
-	mysqli_stmt_bind_param($stmt, "i", $id);
+	mysqli_stmt_bind_param($stmt, "i", $_GET['idusuario']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$usuario = mysqli_fetch_array($result);
 
+	$senha = 
+
 	echo '<div class="">
 		  <label>Nome</label>
-			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="sobrenome" value="',$usuario['nome'],'">
+			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="nome" value="',$usuario['nome'],'">
 		  </div>
 		  <div class="">
 			  <label>Sobrenome</label>
@@ -845,20 +849,20 @@ function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $n
 
 
 function inserirUsuario($email, $senha, $nome, $sobrenome, $genero, $grupo){
-	
-	
+
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	
-	$sql = 'SELECT id FROM grupo';
-	$grupo = utf8_decode($grupo);
+
+	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $grupo);
 	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);	
-	$row1 = mysqli_fetch_array($result);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_array($result);
 		
 	$sql = 'INSERT INTO usuario (email, senha, nome, sobrenome, genero, empresa, grupo) VALUES (?, ?, ?, ?, ?, ?, ?)';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "sssssii", $email, $senha, $nome, $sobrenome, $genero, $_SESSION['idempresa'], $row1['id'] );
+	mysqli_stmt_bind_param($stmt, "sssssii", $email, $senha, $nome, $sobrenome, $genero, $_SESSION['idempresa'], $row['id'] );
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	$usuario = mysqli_insert_id($db);
@@ -973,28 +977,27 @@ function alterarUsuario(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	
-	$sql = 'SELECT * FROM grupo WHERE id = ?';
-	$grupo = utf8_decode($_POST['grupo']);
+	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
+	
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $grupo);
+	mysqli_stmt_bind_param($stmt, "s", $_POST['grupo']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$row = mysqli_fetch_array($result);
 	
 	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_SESSION['idusuario']);
+	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idusuario']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
 	$sql = 'UPDATE usuario SET email = ?, senha = ?, nome = ?, sobrenome = ?, genero = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'sssssi', $_POST['email'], $_POST['senha'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_SESSION['idusuario']);
+	mysqli_stmt_bind_param($stmt, 'sssssi', $_POST['email'], $_POST['senha'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_GET['idusuario']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	
 	mysqli_close($db);
-	$_SESSION['nome'] = $_POST['nome'];
 }
 
 
