@@ -819,7 +819,7 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 			mysqli_stmt_execute($stmt);
 			$result = mysqli_stmt_get_result($stmt);
 			$row = mysqli_fetch_array($result);
-			echo "<td>", (INT)$row['impacto'], "</td>";
+			echo "<td class='highlight'>", (INT)$row['impacto'], "</td>";
 		}
 	
 
