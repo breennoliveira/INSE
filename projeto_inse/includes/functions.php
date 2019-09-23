@@ -151,13 +151,14 @@ function listarPEEs(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	 echo '<table>
-			<th>Título</th>
-			<th>Data Inicio</th>
-			<th>Data Fim</th>
-			<th>Opções</th>';
+			<th class="center">Título</th>
+			<th class="center">Data Inicio</th>
+			<th class="center">Data Fim</th>
+			<th class="center">Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | <a>Ativo</a> | <input type="image" class="removerPlano" id="', $row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td>', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
 		echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
@@ -668,18 +669,8 @@ function listarFuncionalidades(){
 		echo "</td></tr><br>";
 	}
 }
-function listarGrupos(){
-	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT * FROM grupo ");
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-	echo "<select id='grupo' name='grupo'>";
-	while($row = mysqli_fetch_array($result)){
-		echo "<option>",utf8_encode($row['grupo']),"</option>";
-	}
-	echo "</select>";
-}
 
+//Getter
 
 
 //Getter
@@ -733,9 +724,7 @@ function inserirPermissao ($funcionalidade, $grupo)
 
 }
 
-function inserirGrupo ($grupo){
 
-	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$sql = 'INSERT INTO grupo (grupo) VALUES (?)';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
@@ -745,7 +734,6 @@ function inserirGrupo ($grupo){
 
 	return mysqli_insert_id($db);
 }
-
 
 function inserirEmpresa($razaosocial, $nomefantasia, $cnpj, $ramo, $endereco, $numero, $complemento, $bairro, $cidade, $estado, $cep, $nome, $sobrenome, $genero , $telefone , $email, $senha){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -1034,9 +1022,9 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	if(mysqli_num_rows($result) != 0){
-		
+		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 		if(mysqli_num_rows($result) == 1){
-			$row = mysqli_fetch_array($result);
+			
 			$economico[0] += $row['impacto_economico'];
 			$economico[1] += $row['impacto_social'];
 			$economico[2] += $row['impacto_ambiental'];
@@ -1365,13 +1353,5 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 
 }
 
-function console_log($output, $with_script_tags = true) {
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
-    if ($with_script_tags) {
-        $js_code = '<script>' . $js_code . '</script>';
-    }
-    echo $js_code;
-}
-?>
 
 ?>

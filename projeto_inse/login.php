@@ -5,7 +5,7 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
+				<div id="content" class="container2 center">
 					<section>
 						<header class="major">
 							<h2>Faça seu login</h2>

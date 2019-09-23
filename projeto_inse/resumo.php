@@ -13,18 +13,14 @@
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<h2>Objetivos</h2>
-									<span class="byline">Utilize o formulário abaixo para cadastrar os objetivos presentes no plano estratégico empresarial.</span>
+									<h2>Resumo de Sustentabilidade do Plano</h2>
 								</header>
 								<form method='post' name='reg_objetivo'>
 									<?php include('errors.php'); ?>
-							  		<?php $i = listarObjetivosnew()?>
-									<div class="clearfix">
-										<input type="button" class="button small" id="add_objetivo" value="Novo Objetivo"></input>
-									</div>
+							  		<?php listarResumo(); ?>
 									<hr>
 										<div>
-											<button type="submit" class="button alt" name="reg_objetivo">Salvar</button>
+											<button type="submit" class="button alt" name="publicar_plano">Salvar</button>
 										</div>
 									<hr>
 								</form>

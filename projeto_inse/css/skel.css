@@ -17,13 +17,12 @@
 		min-width: 1200px;
 	}
 
-	.container {
-		margin-left: auto;
-		margin-right: auto;
-		
-		/* width: (containers) */
-		width: 1200px;
-	}
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        /* width: (containers) */
+        width: 1200px;
+    }
 
 	/* Modifiers */
 	
@@ -32,15 +31,15 @@
 			width: 900px;
 		}
 
-		.container.big {
-			width: 100%;
+        .container.big {
+            width: 100%;
+            /* max-width: (containers) * 1.25; */
+            max-width: 1500px;
+            /* min-width: (containers); */
+            min-width: 1200px;
+        }
 
-			/* max-width: (containers) * 1.25; */
-			max-width: 1500px;
-
-			/* min-width: (containers); */
-			min-width: 1200px;
-		}
+        
 
 /* Grid */
 
@@ -59,7 +58,7 @@
 	.\-11u { margin-left: 91.6666666667% }
 	.\-10u { margin-left: 83.3333333333% }
 	.\-9u { margin-left: 75% }
-	.\-8u { margin-left: 66.6666666667% }
+	.\-8u { margin-left: 66.6666666667%; }
 	.\-7u { margin-left: 58.3333333333% }
 	.\-6u { margin-left: 50% }
 	.\-5u { margin-left: 41.6666666667% }
