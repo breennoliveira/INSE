@@ -477,6 +477,54 @@ function listarIdentidade(){
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
 }
+
+function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
+						// Array $dimensao = 0 - Econômica, 1 - Social, 2 - Ambiental, 3 - Geral
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
+	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
+
+	echo "<table class='resumo'><tr><thead><th colspan='2'></th><th colspan='3'>Impacto nas dimensões da Sustentabilidade</th><th>Triple Bottom Line</th><th>Indicador de Sustentabilidade por Ação do PEE</th></thead></tr>
+			  <tr><th>Perspectivas</th><th>Ações</th><th>A-Econômica</th><th>B-Social</th><th>C-Ambiental</th><th>D-Grau de Contribuição</th><th>AxBxCxD/10^7</th></tr>";
+
+	for($i=0;$i<4;$i++){
+
+		$stmt = mysqli_prepare($db, "SELECT * FROM estrategia INNER JOIN objetivo ON estrategia.objetivo = objetivo.id WHERE estrategia.perspectiva_bsc = ? AND objetivo.plano_estrategico = ? ORDER BY estrategia.estrategia ASC");
+		mysqli_stmt_bind_param($stmt, "si", $perspectiva_bsc[$i], $_GET['plano_estrategico']);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+	
+		echo "<td rowspan='", mysqli_num_rows($result) + 2, "'>", $perspectiva_bsc[$i], "</td>";	
+
+		while($row = mysqli_fetch_array($result)){
+
+			echo "<tr><td>", $row['estrategia'], "</td><td>", $row['impacto_economico'], "</td><td>", $row['impacto_social'], "</td><td>", $row['impacto_ambiental'], "</td><td>", $row['grau_contribuicao'], "</td><td>", $row['indicador_sustentabilidade'], "</td></tr>";
+		
+		}
+
+		echo "<tr><td></td>";
+
+		$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE perspectiva_bsc = ? AND dimensao = ? AND plano_estrategico = ?");
+	
+
+		for($j=0;$j<3;$j++){
+			mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[$i], $dimensao[$j], $_GET['plano_estrategico']);
+			mysqli_stmt_execute($stmt);
+			$result = mysqli_stmt_get_result($stmt);
+			$row = mysqli_fetch_array($result);
+			echo "<td class='highlight'>", (INT)$row['impacto'], "</td>";
+		}
+	
+
+		echo "<td></td><td></td></tr>";
+
+	}
+
+	echo "</table>";
+}
+
 function listarEmpresa(){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
@@ -672,8 +720,6 @@ function listarFuncionalidades(){
 
 //Getter
 
-
-//Getter
 function getRamo(){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
@@ -724,7 +770,9 @@ function inserirPermissao ($funcionalidade, $grupo)
 
 }
 
-
+function inserirGrupo($grupo){
+	
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$sql = 'INSERT INTO grupo (grupo) VALUES (?)';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
@@ -1022,9 +1070,9 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	if(mysqli_num_rows($result) != 0){
-		$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+		
 		if(mysqli_num_rows($result) == 1){
-			
+			$row = mysqli_fetch_array($result);
 			$economico[0] += $row['impacto_economico'];
 			$economico[1] += $row['impacto_social'];
 			$economico[2] += $row['impacto_ambiental'];
