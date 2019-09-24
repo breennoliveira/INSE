@@ -705,7 +705,7 @@ function listarRamos(){
 
 function listarGrupos(){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT * FROM grupo ");
+	$stmt = mysqli_prepare($db, "SELECT * FROM grupo");
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	echo "<select id='grupo' name='grupo'>";
@@ -863,7 +863,6 @@ function inserirUsuario($email, $senha, $nome, $sobrenome, $genero, $grupo){
 	mysqli_stmt_bind_param($stmt, "sssssii", $email, $senha, $nome, $sobrenome, $genero, $_SESSION['idempresa'], $row['id'] );
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
-	$usuario = mysqli_insert_id($db);
 
 	 mysqli_close($db);
 }
