@@ -499,7 +499,7 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		echo "<td rowspan='", mysqli_num_rows($result) + 2, "'>", $perspectiva_bsc[$i], "</td>";	
 
 		while($row = mysqli_fetch_array($result)){
-
+		
 			echo "<tr><td>", $row['estrategia'], "</td><td>", $row['impacto_economico'], "</td><td>", $row['impacto_social'], "</td><td>", $row['impacto_ambiental'], "</td><td>", $row['grau_contribuicao'], "</td><td>", $row['indicador_sustentabilidade'], "</td></tr>";
 		
 		}
@@ -518,13 +518,28 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		}
 	
 
-		echo "<td></td><td></td></tr>";
+		echo "<td></td><td></td></td>";
 
 	}
-
-
-
-	echo "</table>";
+	
+	echo "<tr></tr><tr><td></td><td></td>"
+	
+	for($i=0;$i<3;$i++){
+		mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[$i], $_GET['plano_estrategico']);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+		$row = mysqli_fetch_array($result);
+		
+		echo "<td class='highlight'>", (INT)$row['impacto'], "</td>";
+		
+	}
+	
+	mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[4], $_GET['plano_estrategico']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_array($result);
+	
+	echo "<td></td><td class='highlight'>", $row['impacto'], "</td></tr></table>";
 }
 
 function listarEmpresa(){
