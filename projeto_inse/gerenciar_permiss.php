@@ -19,7 +19,7 @@
 									<?php 
 
 										$db = mysqli_connect('localhost', 'root', '', 'inse');
-										$stmt = mysqli_prepare($db, "SELECT p.id, f.nome_func, g.grupo FROM permissao as p INNER JOIN funcionalidade as f on p.funcionalidade = f.id INNER JOIN grupo as g on p.grupo = g.id");
+										$stmt = mysqli_prepare($db, "SELECT  p.id, g.grupo FROM permissao as p INNER JOIN grupo as g on p.grupo = g.id GROUP BY g.grupo");
 										mysqli_stmt_execute($stmt);
 										$result = mysqli_stmt_get_result($stmt);
 									?>
@@ -27,12 +27,12 @@
 										<thead>
 										  <tr style="background-color: #322B83; color: white;">
 											<th>ID</th>
-											<th>Funcionalidades</th>
+											
 											<th>Grupo</th>
 											<th></th>
 											<th></th>
 											<th>Editar</th>
-											<th>Deletar</th>
+											<th></th>
 										  </tr>
 										</thead>
 										<tbody>
@@ -42,21 +42,21 @@
 											?>
 												<tr>
 												<td><?php echo $row['id'];?></td>
-												<td><?php echo $row['nome_func'];?></td>
 												<td><?php echo $row['grupo'];?></td>
 												<td></td>
 												<td></td>
 												<td>										  
-													<form action="" method="post">
-														<input type="hidden" name="" value="<?php echo $row['id'];?>">
-														<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
-													</form>
+												<form action="permissao.php?idpermissao=<?php echo $row['id']?>" method="post">
+													<input type="hidden" name="">
+													<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
+												</form>
+											</td>
 												</td>
 											<td>
-												<form action="" method="post">
+												<!--<form action="" method="post">
 												  <input type="hidden" name="" value="<?php echo $row['id'];?>">
 												  <button type="submit" name="" class="btn btn-danger" style="border-color: red ;color: white;background: red;" > Deletar </button>
-												</form>
+												</form>-->
 											</td>
 										  </tr>
 										  <?php 

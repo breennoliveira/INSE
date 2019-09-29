@@ -478,7 +478,7 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
-function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
+/*function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
 						// Array $dimensao = 0 - Econômica, 1 - Social, 2 - Ambiental, 3 - Geral
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -541,6 +541,8 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	
 	echo "<td></td><td class='highlight'>", $row['impacto'], "</td></tr></table>";
 }
+*/
+
 
 function listarEmpresa(){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -677,6 +679,35 @@ function listarUsuario(){
 			<div class="">
 				<label>Grupo de acesso</label><br>
 				', listarGrupos(),'
+			</div>
+		<br>
+		<div class="">
+		  	  <button type="submit" class="button" name="alt_usuario">Salvar</button>
+		</div>';
+
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+}
+
+
+function listarPermissao(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT g.grupo, f.nome_func FROM permissao as p INNER JOIN grupo as g on p.grupo = g.grupo INNER JOIN funcionalidade as f on p.funcionalidade = f.funcionalidade WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "ssi", $_GET['idpermissao']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$permissao = mysqli_fetch_array($result);
+
+	echo '<div class="">
+		  <label>Grupo </label>
+			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="grupo" value="',$permissao['grupo'],'">
+		  </div>
+		<br>
+		<h3>Funcionalidades do sistema</h3>
+			<div class="">
+				<label>Grupo de acesso</label><br>
+				', listarFuncionalidades(),'
 			</div>
 		<br>
 		<div class="">
@@ -985,7 +1016,7 @@ function alterarEmpresa(){
 	$_SESSION['nomefantasia'] = $_POST['nomefantasia'];
 }
 
-function alterarUsuario(){
+function alterarPermissao(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	
@@ -1011,6 +1042,10 @@ function alterarUsuario(){
 	
 	mysqli_close($db);
 }
+
+
+
+
 
 
 function alterarObjetivo($objetivo, $id){

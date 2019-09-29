@@ -19,7 +19,7 @@
 									<?php 
 
 										$db = mysqli_connect('localhost', 'root', '', 'inse');
-										$stmt = mysqli_prepare($db, "SELECT u.id, u.email, u.nome, e.razaosocial, g.grupo FROM usuario as u INNER JOIN empresa as e on u.empresa = e.id INNER JOIN grupo as g on u.grupo = g.id");
+										$stmt = mysqli_prepare($db, "SELECT u.id, u.email, u.nome, e.razaosocial, g.grupo FROM usuario as u INNER JOIN empresa as e on u.empresa = e.id INNER JOIN grupo as g on u.grupo = g.id WHERE u.empresa = '".$_SESSION['idempresa']."'");
 										mysqli_stmt_execute($stmt);
 										$result = mysqli_stmt_get_result($stmt);
 									?>
