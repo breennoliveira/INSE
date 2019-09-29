@@ -47,24 +47,27 @@
 												<td><?php echo $row['grupo'];?></td>
 												<td></td>
 												<td></td>
-												<td>										  
-												<form action="permissao.php?idgrupo=<?php echo $row['id']?>" method="post">
-													<input type="hidden" name="">
-													<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
-												</form>
-											</td>
-												</td>
-											<td>
-												<!--<form action="" method="post">
-												  <input type="hidden" name="" value="<?php echo $row['id'];?>">
-												  <button type="submit" name="" class="btn btn-danger" style="border-color: red ;color: white;background: red;" > Deletar </button>
-												</form>-->
-											</td>
-										  </tr>
+
+													<?php if ($row['empresa'] != 0)
+													{?>
+														<td>										  
+														<form action="permissao.php?idgrupo=<?php echo $row['id']?>" method="post">
+															<input type="hidden" name="">
+															<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
+														</form>
+													</td>
+														</td>
+													<td>
+													</td>
+												  </tr>
+												  <?php 
+												  }
+												  ?>
 										  <?php 
 										  }
 										  ?>
-										 </tbody>
+
+									    </tbody>
 								    </table>
 										<hr>
 											<form method="post" action="">

@@ -5,7 +5,7 @@
 
 
 <div id="main" class="wrapper style4">
-	<div id="content" class="container">
+	<div id="content" class="container small">
 					<section>
 						<header class="major">
 							<h2>Crie um novo grupo de permissoes</h2>
@@ -27,15 +27,15 @@
 							  	</div>
 							  	<div class="">
 							  	  <label>Email</label>
-							  	  <input type="email" maxlength='100' name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
+							  	  <input type="email" maxlength='100'style="width: 50.4%;" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>">
 							  	</div>
 								<div class="">
 							  	  <label>Confirmacao de Email</label>
-							  	  <input type="email" maxlength='100' name="confir_email">
+							  	  <input type="email" maxlength='100' style="width: 50.4%;" name="confir_email">
 							  	</div>
 							  	<div class="">
 							  	  <label>Senha</label>
-							  	  <input type="password" name="senha">
+							  	  <input type="text" name="senha"  style="width: 50.4%;" value="<?php echo generatePassword()?>">
 							  	</div>
 								<br>
 								<h3>Funcionalidades do sistema</h3>
@@ -58,5 +58,7 @@
 <script type="text/javascript">
 				document.getElementById('grupo').value = "<?php echo $grupo ?>";
 </script>
+
+
 
 <?php  include("includes/footer.php");?>

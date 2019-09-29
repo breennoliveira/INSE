@@ -6,7 +6,7 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
+				<div id="content" class="container small" >
 					<section>
 						<header class="major">
 							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
@@ -27,5 +27,7 @@
 <script type="text/javascript">
 				document.getElementById('grupo').value = "<?php echo $grupo ?>";
 </script>
+
+
 
 <?php  include("includes/footer.php");?>
