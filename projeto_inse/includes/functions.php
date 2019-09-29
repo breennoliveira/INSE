@@ -157,7 +157,7 @@ function listarPEEs(){
 			<th class="center">Opções</th>';
 	while($row = mysqli_fetch_array($result)){
 		
-		echo '<tr><td class="left">', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><a>Ativo</a> | <input type="image" class="removerPlano" id="',$row['id'], '" src="images/delete.png"></input></td></tr>';
+		echo '<tr><td class="left">', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><input type="image" class="removerPlano" id="', $row['id'], '" src="images/delete.png"></input></td></tr>';
 
 		/*echo '<form action="identidade.php" method="post">';
 		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -478,7 +478,7 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
-/*function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
+function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
 						// Array $dimensao = 0 - Econômica, 1 - Social, 2 - Ambiental, 3 - Geral
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -486,8 +486,9 @@ function listarIdentidade(){
 	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
 	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
 
-	echo "<table class='resumo'><tr><thead><th colspan='2'></th><th colspan='3'>Impacto nas dimensões da Sustentabilidade</th><th>Triple Bottom Line</th><th>Indicador de Sustentabilidade por Ação do PEE</th></thead></tr>
-			  <tr><th>Perspectivas</th><th>Ações</th><th>A-Econômica</th><th>B-Social</th><th>C-Ambiental</th><th>D-Grau de Contribuição</th><th>AxBxCxD/10^7</th></tr>";
+	echo "<div id='resumo' name='resumo'><header class='major'><h2>Resumo de Sustentabilidade do Plano</h2></header>
+		  <table class='resumo'><tr><thead><th colspan='2'></th><th colspan='3'>Impacto nas dimensões da Sustentabilidade</th><th>Triple Bottom Line</th><th>Indicador de Sustentabilidade por Ação do PEE</th></thead></tr>
+		  <tr><th>Perspectivas</th><th>Ações</th><th>A-Econômica</th><th>B-Social</th><th>C-Ambiental</th><th>D-Grau de Contribuição</th><th>AxBxCxD/10^7</th></tr>";
 
 	for($i=0;$i<4;$i++){
 
@@ -496,7 +497,7 @@ function listarIdentidade(){
 		mysqli_stmt_execute($stmt);
 		$result = mysqli_stmt_get_result($stmt);
 	
-		echo "<td rowspan='", mysqli_num_rows($result) + 2, "'>", $perspectiva_bsc[$i], "</td>";	
+		echo "<td class='center' rowspan='", mysqli_num_rows($result) + 2, "'>", $perspectiva_bsc[$i], "</td>";	
 
 		while($row = mysqli_fetch_array($result)){
 		
@@ -518,11 +519,11 @@ function listarIdentidade(){
 		}
 	
 
-		echo "<td></td><td></td></td>";
+		echo "<td></td><td></td></td></tr>";
 
 	}
 	
-	echo "<tr></tr><tr><td></td><td></td>"
+	echo "<br><tr><td>Geral</td><td></td>";
 	
 	for($i=0;$i<3;$i++){
 		mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[$i], $_GET['plano_estrategico']);
@@ -534,14 +535,16 @@ function listarIdentidade(){
 		
 	}
 	
-	mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[4], $_GET['plano_estrategico']);
+	mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[3], $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$row = mysqli_fetch_array($result);
 	
 	echo "<td></td><td class='highlight'>", $row['impacto'], "</td></tr></table>";
+
+	echo "<div id='curve_chart' style='width: 900px; height: 500px'></div></div>";
 }
-*/
+
 
 
 function listarEmpresa(){
@@ -1449,10 +1452,10 @@ if(isset($_POST['removerValor'])){ //Remover valor chamado por Ajax.. Nao achei 
 }
 
 if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei um jeito melhor de fazer..
-	
+
 	$id = $_POST['removerPlano'];
 
-	console_log(var_dump($_POST['removerPlano']));
+	echo $id;
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -1461,7 +1464,48 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
 	mysqli_stmt_bind_param($stmt, 'i', $id);
 	mysqli_stmt_execute($stmt);
+	echo mysqli_error($db);
 	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+if(isset($_POST['publicar_pee'])){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$true = true;
+	$false = false;
+
+	echo $_POST['publicar_pee'];
+
+	$sql = 'SELECT * FROM plano_estrategico WHERE empresa = ? AND publicado = ?';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "ii", $_SESSION['idempresa'], $true);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	if(mysqli_num_rows($result) != 0){
+	
+		$row = mysqli_fetch_assoc($result);
+		
+		$sql = 'UPDATE plano_estrategico SET publicado = ?, ativo = ? WHERE id = ?';
+	
+		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+		mysqli_stmt_bind_param($stmt, 'iii', $true, $false, $_GET['plano_estrategico']);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_close($stmt);
+
+		
+	}
+
+	$sql = 'UPDATE plano_estrategico SET publicado = ?, ativo = ? WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'iii', $true, $true, $_POST['publicar_pee']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	echo mysqli_error($db);
 	mysqli_close($db);
 
 }

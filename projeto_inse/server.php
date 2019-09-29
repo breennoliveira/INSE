@@ -364,5 +364,6 @@
   			header('location: gerenciar_permiss.php');
 		  }
 		}
+
 	}
 ?>
