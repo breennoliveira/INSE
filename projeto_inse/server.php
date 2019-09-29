@@ -348,7 +348,6 @@
 
 		}
 
-				// REGISTER PERMISSIONS
 		if (isset($_POST['reg_permissions'])) {
 	  
 		  if (empty($_POST['grupo'])) { array_push($errors, "Nome do grupo é obrigatório"); }

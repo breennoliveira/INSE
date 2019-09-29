@@ -883,6 +883,23 @@ function listarFuncionalidades(){
 	}
 }
 
+function listarFuncionalidadesPermissao(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT * FROM funcionalidade");
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	while($row = mysqli_fetch_array($result)){
+
+		echo "<tr><td>";
+		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
+		echo "/>";
+		echo $row['nome_func'];
+		echo "</td></tr><br>";
+	}
+}
+
 //Getter
 
 function getRamo(){ // Retorna o ramo de atuação da empresa que está logada no momento (String).
@@ -936,7 +953,6 @@ function inserirPermissao ($funcionalidade, $grupo)
 	mysqli_close($db);
 
 }
-
 function inserirGrupo($grupo){
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');

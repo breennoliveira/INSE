@@ -5,7 +5,7 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
+				<div id="content" class="container small">
 					<section>
 						<header class="major">
 							<h2>Crie sua conta</h2>
