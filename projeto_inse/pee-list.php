@@ -5,7 +5,7 @@
 
 <!-- Main -->
 	<div id="main" class="wrapper style4">
-		<header class="container2">
+		<header class="container2 small">
 			<?php if(possuiPEECriado() == 0) : ?>
 				<div align="right"><a href="identidade.php?plano_estrategico=new">Clique aqui para criar o seu primeiro Plano Estratégico</a></div>
 			<!-- Mostrar lista de PEE's criados da empresa -->
@@ -24,15 +24,15 @@ $(document).ready(function(){
 		$.ajax({
 			type: "POST",
 			url: "includes/functions.php",
-			data:{removerPlano: x},
+			data: {"removerPlano": x},
 			success:function(data){
 				console.log('success');
-				console.log(x)},
+				console.log(data)},
 			error:function(){
 				console.log('failed');
 			}
 			});
-		//window.location.reload();
+		window.location.reload();
 		//$('#teste').append(x);
 		//$('#teste').load();
 	});

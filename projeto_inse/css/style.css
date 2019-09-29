@@ -472,6 +472,13 @@ select {
 			padding-left: 2.7em;
 		}
 
+/* PDF Report */
+
+
+    .report{
+        font-size: 12px;
+    }
+
 /* Tables */
 
 	table {
@@ -497,6 +504,7 @@ select {
 
 		td.center {
 			text-align: center;
+            vertical-align: middle;
 		}
 
 		th {
@@ -528,6 +536,7 @@ select {
 		thead {
 			background: #555555;
 			color: #fff;
+            vertical-align: middle;
 		}
 
 		col {
@@ -696,11 +705,15 @@ select {
         margin-left: auto;
         margin-right: auto;
         /* width: (containers) */
-        width: 80%;
+        width: 90%;
     }
 
         .container2.center {
             margin: 0 auto;
+        }
+
+        .container2.small {
+            width: 50%;
         }
 
 /* Wrapper */
