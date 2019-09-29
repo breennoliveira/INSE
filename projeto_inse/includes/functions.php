@@ -761,11 +761,17 @@ function listarUsuario(){
 		</div>
 		<div class="">
 		  	  <label>Email</label>
-			  	  <input type="email"maxlength="100" name="email" value="',$usuario['email'],'">
+			  	  <input type="email"maxlength="100" style="width: 50.4%; name="email" value="',$usuario['email'],'">
 		</div>
 		<div class="">
 		  	  <label>Senha</label>
-			  	  <input type="password" name="senha" value="',$usuario['senha'],'">
+			  	  <input type="text" style="width: 50.4%;"maxlength="100" name="senha" value="">
+				  	<br>
+				  	<form action="novasenha" method="post" >
+						<input type="hidden" name="">
+						<button  type="submit" class="btn btn-success" value="', generatePassword() ,'" style="border-color: #2B8334;color: white;background: #2B8334;" > Gera nova senha </button>
+						
+					</form>
 		</div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>
@@ -1115,7 +1121,7 @@ function alterarEmpresa(){
 	$_SESSION['nomefantasia'] = $_POST['nomefantasia'];
 }
 
-function alterarPermissao(){
+function alterarUsuario(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	
@@ -1142,9 +1148,32 @@ function alterarPermissao(){
 	mysqli_close($db);
 }
 
+function alterarPermissao(){
 
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	
+	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $_POST['grupo']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_array($result);
+	
+	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idusuario']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
 
-
+	$sql = 'UPDATE usuario SET email = ?, senha = ?, nome = ?, sobrenome = ?, genero = ? WHERE id = ?';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'sssssi', $_POST['email'], $_POST['senha'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_GET['idusuario']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	
+	mysqli_close($db);
+}
 
 
 function alterarObjetivo($objetivo, $id){
@@ -1603,6 +1632,33 @@ if(isset($_POST['publicar_pee'])){
 	echo mysqli_error($db);
 	mysqli_close($db);
 
+}
+
+// gerador de senha randomica
+
+function generatePassword($qtyCaraceters = 8)
+{
+    //Letras minúsculas embaralhadas
+    $smallLetters = str_shuffle('abcdefghijklmnopqrstuvwxyz');
+ 
+    //Letras maiúsculas embaralhadas
+    $capitalLetters = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+ 
+    //Números aleatórios
+    $numbers = (((date('Ymd') / 12) * 24) + mt_rand(800, 9999));
+    $numbers .= 1234567890;
+ 
+    //Caracteres Especiais
+    $specialCharacters = str_shuffle('!@#$%*-');
+ 
+    //Junta tudo
+    $characters = $capitalLetters.$smallLetters.$numbers.$specialCharacters;
+ 
+    //Embaralha e pega apenas a quantidade de caracteres informada no parâmetro
+    $password = substr(str_shuffle($characters), 0, $qtyCaraceters);
+ 
+    //Retorna a senha
+    return $password;
 }
 
 
