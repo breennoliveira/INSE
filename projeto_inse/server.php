@@ -348,6 +348,18 @@
 
 		}
 
+		if(isset($_POST['alt_permissao'])) {
+			
+		  if (empty($_POST['grupo'])) { array_push($errors, "Nome do grupo é obrigatório"); }
+		  if (empty($_POST['nome_func'])) { array_push($errors, "Selecione ao menos uma funcionalidade"); }
+
+			if(count($errors) == 0){
+				alterarPermissao();
+				header('location: gerenciar_permiss.php');
+			}
+
+		}
+
 		if (isset($_POST['reg_permissions'])) {
 	  
 		  if (empty($_POST['grupo'])) { array_push($errors, "Nome do grupo é obrigatório"); }
@@ -359,7 +371,7 @@
 		    foreach($_POST['nome_func'] as $func){
 				inserirPermissao($func[0], $grupo);
 			}
-			$_SESSION['success_flash'] = "Cadastrado com sucesso";
+			$_SESSION['success_flash'] = "Alterado com sucesso";
   			header('location: gerenciar_permiss.php');
 		  }
 		}

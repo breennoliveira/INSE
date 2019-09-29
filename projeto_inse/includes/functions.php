@@ -810,7 +810,7 @@ function listarPermissao(){
 			</div>
 		<br>
 		<div class="">
-		  	  <button type="submit" class="button" name="alt_usuario">Salvar</button>
+		  	  <button type="submit" class="button" name="alt_permissao">Salvar</button>
 		</div>';
 
 	$result = mysqli_stmt_close($stmt);
@@ -877,23 +877,6 @@ function listarFuncionalidades(){
 		echo "<tr><td>";
 		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
 		echo mysqli_num_rows($result2) ? "checked" : "" ;
-		echo "/>";
-		echo $row['nome_func'];
-		echo "</td></tr><br>";
-	}
-}
-
-function listarFuncionalidadesPermissao(){
-
-	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT * FROM funcionalidade");
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-
-	while($row = mysqli_fetch_array($result)){
-
-		echo "<tr><td>";
-		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
 		echo "/>";
 		echo $row['nome_func'];
 		echo "</td></tr><br>";
@@ -1175,16 +1158,24 @@ function alterarPermissao(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$row = mysqli_fetch_array($result);
+
+	$sql = 'SELECT * FROM funcionalidade WHERE funcionalidade = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $_POST['funcionalidade']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_array($result);
 	
 	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idusuario']);
+	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idgrupo']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
-	$sql = 'UPDATE usuario SET email = ?, senha = ?, nome = ?, sobrenome = ?, genero = ? WHERE id = ?';
+	$sql = 'UPDATE permissao SET funcionalidade = ?, grupo = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'sssssi', $_POST['email'], $_POST['senha'], $_POST['nome'], $_POST['sobrenome'], $_POST['genero'], $_GET['idusuario']);
+	mysqli_stmt_bind_param($stmt, 'ssi', $_POST['funcionalidade'], $_POST['grupo'], $_GET['idpermissao']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	
