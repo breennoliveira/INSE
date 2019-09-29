@@ -1,19 +1,24 @@
 <?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
-<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 
 <!-- Main -->
 	<div id="main" class="wrapper style4">
-		<header class="container2 small">
-			<?php if(possuiPEECriado() == 0) : ?>
-				<div align="right"><a href="identidade.php?plano_estrategico=new">Clique aqui para criar o seu primeiro Plano Estratégico</a></div>
-			<!-- Mostrar lista de PEE's criados da empresa -->
-			<?php else : ?>
-				<?php listarPEEs()?>
-				<div align="center"><a href="identidade.php?plano_estrategico=new">Novo Plano Estratégico</a></div>
-			<?php endif ?>
-		</header>
+			<div id="content" class="container2 small">
+				<header class="major">
+					<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
+				<?php if(possuiPEECriado() == 0) : ?>
+					<span class="byline welcome">Você ainda não possui nenhum Plano Estratégico</span>
+				</header>
+					<div align="center"><a href="identidade.php?plano_estrategico=new">Clique aqui para criar o seu primeiro Plano Estratégico</a></div>
+				<!-- Mostrar lista de PEE's criados da empresa -->
+				<?php else : ?>
+				</header>
+					<?php listarPEEs()?>
+					<div align="center"><a href="identidade.php?plano_estrategico=new">Novo Plano Estratégico</a></div>
+				<?php endif ?>
+			</div>
 	</div>
 
 <script>

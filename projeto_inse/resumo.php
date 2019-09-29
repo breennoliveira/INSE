@@ -1,7 +1,7 @@
 ﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
-<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 <script src="js/xepOnline.jqPlugin.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 

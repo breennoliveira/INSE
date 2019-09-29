@@ -6,22 +6,18 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
-					<section>
+				<div id="content" class="container small">
 						<header class="major">
-							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
-							<span class="byline"></span>
-								<hr>
-								Abaixo você pode alterar o cadastro da sua empresa.
-								<hr>
-								<form method="post" action="empresa.php">
-									<?php include('errors.php'); ?>
-									<?php listarEmpresa();
-									$ramo = utf8_encode(getRamo());?>
-									<hr>
-								</form>
+							<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
+							<span class="byline">Abaixo você pode alterar o cadastro da sua empresa.</span>
 						</header>
-					</section>
+						<hr>
+							<form method="post" action="empresa.php">
+								<?php include('errors.php'); ?>
+								<?php listarEmpresa();
+								$ramo = utf8_encode(getRamo());?>
+								<hr>
+							</form>
 				</div>
 </div>
 <script type="text/javascript">

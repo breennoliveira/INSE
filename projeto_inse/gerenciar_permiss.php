@@ -1,4 +1,4 @@
-<?php include("includes/session.php");?>
+﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
 <?php include("server.php");?>
@@ -6,11 +6,12 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container">
+				<div id="content" class="container2 medium">
 					<section>
 						<header class="major">
 							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
-							<span class="byline">Gerencie as permissoes do sistema</span>
+							<span class="byline">Abaixo você pode gerenciar as permissões do sistema</span>
+						</header>
 								<hr>
 									<form action="register_permissons.php" method="">
 										<input type="hidden" name="" value="">
@@ -69,7 +70,6 @@
 											<form method="post" action="">
 											<hr>
 										</form>
-						</header>
 					</section>
 							</div>
 </div>

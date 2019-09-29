@@ -1,7 +1,6 @@
 <?php  if (count($errors) > 0) : ?>
-  <div class="error">
-  	<p style="color: red"><?php foreach ($errors as $error) : ?>
-  	  <?php echo $error ?> </br>
-  	<?php endforeach ?></p>
-  </div>
+<?php foreach ($errors as $error) : ?>
+  	  <div class='alert alert-danger alert-dismissible' role='alert'><?php echo $error ?>
+	   <button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button></div>
+ <?php endforeach ?>
 <?php  endif ?>

@@ -1,7 +1,7 @@
 ﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
-<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 
 <!-- Main -->
 
@@ -13,8 +13,7 @@
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<a href="metas.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>&objetivo=<?php echo $_GET['objetivo']?>"><</a>
-									<h2>Indicadores</h2>
+									<h2><a href="metas.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>&objetivo=<?php echo $_GET['objetivo']?>"><input class="voltar" type="image" alt="Voltar" title="Voltar" src="images/Voltar.png"></input></a>Indicadores</h2>
 									<span class="byline">Utilize o formulário abaixo para cadastrar os Indicadores relacionados a seguinte meta:</span>
 								</header>
 								<form method='post' name='reg_indicador'>

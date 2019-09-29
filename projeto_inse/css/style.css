@@ -32,6 +32,7 @@
 		font-size: 12pt;
 		font-weight: 300;
 		line-height: 1.65em;
+        resize: none;
 	}
 
 	a {
@@ -69,13 +70,27 @@
 			text-decoration: none;
 		}
 
-	h2 {
-		font-size: 1.5em;
-	}
+    h2 {
+        font-size: 1.5em;
+    }
+
+        h2.welcome {
+            position: relative;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            white-space: nowrap
+        }
 
 	h3 {
 		font-size: 1.25em;
 	}
+
+    .pee-section {
+
+        background-color: burlywood;
+
+    }
 
 	sub {
 		font-size: 0.8em;
@@ -106,7 +121,7 @@
 	}
 
 	header.major {
-		padding-bottom: 3em;
+		padding-bottom: 1em;
 		text-align: center;
 		text-transform: uppercase;
 	}
@@ -123,6 +138,14 @@
 			font-size: 1.4em;
 		}
 
+        header.major .welcome {
+            position: relative;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
 	footer > :last-child {
 		margin-bottom: 0;
 	}
@@ -132,13 +155,6 @@
 		
 	}
 
-/* Form */
-
-
-	form
-	{
-		
-	}
 
 select {
 	border-color: #2B8334;
@@ -241,7 +257,7 @@ select {
 		outline: 0;
 		padding: 0.75em;
 		text-decoration: none;
-		width: 50%;
+		width: 100%;
 	}
 
 		input[type="text"]:focus,
@@ -282,6 +298,7 @@ select {
 	.formerize-placeholder {
 		color: rgba(85, 85, 85, 0.5) !important;
 	}
+
 
 /* Image */
 
@@ -493,11 +510,6 @@ select {
 			vertical-align:top;
 		}
 
-		td.left {
-			padding: 0px;
-			text-align: left;
-		}
-
 		td.right {
 			text-align: right;
 		}
@@ -506,6 +518,16 @@ select {
 			text-align: center;
             vertical-align: middle;
 		}
+
+        td.left {
+            padding: 0px;
+            text-align: left;
+        }
+
+            td.left.center {
+                padding: 0 0 0 5px;
+                vertical-align: middle;
+            }
 
 		th {
 			font-weight: 700;
@@ -583,15 +605,31 @@ select {
             line-height: 2em;
         }
 
-            table.resumo th, table.resumo td {
-                border: solid black 2px;
-                text-align: center;
+        table.resumo th, table.resumo td {
+            border: solid black 2px;
+            text-align: center;
+        }
+
+            table.resumo td.highlight {
+                background: #322B83;
+                color: white;
             }
 
-                table.resumo td.highlight {
-                    background: #322B83;
-                    color: white;
-                }
+    table.pee-section {
+        border: solid 1px;
+        border-collapse: collapse;
+    }
+
+        table.pee-section td, table.pee-section th {
+            border: solid 1px;
+        }
+
+/* Imagens */
+
+    .voltar{
+        position: absolute;
+        margin-left: -35px;
+    }
 
 /* Button */
 
@@ -712,8 +750,16 @@ select {
             margin: 0 auto;
         }
 
+        .container2.medium {
+            width: 75%;
+        }
+
         .container2.small {
             width: 50%;
+        }
+        
+        .container2.extrasmall {
+            width: 30%;
         }
 
 /* Wrapper */
@@ -748,7 +794,7 @@ select {
 
 				.wrapper.style2 .major .byline {
 					letter-spacing: normal;
-					line-height: 1.6em;
+					line-height: 1.06m;
 					text-transform: capitalize;
 					font-size: 1.4em;
 				}
@@ -783,9 +829,9 @@ select {
 			background: white;
 		}
 
-        .wrapper.style4.center{
-            margin: 0 auto;
-        }
+            .wrapper.style4.center {
+                margin: 0 auto;
+            }
 
         .wrapper.style5 {
             background: #2B8334;
@@ -961,7 +1007,7 @@ select {
 /* Main */
 
 	#main {
-		padding: 4em 0 0 0;
+		padding: 2em 0 0 0;
 	}
 
 		#main #content .major, #main #sidebar .major {

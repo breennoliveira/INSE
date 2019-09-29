@@ -1,20 +1,19 @@
 ﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
-<?php include("server.php");?>
 <?php include("includes/navegation.php");?>
+<?php include("server.php");?>
 
 <!-- Main -->
 
 			<div id="main" class="wrapper style4">
-				<div class="container">
+				<div class="container2">
 					<div class="row">
 						<?php include("includes/sidebar.php");?>
 						<!-- Content -->
 						<div id="content" class="8u skel-cell-important">
 							<section>
 								<header class="major">
-									<a href="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>"><</a>
-									<h2>Metas</h2>
+									<h2><a href="objetivos.php?plano_estrategico=<?php echo $_GET['plano_estrategico']?>"><input class="voltar" type="image" alt="Voltar" title="Voltar" src="images/Voltar.png"></input></a>Metas</h2>
 									<span class="byline">Utilize o formulário abaixo para cadastrar as metas relacionadas ao seguinte objetivo:</span>
 								</header>
 								<form method='post' name='reg_meta'>

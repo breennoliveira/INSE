@@ -5,17 +5,17 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container2 center">
+				<div id="content" class="container2 extrasmall center">
 					<section>
 						<header class="major">
 							<h2>Faça seu login</h2>
 							<span class="byline">Já possui uma conta? Faça o login!</span>
 							<hr>
+							<?php include('errors.php'); ?>
 								<form method="post" action="login.php">
-							  	<?php include('errors.php'); ?>
 								  <div class="input-group">
 							  		<label>Digite seu email</label>
-							  		<input type="email" name="email" >
+							  		<input type="email" name="email">
 							  	</div>
 							  	<div class="input-group">
 							  		<label>Digite sua senha</label>

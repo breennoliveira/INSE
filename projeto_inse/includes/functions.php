@@ -145,32 +145,122 @@ function loginCorreto($email, $senha){
 }
 //Listagens
 function listarPEEs(){
+
+	$true = true;
+	$false = false;
+
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ?");
-	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idempresa']);
+	
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND ativo = ? AND publicado = ?");
+	mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idempresa'], $true, $true);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-	 echo '<table>
-			<th class="center">Título</th>
-			<th class="center">Data Inicio</th>
-			<th class="center">Data Fim</th>
-			<th class="center">Opções</th>';
-	while($row = mysqli_fetch_array($result)){
-		
-		echo '<tr><td class="left">', $row['titulo'], '</td><td>', $row['comeco'], '</td><td>', $row['fim'],'</td><td><a href=identidade.php?plano_estrategico=', $row['id'], '>Editar</a> | </td><td><input type="image" class="removerPlano" id="', $row['id'], '" src="images/delete.png"></input></td></tr>';
 
-		/*echo '<form action="identidade.php" method="post">';
-		echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
-		echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
-		echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
-		echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
-		echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
-		echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
-		echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
-		echo '</form>';
-		*/
+	echo '<section class="pee-section"><h2 class="pee-section">Plano Estratégico em Vigência</h2>';
+
+	if(mysqli_num_rows($result) > 0){
+		echo '<table class="pee-section">
+			  <th class="center">Título</th>
+			  <th class="center">Data Inicio</th>
+			  <th class="center">Data Fim</th>
+			  <th class="center">Opções</th>';
+
+		while($row = mysqli_fetch_array($result)){
+		
+			echo '<tr><td class="left center">', $row['titulo'], '</td><td class="center">', $row['comeco'], '</td><td class="center">', $row['fim'],'</td><td class="center"><a href=identidade.php?plano_estrategico=', $row['id'], '><input type="image" alt="Editar Plano" title="Editar Plano" src="images/edit.png"></input></a>&nbsp&nbsp<input type="image" title="Deletar Plano" alt="Deletar Plano" class="removerPlano" src="images/delete.png" id="', $row['id'], '"></input></td></tr>';
+
+			/*echo '<form action="identidade.php" method="post">';
+			echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
+			echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
+			echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
+			echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
+			echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
+			echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
+			echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
+			echo '</form>';
+			*/
+		}
+		echo '</table>';
 	}
-	echo '</table>';
+	else{
+		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico em Vigência</h3>';
+	}
+	echo '</section><hr>';
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND ativo = ? AND publicado = ?");
+	mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idempresa'], $false, $false);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo '<section class="pee-section"><h2 class="pee-section">Planos Estratégicos em Preparação</h2>';
+
+	if(mysqli_num_rows($result) > 0){
+		echo '<table class="pee-section">
+			  <th class="center">Título</th>
+			  <th class="center">Data Inicio</th>
+			  <th class="center">Data Fim</th>
+			  <th class="center">Opções</th>';
+
+		while($row = mysqli_fetch_array($result)){
+		
+			echo '<tr><td class="left center">', $row['titulo'], '</td><td class="center">', $row['comeco'], '</td><td class="center">', $row['fim'],'</td><td class="center"><a href=identidade.php?plano_estrategico=', $row['id'], '><input type="image" alt="Editar Plano" title="Editar Plano" src="images/edit.png"></input></a>&nbsp&nbsp<input type="image" title="Deletar Plano" alt="Deletar Plano" class="removerPlano" src="images/delete.png" id="', $row['id'], '"></input></td></tr>';
+
+			/*echo '<form action="identidade.php" method="post">';
+			echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
+			echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
+			echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
+			echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
+			echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
+			echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
+			echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
+			echo '</form>';
+			*/
+		}
+		echo '</table>';
+	}
+	else{
+		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico em Preparação</h3>';
+	}
+	echo '</section><hr>';
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND ativo = ? AND publicado = ?");
+	mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idempresa'], $false, $true);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	echo '<section class="pee-section"><h2 class="pee-section">Planos Estratégicos Passados</h2>';
+
+	if(mysqli_num_rows($result) > 0){
+		echo '<table class="pee-section">
+			  <th class="center">Título</th>
+			  <th class="center">Data Inicio</th>
+			  <th class="center">Data Fim</th>
+			  <th class="center">Opções</th>';
+
+		while($row = mysqli_fetch_array($result)){
+		
+			echo '<tr><td class="left center">', $row['titulo'], '</td><td class="center">', $row['comeco'], '</td><td class="center">', $row['fim'],'</td><td class="center"><a href=identidade.php?plano_estrategico=', $row['id'], '><input type="image" alt="Editar Plano" title="Editar Plano" src="images/edit.png"></input></a>&nbsp&nbsp<input type="image" title="Deletar Plano" alt="Deletar Plano" class="removerPlano" src="images/delete.png" id="', $row['id'], '"></input></td></tr>';
+
+			/*echo '<form action="identidade.php" method="post">';
+			echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
+			echo '<input type="hidden" name="visao" value="', $row['visao'], '">';
+			echo '<input type="hidden" name="missao" value="', $row['missao'], '">';
+			echo '<input type="hidden" name="valores" value="', $row['valores'], '">';
+			echo '<input type="hidden" name="comeco" value="', $row['comeco'], '">';
+			echo '<input type="hidden" name="fim" value="', $row['fim'], '">';
+			echo '<button>', $row['id'], ' ', $row['visao'], ' ', $row['comeco'], ' ', $row['fim'], '</button>';
+			echo '</form>';
+			*/
+		}
+		echo '</table>';
+	}
+	else{
+		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico Passado</h3>';
+	}
+	echo '</section>';
+
+
+
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
 }
@@ -771,11 +861,6 @@ function listarFuncionalidades(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	$stmt2 = mysqli_prepare($db, "SELECT * FROM permissao WHERE grupo = ?");
-	mysqli_stmt_bind_param($stmt2, "i", $_GET['idgrupo']);
-	mysqli_stmt_execute($stmt2);
-	$result2 = mysqli_stmt_get_result($stmt2);
-
 	while($row = mysqli_fetch_array($result)){
 		
 		$stmt2 = mysqli_prepare($db, "SELECT * FROM permissao WHERE grupo = ? AND funcionalidade = ?");
@@ -1107,13 +1192,13 @@ function alterarIndicador($indicador, $id){
 }
 function alterarIdentidade(){
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$sql = 'UPDATE plano_estrategico SET titulo = ?, visao = ?, missao = ?, comeco = ?, fim = ?, ativo = ?, publicado = ? WHERE id = ?';
+	$sql = 'UPDATE plano_estrategico SET titulo = ?, visao = ?, missao = ?, comeco = ?, fim = ? WHERE id = ?';
 	//$comeco = date("Y-m-d", strtotime($_POST['comeco']));
 	//$fim = date("Y-m-d", strtotime($_POST['fim']));
 	$ativo = (isset($_POST['ativo']) ? $_POST['ativo'] : 0);
 	$publicado = (isset($_POST['publicado']) ? $_POST['publicado'] : 0);
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'sssssiii', $_POST['titulo'], $_POST['visao'], $_POST['missao'], $_POST['comeco'], $_POST['fim'], $ativo, $publicado, $_GET['plano_estrategico']);
+	mysqli_stmt_bind_param($stmt, 'sssssi', $_POST['titulo'], $_POST['visao'], $_POST['missao'], $_POST['comeco'], $_POST['fim'], $_GET['plano_estrategico']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
