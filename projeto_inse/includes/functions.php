@@ -692,9 +692,10 @@ function listarUsuario(){
 
 function listarPermissao(){
 
+
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	$stmt = mysqli_prepare($db, "SELECT g.grupo, f.nome_func FROM permissao as p INNER JOIN grupo as g on p.grupo = g.grupo INNER JOIN funcionalidade as f on p.funcionalidade = f.funcionalidade WHERE id = ?");
-	mysqli_stmt_bind_param($stmt, "ssi", $_GET['idpermissao']);
+	mysqli_stmt_bind_param($stmt, "i", $_GET['idpermissao']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$permissao = mysqli_fetch_array($result);
