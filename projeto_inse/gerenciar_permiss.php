@@ -17,9 +17,10 @@
 										<button type="submit" name="" style="margin-bottom: 10px; border-color: #2B8334;color: white;background: #2B8334;">Add Grupo</button>
 									</form>
 									<?php 
-
+										$default = 0;
 										$db = mysqli_connect('localhost', 'root', '', 'inse');
-										$stmt = mysqli_prepare($db, "SELECT  p.id, g.grupo FROM permissao as p INNER JOIN grupo as g on p.grupo = g.id GROUP BY g.grupo");
+										$stmt = mysqli_prepare($db, "SELECT  * from grupo WHERE empresa = ? OR empresa = ?");
+										mysqli_stmt_bind_param($stmt, "ii", $_SESSION['idempresa'], $default);
 										mysqli_stmt_execute($stmt);
 										$result = mysqli_stmt_get_result($stmt);
 									?>
@@ -46,7 +47,7 @@
 												<td></td>
 												<td></td>
 												<td>										  
-												<form action="permissao.php?idpermissao=<?php echo $row['id']?>" method="post">
+												<form action="permissao.php?idgrupo=<?php echo $row['id']?>" method="post">
 													<input type="hidden" name="">
 													<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
 												</form>

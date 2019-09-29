@@ -14,7 +14,7 @@
 								<hr>
 								Abaixo você pode alterar dados cadastrais.
 								<hr>
-								<form method="post" action="permissao.php?idpermissao=<?php echo $_GET['idpermissao']?>">
+								<form method="post" action="permissao.php?idpermissao=<?php echo $_GET['idgrupo']?>">
 									<?php include('errors.php'); ?>
 									<?php listarPermissao();
 									//$funcionalidade = utf8_encode(getFuncionalidade($_GET['idpermissao']));?>

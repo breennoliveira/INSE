@@ -46,11 +46,11 @@
         };
 
 		var chart_div = document.getElementById('curve_chart');
-		var chart = new google.visualization.PieChart();
+		var chart = new google.visualization.PieChart(chart_div);
 
 		google.visualization.events.addListener(chart, 'ready', function (chart_div) {
-        chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-        console.log(chart_div.innerHTML);
+			chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+			console.log(chart_div.innerHTML);
       });
 
 
@@ -78,7 +78,7 @@ $(document).ready(function(){
 
 	$('#print_resumo').click(function(e){
 		xepOnline.Formatter.Format('resumo', {
-			render: "download",
+			render: "newin",
 			pageWidth: "11in",
 			pageHeight: "8.5in",
 			pageMargin: ".25in"});

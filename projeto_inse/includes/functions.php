@@ -695,17 +695,16 @@ function listarUsuario(){
 
 function listarPermissao(){
 
-
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT g.grupo, f.nome_func FROM permissao as p INNER JOIN grupo as g on p.grupo = g.grupo INNER JOIN funcionalidade as f on p.funcionalidade = f.funcionalidade WHERE id = ?");
-	mysqli_stmt_bind_param($stmt, "i", $_GET['idpermissao']);
+	$stmt = mysqli_prepare($db, "SELECT * FROM grupo WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['idgrupo']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
-	$permissao = mysqli_fetch_array($result);
+	$row = mysqli_fetch_array($result);
 
 	echo '<div class="">
 		  <label>Grupo </label>
-			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="grupo" value="',$permissao['grupo'],'">
+			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="grupo" value="', $row['grupo'],'">
 		  </div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>
@@ -772,10 +771,21 @@ function listarFuncionalidades(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	while($row = mysqli_fetch_array($result)){
+	$stmt2 = mysqli_prepare($db, "SELECT * FROM permissao WHERE grupo = ?");
+	mysqli_stmt_bind_param($stmt2, "i", $_GET['idgrupo']);
+	mysqli_stmt_execute($stmt2);
+	$result2 = mysqli_stmt_get_result($stmt2);
 
+	while($row = mysqli_fetch_array($result)){
+		
+		$stmt2 = mysqli_prepare($db, "SELECT * FROM permissao WHERE grupo = ? AND funcionalidade = ?");
+		mysqli_stmt_bind_param($stmt2, "ii", $_GET['idgrupo'], $row['id']);
+		mysqli_stmt_execute($stmt2);
+		$result2 = mysqli_stmt_get_result($stmt2);
+		
 		echo "<tr><td>";
 		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
+		echo mysqli_num_rows($result2) ? "checked" : "" ;
 		echo "/>";
 		echo $row['nome_func'];
 		echo "</td></tr><br>";
