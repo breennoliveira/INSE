@@ -478,7 +478,7 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
-/*function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
+function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
 						// Array $dimensao = 0 - Econômica, 1 - Social, 2 - Ambiental, 3 - Geral
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
@@ -544,7 +544,7 @@ function listarIdentidade(){
 
 	echo "<div id='curve_chart' style='width: 900px; height: 500px'></div></div>";
 }
-*/
+
 
 
 function listarEmpresa(){
