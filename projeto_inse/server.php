@@ -3,7 +3,7 @@
 
 	if(!isset($_SESSION['idempresa'])){
 		//session has not started
-		session_start();
+		if(!isset($_SESSION)){session_start();}
 
 		if(isset($_SESSION['success_flash'])){
 		  echo '<div class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
