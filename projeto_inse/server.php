@@ -94,7 +94,7 @@
 			
 			//$senha = md5($_POST['senha']);
 			if (loginCorreto($_POST['email'], $_POST['senha'])){
-				header('location: empresa.php');
+				header('location: empresa_inicio.php');
 			}
 			else{
 				array_push($errors, "O email/senha estão errados, verifique e tente novamente");
@@ -332,7 +332,7 @@
 		  }
 		}
 
-			if(isset($_POST['alt_usuario'])) {
+		if(isset($_POST['alt_usuario'])) {
 			
 		  if (empty($_POST['email'])) { array_push($errors, "Email Social é obrigatório"); }
 		  if (empty($_POST['senha'])) { array_push($errors, "Clique no botão para gerar uma senha"); }

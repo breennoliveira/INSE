@@ -841,12 +841,11 @@ function listarUsuario(){
 		</div>
 		<div class="">
 		  	  <label>Senha</label>
-			  	  <input type="password" maxlength="100" name="senha" value="">
+			  	  <input type="password" maxlength="100" name="senha" value="',$usuario['senha'],'">
 				  	<br>
 				  	<form action="novasenha" method="post" >
 						<input type="hidden" name="">
 						<button  type="submit" class="btn btn-success" value="', generatePassword() ,'" style="border-color: #2B8334;color: white;background: #2B8334;" > Gera nova senha </button>
-						
 					</form>
 		</div>
 		<br>
@@ -856,9 +855,9 @@ function listarUsuario(){
 				', listarGrupos(),'
 			</div>
 		<br>
-		<div class="">
-		  	  <button type="submit" class="button" name="alt_usuario">Salvar</button>
-		</div>';
+			<div class="">
+				<button type="submit" class="button" name="alt_usuario">Salvar</button>
+			</div>';
 
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
