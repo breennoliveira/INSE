@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 30-Set-2019 às 00:38
+-- Generation Time: 30-Set-2019 às 00:50
 -- Versão do servidor: 5.7.26
 -- versão do PHP: 7.3.5
 
@@ -40,13 +40,14 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   UNIQUE KEY `cnpj_UNIQUE` (`cnpj`),
   KEY `ramo_empresa_idx` (`ramo`),
   KEY `endereco_empresa_idx` (`endereco`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `empresa`
 --
 
 INSERT INTO `empresa` (`id`, `razaosocial`, `nomefantasia`, `cnpj`, `ramo`, `endereco`) VALUES
+(0, 'default', 'default', '0000', 1, 4),
 (6, 'EMPRESA1 S.A.', 'Brenno Oliveira Fernandes', '96877400000159', 10, 4);
 
 -- --------------------------------------------------------
@@ -153,7 +154,8 @@ CREATE TABLE IF NOT EXISTS `grupo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `grupo` varchar(45) NOT NULL,
   `empresa` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `empresa_grupo` (`empresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
@@ -470,6 +472,12 @@ ALTER TABLE `empresa`
 --
 ALTER TABLE `estrategia`
   ADD CONSTRAINT `objetivo_estrategia` FOREIGN KEY (`objetivo`) REFERENCES `objetivo` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `grupo`
+--
+ALTER TABLE `grupo`
+  ADD CONSTRAINT `empresa_grupo` FOREIGN KEY (`empresa`) REFERENCES `empresa` (`id`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `impacto`
