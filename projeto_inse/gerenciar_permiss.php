@@ -33,7 +33,7 @@
 											<th>Grupo</th>
 											<th></th>
 											<th></th>
-											<th>Editar</th>
+											<th>Opções</th>
 											<th></th>
 										  </tr>
 										</thead>
@@ -48,13 +48,10 @@
 												<td></td>
 												<td></td>
 
-													<?php if ($row['empresa'] != 0)
-													{?>
+													<?php if ($row['empresa'] != 0){?>
 														<td>										  
-														<form action="permissao.php?idgrupo=<?php echo $row['id']?>" method="post">
-															<input type="hidden" name="">
-															<button  type="submit" name="" class="btn btn-success" style="border-color: #2B8334;color: white;background: #2B8334;" > Editar </button>
-														</form>
+														<a href="permissao.php?idgrupo=<?php echo $row['id']?>"><input type="image" title="Alterar Grupo" alt="Alterar Grupo" src="images/edit.png"></a>
+														&nbsp&nbsp<input type="image" title="Remover Grupo" alt="Remover Grupo" class="removerGrupo" src="images/delete.png" id="<?php echo $row['id']?>"></input>
 													</td>
 														</td>
 													<td>
@@ -76,8 +73,28 @@
 					</section>
 							</div>
 </div>
-<script type="text/javascript">
-				document.getElementById('ramo').value = "<?php echo $ramo ?>";
+<script>
+$(document).ready(function(){
+
+	$('.removerGrupo').click(function(){
+		var x = $(this).attr("id");
+		$.ajax({
+			type: "POST",
+			url: "includes/functions.php",
+			data: {"removerGrupo": x},
+			success:function(data){
+				console.log('success');
+				console.log(data)},
+			error:function(){
+				console.log('failed');
+			}
+			});
+		//window.location.reload();
+		//$('#teste').append(x);
+		//$('#teste').load();
+	});
+
+});
 </script>
 
 <?php  include("includes/footer.php");?>

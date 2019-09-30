@@ -6,10 +6,10 @@
 <div id="main" class="wrapper style4">
 
 				<!-- Content -->
-				<div id="content" class="container small" >
+				<div id="content" class="container2 extrasmall" >
 					<section>
 						<header class="major">
-							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
+							<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
 							<span class="byline"></span>
 								<hr>
 								Abaixo você pode alterar dados cadastrais.

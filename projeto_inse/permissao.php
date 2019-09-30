@@ -1,4 +1,4 @@
-<?php include("includes/session.php");?>
+﻿<?php include("includes/session.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
 <?php include("server.php");?>
@@ -10,11 +10,9 @@
 					<section>
 						<header class="major">
 							<h2>Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
-							<span class="byline"></span>
-								<hr>
-								Abaixo voc� pode alterar dados cadastrais.
-								<hr>
-								<form method="post" action="permissao.php?idpermissao=<?php echo $_GET['idgrupo']?>">
+							<span class="byline">Abaixo você pode alterar as permissões do grupo.</span>
+							<hr>
+								<form method="post" action="permissao.php?idgrupo=<?php echo $_GET['idgrupo']?>">
 									<?php include('errors.php'); ?>
 									<?php listarPermissao();
 									//$funcionalidade = utf8_encode(getFuncionalidade($_GET['idpermissao']));?>
@@ -25,7 +23,7 @@
 				</div>
 </div>
 <script type="text/javascript">
-				document.getElementById('grupo').value = "<?php echo $grupo ?>";
+				
 </script>
 
 <?php  include("includes/footer.php");?>

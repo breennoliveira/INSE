@@ -26,38 +26,6 @@
 				</div>
 			</div>
 
-<script type="text/javascript">
-      
-	  google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales'],
-          ['2004',  50],
-		  [, 50]
-        ]);
-
-        var options = {
-          title: 'Company Performance',
-          curveType: 'function',
-		  enableInteractivity: 'false',
-          legend: { position: 'bottom' }
-        };
-
-		var chart_div = document.getElementById('curve_chart');
-		var chart = new google.visualization.PieChart(chart_div);
-
-		google.visualization.events.addListener(chart, 'ready', function (chart_div) {
-			chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-			console.log(chart_div.innerHTML);
-      });
-
-
-        chart.draw(data, options);
-      }
-</script>
-
 <script>
 $(document).ready(function(){
 

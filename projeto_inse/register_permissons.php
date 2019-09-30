@@ -16,7 +16,7 @@
 								<h3>Grupo de permissao</h3>
 							  	<div class="">
 							  	  <label>Nome do grupo</label>
-							  	  <input type="text" style="width: 50.4%;" maxlength='100' name="grupo" value="<?php echo isset($_POST['grupo']) ? $_POST['grupo'] : '' ?>">
+							  	  <input type="text" style="width: 50.4%;" maxlength='100' id="grupo" name="grupo" value="<?php echo isset($_POST['grupo']) ? $_POST['grupo'] : '' ?>">
 							  	</div>
 								<br>
 								<hr style="border-top: 1px solid grey;">
@@ -25,14 +25,12 @@
 							  	  <label>Escolha as funcionalidades que o grupo pode ter acesso</label>
 								  <br>
 								  <br>
-								  <form action="" method="">
 								  <?php listarFuncionalidades() ?>
 							  	</div>
 								<br>
 								<div class="">
 							  	  <button type="submit" class="button" name="reg_permissions">Criar</button>
 							  	</div>
-								 </form>
 							  	<hr>
 							 </form>
 						</header>
@@ -40,8 +38,5 @@
 				</div>
 				
 </div>
-<script type="text/javascript">
-				document.getElementById('nome_func').value = "<?php echo $nome_func ?>";
-</script>
 
 <?php  include("includes/footer.php");?>

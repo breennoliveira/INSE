@@ -72,6 +72,7 @@
 
     h2 {
         font-size: 1.5em;
+        
     }
 
         h2.welcome {
@@ -85,12 +86,6 @@
 	h3 {
 		font-size: 1.25em;
 	}
-
-    .pee-section {
-
-        background-color: burlywood;
-
-    }
 
 	sub {
 		font-size: 0.8em;
@@ -561,53 +556,75 @@ select {
             vertical-align: middle;
 		}
 
-		col {
+		.c1 {
+			width:10%;
 		}
 
-			col.c1 {
-				width:10%;
-			}
+		.c2 {
+			width: 20%;
+		}
 
-			col.c2 {
-				width: 20%;
-			}
+		.c3 {
+			width: 30%;
+		}
 
-			col.c3 {
-				width: 30%;
-			}
+		.c4 {
+			width: 40%;
+		}
 
-			col.c4 {
-				width: 40%;
-			}
+		.c5 {
+			width: 50%;
+		}
 
-			col.c5 {
-				width: 50%;
-			}
+		.c6 {
+			width: 60%;
+		}
 
-			col.c6 {
-				width: 60%;
-			}
-
-			col.c7 {
-				width: 70%;
-			}
+		.c7 {
+			width: 70%;
+		}
 
     table.resumo {
         background: white;
-        border: solid black 2px;
         border-collapse: collapse;
         text-align: center;
+        font-size: 14px;
+        width:90%;
     }
-
-        table.resumo thead {
-            background: gray;
-            color: black;
-            line-height: 2em;
+        table.resumo th {
+            background-color: #f2f2f2;
+            border: 0px;
+            border-top: solid #ddd 2px;
+            text-align: center;
+            vertical-align: middle;
+            height: 80px;
         }
 
-        table.resumo th, table.resumo td {
-            border: solid black 2px;
+        table.resumo thead th {
+            background-color: #2B8334;
+            border: 1px #ddd solid;
+            color: white;
+            line-height: 2em;
             text-align: center;
+            padding-right:0.5em;
+        }
+
+        table.resumo thead th:first-child{
+            background-color: white;
+            border-top: 0px;
+            border-left: 0px;
+        }
+
+        table.resumo th:first-child{
+            border-left: solid #ddd 2px;
+        }
+
+        table.resumo th:last-child {
+            border-right: solid #ddd 2px;
+        }
+
+       table.resumo td {
+            border: solid #ddd 2px;
         }
 
             table.resumo td.highlight {
@@ -615,14 +632,56 @@ select {
                 color: white;
             }
 
-    table.pee-section {
-        border: solid 1px;
+section.pee-section {
+    border: solid 3px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    padding: 5px;
+}
+
+    .pee-section h2{
+        padding-bottom: 0.5em;
+    }
+
+    .pee-section table {
         border-collapse: collapse;
     }
 
-        table.pee-section td, table.pee-section th {
-            border: solid 1px;
+    section.pee-section tr:nth-child(odd) td {
+        background-color: #f2f2f2;
+    }
+
+        .pee-section td {
+            border: 1px solid #ddd;
+            padding: 2px;
+            background-color: #fff;
         }
+
+        section.pee-section tr:hover td{
+            background-color: #ddd;
+        }
+
+        .pee-section th {
+            background-color: #2B8334;
+            border-top: 0px;
+            border-bottom: 1px;
+            border-left: 1px solid #ddd;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            color: #fff;
+        }
+
+                .pee-section th:first-child {
+                    border-left: 0px;
+                }
+
+table.charts {
+    background-color: #fff;
+    margin: 30px 0 0 0;
+    width: 90%;
+    border: 0;
+}
 
 /* Imagens */
 
@@ -743,7 +802,8 @@ select {
         margin-left: auto;
         margin-right: auto;
         /* width: (containers) */
-        width: 90%;
+        width: 100%;
+
     }
 
         .container2.center {
@@ -794,7 +854,7 @@ select {
 
 				.wrapper.style2 .major .byline {
 					letter-spacing: normal;
-					line-height: 1.06m;
+					line-height: 1.06em;
 					text-transform: capitalize;
 					font-size: 1.4em;
 				}
@@ -811,7 +871,7 @@ select {
 
 		.wrapper.style3 {
 			padding-bottom: 6em;
-			background: #322B83;;
+			background: #322B83;
 			text-align: center;
 			color: white;
 		}
@@ -1029,6 +1089,10 @@ select {
 			#main #sidebar .major h2 {
 				font-size: 1.8em;
 			}
+
+            #sidebar {
+                margin-left: 5em;
+            }
 
 /* Footer */
 

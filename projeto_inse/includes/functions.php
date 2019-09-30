@@ -156,10 +156,10 @@ function listarPEEs(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	echo '<section class="pee-section"><h2 class="pee-section">Plano Estratégico em Vigência</h2>';
+	echo '<section class="pee-section"><h2>Plano Estratégico em Vigência</h2>';
 
 	if(mysqli_num_rows($result) > 0){
-		echo '<table class="pee-section">
+		echo '<table>
 			  <th class="center">Título</th>
 			  <th class="center">Data Inicio</th>
 			  <th class="center">Data Fim</th>
@@ -167,7 +167,7 @@ function listarPEEs(){
 
 		while($row = mysqli_fetch_array($result)){
 		
-			echo '<tr><td class="left center">', $row['titulo'], '</td><td class="center">', $row['comeco'], '</td><td class="center">', $row['fim'],'</td><td class="center"><a href=identidade.php?plano_estrategico=', $row['id'], '><input type="image" alt="Editar Plano" title="Editar Plano" src="images/edit.png"></input></a>&nbsp&nbsp<input type="image" title="Deletar Plano" alt="Deletar Plano" class="removerPlano" src="images/delete.png" id="', $row['id'], '"></input></td></tr>';
+			echo '<tr><td class="left center">', $row['titulo'], '</td><td class="center">', $row['comeco'], '</td><td class="center">', $row['fim'],'</td><td class="center"><a href=identidade.php?plano_estrategico=', $row['id'], '><input type="image" alt="Editar Plano" title="Editar Plano" src="images/edit.png"></input></a>&nbsp&nbsp<input type="image" title="Remover Plano" alt="Remover Plano" class="removerPlano" src="images/delete.png" id="', $row['id'], '"></input></td></tr>';
 
 			/*echo '<form action="identidade.php" method="post">';
 			echo '<input type="hidden" name="plano_estrategico" value="', $row['id'], '">';
@@ -183,7 +183,7 @@ function listarPEEs(){
 		echo '</table>';
 	}
 	else{
-		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico em Vigência</h3>';
+		echo '<h4>Você não possui nenhum Plano Estratégico em Vigência</h4>';
 	}
 	echo '</section><hr>';
 
@@ -192,10 +192,10 @@ function listarPEEs(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	echo '<section class="pee-section"><h2 class="pee-section">Planos Estratégicos em Preparação</h2>';
+	echo '<section class="pee-section"><h2>Planos Estratégicos em Preparação</h2>';
 
 	if(mysqli_num_rows($result) > 0){
-		echo '<table class="pee-section">
+		echo '<table>
 			  <th class="center">Título</th>
 			  <th class="center">Data Inicio</th>
 			  <th class="center">Data Fim</th>
@@ -219,7 +219,7 @@ function listarPEEs(){
 		echo '</table>';
 	}
 	else{
-		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico em Preparação</h3>';
+		echo '<h4>Você não possui nenhum Plano Estratégico em Preparação</h4>';
 	}
 	echo '</section><hr>';
 
@@ -228,10 +228,10 @@ function listarPEEs(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	echo '<section class="pee-section"><h2 class="pee-section">Planos Estratégicos Passados</h2>';
+	echo '<section class="pee-section"><h2>Planos Estratégicos Passados</h2>';
 
 	if(mysqli_num_rows($result) > 0){
-		echo '<table class="pee-section">
+		echo '<table>
 			  <th class="center">Título</th>
 			  <th class="center">Data Inicio</th>
 			  <th class="center">Data Fim</th>
@@ -255,7 +255,7 @@ function listarPEEs(){
 		echo '</table>';
 	}
 	else{
-		echo '<h3 class="pee-section">Você não possui nenhum Plano Estratégico Passado</h3>';
+		echo '<h4>Você não possui nenhum Plano Estratégico Passado</h4>';
 	}
 	echo '</section>';
 
@@ -573,12 +573,13 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
+	$geral = Array('','','','');
 	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
 	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
 
-	echo "<div id='resumo' name='resumo'><header class='major'><h2>Resumo de Sustentabilidade do Plano</h2></header>
+	echo "<div id='resumo' name='resumo'><header class='major'><h2>Resumo de Sustentabilidade do Plano</h2></header><hr>
 		  <table class='resumo'><tr><thead><th colspan='2'></th><th colspan='3'>Impacto nas dimensões da Sustentabilidade</th><th>Triple Bottom Line</th><th>Indicador de Sustentabilidade por Ação do PEE</th></thead></tr>
-		  <tr><th>Perspectivas</th><th>Ações</th><th>A-Econômica</th><th>B-Social</th><th>C-Ambiental</th><th>D-Grau de Contribuição</th><th>AxBxCxD/10^7</th></tr>";
+		  <tr><th class='c1'>Perspectivas</th><th class='c4'>Ações</th><th class='c1'>A-Econômica</th><th class='c1'>B-Social</th><th class='c1'>C-Ambiental</th><th class='c1'>D-Grau de Contribuição</th><th class='c1'>AxBxCxD/10^7</th></tr>";
 
 	for($i=0;$i<4;$i++){
 
@@ -622,6 +623,8 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		$row = mysqli_fetch_array($result);
 		
 		echo "<td class='highlight'>", (INT)$row['impacto'], "</td>";
+
+		$geral[$i] = (INT)$row['impacto'];
 		
 	}
 	
@@ -632,7 +635,80 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	
 	echo "<td></td><td class='highlight'>", $row['impacto'], "</td></tr></table>";
 
-	echo "<div id='curve_chart' style='width: 900px; height: 500px'></div></div>";
+	$geral[3] = $row['impacto'];
+
+	$titles = Array('Impacto na Sustentabilidade Economica', 'Impacto na Sustentabilidade Social', 'Impacto na Sustentabilidade Ambiental', 'Impacto na Sustentabilidade Geral');
+	$i=0;
+	/*echo "<div class='grid-container'>";
+	echo "<div class='grid-item'><div id='curve_chart0' style='width: 200px; height: 200px'></div></div>";
+	echo "<div class='grid-item'><div id='curve_chart1' style='width: 200px; height: 200px'></div></div>";
+	echo "<div class='grid-item'><div id='curve_chart2' style='width: 200px; height: 200px'></div></div>";
+	echo "<div class='grid-item'><div id='curve_chart3' style='width: 200px; height: 200px'></div></div>";
+	echo "</div>";*/
+	echo "<table class='charts'><tr>";
+	echo "<td><div id='curve_chart0' style='width: 240px; height: 240px'></div></td>";
+	echo "<td><div id='curve_chart1' style='width: 240px; height: 240px'></div></td>";
+	echo "<td><div id='curve_chart2' style='width: 240px; height: 240px'></div></td>";
+	echo "<td><div id='curve_chart3' style='width: 240px; height: 240px'></div></td>";
+	echo "</tr></table>";
+
+	for($i = 0;$i<4;$i++){
+		$porDimensao = 300 - (INT)$geral[$i];
+		$porAcao = 8.6 - (INT)$geral[$i];
+		echo"
+		<script type='text/javascript'>
+		  google.charts.load('current', {'packages':['corechart']});
+		  google.charts.setOnLoadCallback(drawChart);
+
+		  function drawChart() {
+
+			var data = google.visualization.arrayToDataTable([
+			  ['Year', 'Sales'],
+			  ['Pontuação', ", $geral[$i], "],
+			  ['', ", $i == 3 ? $porAcao : $porDimensao, "]
+			  ]);
+
+			var options = {
+			  title: '", $titles[$i], "',
+			  curveType: 'function',
+			  enableInteractivity: 'false',
+			  legend: 'none',
+			  pieStartAngle: 180,
+			  chartArea: {left: 60, width: '100%'},
+			  slices: {
+				0: { color: '#2B8334' },
+				1: { color: 'red', textStyle: {color: 'red'} }
+			   }
+			};
+		
+
+			var chart_div = document.getElementById('curve_chart'.concat('", $i, "'));
+			var chart = new google.visualization.PieChart(chart_div);
+
+			google.visualization.events.addListener(chart, 'ready', function () {
+				chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';
+		  });
+
+			chart.draw(data, options);
+		  }
+		</script>";
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	return $geral;
 }
 
 
@@ -749,23 +825,23 @@ function listarUsuario(){
 
 	echo '<div class="">
 		  <label>Nome</label>
-			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="nome" value="',$usuario['nome'],'">
+			  	   <input type="text" maxlength="255" name="nome" value="',$usuario['nome'],'">
 		  </div>
 		  <div class="">
 			  <label>Sobrenome</label>
-			 	  <input type="text" style="width: 50.4%;" maxlength="255" name="sobrenome" value="',$usuario['sobrenome'],'">
+			 	  <input type="text"  maxlength="255" name="sobrenome" value="',$usuario['sobrenome'],'">
 		 </div>
 		<div class="">
 		  	  <label>Genero</label>
-			  	  <input type="text" style="width: 50.4%;"maxlength="255" name="genero" value="',$usuario['genero'],'">
+			  	  <input type="text" maxlength="255" name="genero" value="',$usuario['genero'],'">
 		</div>
 		<div class="">
 		  	  <label>Email</label>
-			  	  <input type="email"maxlength="100" style="width: 50.4%; name="email" value="',$usuario['email'],'">
+			  	  <input type="email" maxlength="100" name="email" value="',$usuario['email'],'">
 		</div>
 		<div class="">
 		  	  <label>Senha</label>
-			  	  <input type="text" style="width: 50.4%;"maxlength="100" name="senha" value="">
+			  	  <input type="password" maxlength="100" name="senha" value="">
 				  	<br>
 				  	<form action="novasenha" method="post" >
 						<input type="hidden" name="">
@@ -800,7 +876,7 @@ function listarPermissao(){
 
 	echo '<div class="">
 		  <label>Grupo </label>
-			  	   <input type="text" style="width: 50.4%;"maxlength="255" name="grupo" value="', $row['grupo'],'">
+			  	   <input type="text" style="width: 50.4%;"maxlength="255" id="grupo" name="grupo" value="', $row['grupo'],'">
 		  </div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>
@@ -873,10 +949,17 @@ function listarFuncionalidades(){
 		mysqli_stmt_bind_param($stmt2, "ii", $_GET['idgrupo'], $row['id']);
 		mysqli_stmt_execute($stmt2);
 		$result2 = mysqli_stmt_get_result($stmt2);
-		
+		$post = "";
+		if(isset($_POST['nome_func'])){
+			for($i=0;$i<count($_POST['nome_func']);$i++){
+				if($_POST['nome_func'][$i] == $row['id']){
+					$post = "checked";
+				}
+			}
+		}
 		echo "<tr><td>";
 		echo "<input type='checkbox' name='nome_func[]'  value='", $row['id'], "'";
-		echo mysqli_num_rows($result2) ? "checked" : "" ;
+		echo mysqli_num_rows($result2) ? "checked" : $post ;
 		echo "/>";
 		echo $row['nome_func'];
 		echo "</td></tr><br>";
@@ -940,9 +1023,9 @@ function inserirGrupo($grupo){
 	
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$sql = 'INSERT INTO grupo (grupo) VALUES (?)';
+	$sql = 'INSERT INTO grupo (grupo, empresa) VALUES (?, ?)';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $grupo);
+	mysqli_stmt_bind_param($stmt, "si", $grupo, $_SESSION['idempresa']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
@@ -1151,34 +1234,20 @@ function alterarPermissao(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 	
-	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
-	
+	$sql = 'UPDATE grupo SET grupo = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $_POST['grupo']);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-	$row = mysqli_fetch_array($result);
-
-	$sql = 'SELECT * FROM funcionalidade WHERE funcionalidade = ?';
-	
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $_POST['funcionalidade']);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-	$row = mysqli_fetch_array($result);
-	
-	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idgrupo']);
+	mysqli_stmt_bind_param($stmt, 'si', $_POST['grupo'], $_GET['idgrupo']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 
-	$sql = 'UPDATE permissao SET funcionalidade = ?, grupo = ? WHERE id = ?';
+	$sql = 'DELETE FROM permissao WHERE grupo = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'ssi', $_POST['funcionalidade'], $_POST['grupo'], $_GET['idpermissao']);
+	mysqli_stmt_bind_param($stmt, 'i', $_GET['idgrupo']);
 	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_close($stmt);
-	
+
+	foreach($_POST['nome_func'] as $func){
+		inserirPermissao($func[0],$_GET['idgrupo']);
+	}
 	mysqli_close($db);
 }
 
@@ -1591,6 +1660,25 @@ if(isset($_POST['removerPlano'])){ //Remover Plano chamado por Ajax.. Nao achei 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
 	$sql = 'DELETE FROM plano_estrategico WHERE id = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'i', $id);
+	mysqli_stmt_execute($stmt);
+	echo mysqli_error($db);
+	$result = mysqli_stmt_close($stmt);
+	mysqli_close($db);
+
+}
+
+if(isset($_POST['removerGrupo'])){ //Remover Plano chamado por Ajax.. Nao achei um jeito melhor de fazer..
+
+	$id = $_POST['removerGrupo'];
+
+	echo $id;
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+
+	$sql = 'DELETE FROM grupo WHERE id = ?';
 	
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
 	mysqli_stmt_bind_param($stmt, 'i', $id);
