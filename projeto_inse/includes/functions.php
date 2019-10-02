@@ -160,10 +160,10 @@ function listarPEEs(){
 
 	if(mysqli_num_rows($result) > 0){
 		echo '<table>
-			  <th class="center">Título</th>
-			  <th class="center">Data Inicio</th>
-			  <th class="center">Data Fim</th>
-			  <th class="center">Opções</th>';
+			  <th class="center c5">Título</th>
+			  <th class="center c2">Data Inicio</th>
+			  <th class="center c2">Data Fim</th>
+			  <th class="center c1">Opções</th>';
 
 		while($row = mysqli_fetch_array($result)){
 		
@@ -196,10 +196,10 @@ function listarPEEs(){
 
 	if(mysqli_num_rows($result) > 0){
 		echo '<table>
-			  <th class="center">Título</th>
-			  <th class="center">Data Inicio</th>
-			  <th class="center">Data Fim</th>
-			  <th class="center">Opções</th>';
+			  <th class="center c5">Título</th>
+			  <th class="center c2">Data Inicio</th>
+			  <th class="center c2">Data Fim</th>
+			  <th class="center c1">Opções</th>';
 
 		while($row = mysqli_fetch_array($result)){
 		
@@ -232,10 +232,10 @@ function listarPEEs(){
 
 	if(mysqli_num_rows($result) > 0){
 		echo '<table>
-			  <th class="center">Título</th>
-			  <th class="center">Data Inicio</th>
-			  <th class="center">Data Fim</th>
-			  <th class="center">Opções</th>';
+			  <th class="center c5">Título</th>
+			  <th class="center c2">Data Inicio</th>
+			  <th class="center c2">Data Fim</th>
+			  <th class="center c1">Opções</th>';
 
 		while($row = mysqli_fetch_array($result)){
 		
@@ -257,7 +257,7 @@ function listarPEEs(){
 	else{
 		echo '<h4>Você não possui nenhum Plano Estratégico Passado</h4>';
 	}
-	echo '</section>';
+	echo '</section><hr>';
 
 
 
@@ -1692,25 +1692,24 @@ if(isset($_POST['publicar_pee'])){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
-	$true = true;
-	$false = false;
+	$true = 1;
+	$false = 0;
 
-	echo $_POST['publicar_pee'];
-
-	$sql = 'SELECT * FROM plano_estrategico WHERE empresa = ? AND publicado = ?';
+	$sql = 'SELECT * FROM plano_estrategico WHERE empresa = ? AND publicado = ? AND ativo = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "ii", $_SESSION['idempresa'], $true);
+	mysqli_stmt_bind_param($stmt, "iii", $_POST['idempresa'], $true, $true);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	if(mysqli_num_rows($result) != 0){
-	
+	echo mysqli_num_rows($result);
+
+	if(mysqli_num_rows($result) != 0){	
 		$row = mysqli_fetch_assoc($result);
-		
+		echo $row['id'];
 		$sql = 'UPDATE plano_estrategico SET publicado = ?, ativo = ? WHERE id = ?';
 	
 		$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-		mysqli_stmt_bind_param($stmt, 'iii', $true, $false, $_GET['plano_estrategico']);
+		mysqli_stmt_bind_param($stmt, 'iii', $true, $false, $row['id']);
 		mysqli_stmt_execute($stmt);
 		$result = mysqli_stmt_close($stmt);
 

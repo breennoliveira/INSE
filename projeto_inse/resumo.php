@@ -31,9 +31,11 @@ $(document).ready(function(){
 
 	$('#publicar').click(function(e){
 		var x = "<?php echo $_GET['plano_estrategico'] ?>";  // Passa o id do plano estrategico, nao estava conseguindo acessar pelo functions.php
+		var idempresa = "<?php echo $_SESSION['idempresa'] ?>";
 		$.ajax({
           url: "includes/functions.php",
-		  data: { publicar_pee: x },
+		  data: { publicar_pee: x,
+				  idempresa: idempresa},
           type: "POST",
 		  success:function(data){
 				console.log('success');

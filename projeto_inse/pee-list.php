@@ -7,7 +7,7 @@
 	<div id="main" class="wrapper style4">
 			<div id="content" class="container2 small">
 				<header class="major">
-					<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
+					<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2><hr>
 				<?php if(possuiPEECriado() == 0) : ?>
 					<span class="byline welcome">Você ainda não possui nenhum Plano Estratégico</span>
 				</header>
@@ -16,7 +16,7 @@
 				<?php else : ?>
 				</header>
 					<?php listarPEEs()?>
-					<div align="center"><a href="identidade.php?plano_estrategico=new">Novo Plano Estratégico</a></div>
+					<div align="center"><a class="alert-link" href="identidade.php?plano_estrategico=new">Novo Plano Estratégico</a></div>
 				<?php endif ?>
 			</div>
 	</div>
