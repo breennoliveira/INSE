@@ -831,7 +831,7 @@ function listarUsuario(){
 			  <label>Sobrenome</label>
 			 	  <input type="text"  maxlength="255" name="sobrenome" value="',$usuario['sobrenome'],'">
 		 </div>
-		<div class="">
+		 <div class="">
 		  	  <label>Genero</label>
 			  	  <input type="text" maxlength="255" name="genero" value="',$usuario['genero'],'">
 		</div>
@@ -842,22 +842,17 @@ function listarUsuario(){
 		<div class="">
 		  	  <label>Senha</label>
 			  	  <input type="password" maxlength="100" name="senha" value="',$usuario['senha'],'">
-				  	<br>
-				  	<form action="novasenha" method="post" >
-						<input type="hidden" name="">
-						<button  type="submit" class="btn btn-success" value="', generatePassword() ,'" style="border-color: #2B8334;color: white;background: #2B8334;" > Gera nova senha </button>
-					</form>
 		</div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>
 			<div class="">
 				<label>Grupo de acesso</label><br>
 				', listarGrupos(),'
-			</div>
+		</div>
 		<br>
-			<div class="">
-				<button type="submit" class="button" name="alt_usuario">Salvar</button>
-			</div>';
+		<div class="">
+				<button type="submit" class="button" name="alt_usuario" >Salvar</button>
+		</div>';
 
 	$result = mysqli_stmt_close($stmt);
 	mysqli_close($db);
