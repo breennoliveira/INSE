@@ -5,9 +5,11 @@
 
 <!-- Main -->
 	<div id="main" class="wrapper style4">
-			<div id="content" class="container2 small">
+		<div class="row">
+			<?php include("includes/planos_sidebar.php");?>
+				<div id="content" class="container2 small" style="margin-left: 80px;">
 				<header class="major">
-					<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2><hr>
+					<h2 class="welcome">PLANOS ESTRATÉGICOS</h2><hr>
 				<?php if(possuiPEECriado() == 0) : ?>
 					<span class="byline welcome">Você ainda não possui nenhum Plano Estratégico</span>
 				</header>
@@ -16,9 +18,9 @@
 				<?php else : ?>
 				</header>
 					<?php listarPEEs()?>
-					<div align="center"><a class="alert-link" href="identidade.php?plano_estrategico=new">Novo Plano Estratégico</a></div>
-				<?php endif ?>
-			</div>
+					<?php endif ?>
+			    </div>
+		</div>	
 	</div>
 
 <script>
