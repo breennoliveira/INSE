@@ -17,7 +17,7 @@
 									<span class="byline">Utilize o formulário abaixo para cadastrar os objetivos presentes no plano estratégico empresarial.</span>
 								</header>
 								<form method='post' name='reg_objetivo'>
-									<?php include('errors.php'); ?>
+									<?php include('errors.php'); calcularIndicadores();?>
 							  		<?php $i = listarObjetivosnew()?>
 									<div class="clearfix">
 										<input type="button" class="button small" id="add_objetivo" value="Novo Objetivo"></input>
@@ -73,7 +73,7 @@ $(document).ready(function(){
           url: "includes/functions.php",
 		  data: { removerObjetivo: x },
           type: "POST"});
-		//$('.objetivos_input').append(x);
+		window.location.reload();
 		
     });
 

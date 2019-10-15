@@ -679,9 +679,13 @@ section.pee-section {
 table.charts {
     background-color: #fff;
     margin: 30px 0 0 0;
-    width: 90%;
+    width: 100%;
     border: 0;
 }
+
+    table.charts td {
+        padding-left: 70px;
+    }
 
 /* Imagens */
 

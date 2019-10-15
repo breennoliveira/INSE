@@ -17,7 +17,7 @@
 									<span class="byline">Utilize o formulário abaixo para cadastrar as ações estratégicas relacionadas ao seguinte objetivo:</span>
 								</header>
 								<form method="post" name="reg_estrategia">
-									<?php include('errors.php'); ?>
+									<?php include('errors.php'); calcularIndicadores();?>
 							  		<?php $count = listarEstrategias($_GET['objetivo'])?>
 									<div class="clearfix">
 									</div>
@@ -56,6 +56,7 @@ $(document).ready(function(){
           url: "includes/functions.php",
 		  data: { removerEstrategia: x },
           type: "POST"});
+		window.location.reload();
 		//$('.objetivos_input').append(x);
 		count--;
     });
