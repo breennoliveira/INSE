@@ -568,11 +568,35 @@ function listarIdentidade(){
 	mysqli_close($db);
 }
 
+function listarPesquisa(){
+	
+	if (!isset($_POST['nome']) || empty($_POST['nome']) || strlen($_POST['nome']) < 3){return ;}
+
+	$nome = "%".$_POST['nome']."%";
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE nomefantasia LIKE ?");
+	mysqli_stmt_bind_param($stmt, "s", $nome);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_all($result);
+
+	 foreach ($row as $empresa){
+		if($empresa[3] != '0000'){
+			echo $empresa[1], $empresa[2], $empresa[4];
+		}
+	 }
+
+}
+
 function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral
 						// Array $dimensao = 0 - Econômica, 1 - Social, 2 - Ambiental, 3 - Geral
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
+	$true = 1;
+	$false = 0;
 	$geral = Array('','','','');
 	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
 	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
@@ -633,7 +657,7 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	$result = mysqli_stmt_get_result($stmt);
 	$row = mysqli_fetch_array($result);
 
-	$geral[3] = (INT)$row['impacto'];
+	$geral[3] = (FLOAT)$row['impacto'];
 	
 	echo "<td></td><td class='highlight'>", $row['impacto'], "</td></tr></table>";
 
@@ -647,8 +671,9 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	echo "</div>";*/
 	echo "<table class='charts'><tr>";
 	echo "<td><div id='curve_chart0'></div></td>";
-	echo "<td><div id='curve_chart1'></div></td>";
-	echo "</tr></table>";
+	echo "<td><div id='curve_chart1'></div></td></tr>";
+	echo "<tr><td colspan='2' class='center'><div id='line_chart0'></div></td>";
+	echo "</tr></table></div>";
 
 	$porAcao = 8.1 - (INT)$row['impacto'];
 	echo"
@@ -670,8 +695,8 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 			enableInteractivity: 'false',
 			pieStartAngle: 180,
 			legend: 'none',
-			width: 400,
-			height: 320,
+			width: 380,
+			height: 300,
 			slices: {
 			0: { color: '#2B8334' },
 			1: { color: 'red', textStyle: {color: 'red'} }
@@ -710,8 +735,8 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 			enableInteractivity: 'false',
 			pieStartAngle: 180,
 			legend: 'bottom',
-			width: 400,
-			height: 320,
+			width: 380,
+			height: 300,
 			slices: {
 			0: { color: '#2B8334' },
 			1: { color: '#322B83' }
@@ -721,6 +746,73 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 
 		var chart_div = document.getElementById('curve_chart0');
 		var chart = new google.visualization.PieChart(chart_div);
+
+		google.visualization.events.addListener(chart, 'ready', function () {
+			chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';
+		});
+
+		chart.draw(data, options);
+		}
+	</script>";
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND publicado = ? ORDER BY fim ASC");
+	mysqli_stmt_bind_param($stmt, "ii", $_SESSION['idempresa'], $true);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_all($result);
+
+	
+
+	echo"
+	<script type='text/javascript'>
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Data');
+		data.addColumn('number', 'Impacto Geral');
+		data.addColumn({type: 'number', role: 'annotation'});";
+
+	$flag = 0;
+
+	foreach ($row as $plano) {
+		
+		$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = ? AND dimensao = ?");
+		mysqli_stmt_bind_param($stmt, "iss", $plano[0], $perspectiva_bsc[4], $dimensao[3]);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+		$row2 = mysqli_fetch_array($result);
+
+		if ($plano[6] == 1){
+			echo "data.addRows([['Plano em Vigor (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4) ,")', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
+		}else{
+			if ($plano[0] == $_GET['plano_estrategico']){
+				$flag = 1;
+				echo "data.addRows([['Plano Atual (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), ")', ", $geral[3], ", ", $geral[3], "]]);";
+			}else{
+				echo "data.addRows([['", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), "', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
+			}
+		}
+	}
+
+	if (!$flag){
+		echo "data.addRows([['Plano Atual', ", $geral[3], ", ", $geral[3], "]]);";
+	}
+	
+	echo "var options = {
+			title: 'Impacto ao Longo do Tempo',
+			enableInteractivity: 'false',
+			legend: 'bottom',
+			width: 800,
+			height: 420,
+			vAxis: {ticks: [0, 0.3, 0.8, 1.2, 2.4, 3.6, 5.4, 8.1]},
+		};
+		
+
+		var chart_div = document.getElementById('line_chart0');
+		var chart = new google.visualization.LineChart(chart_div);
 
 		google.visualization.events.addListener(chart, 'ready', function () {
 			chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';

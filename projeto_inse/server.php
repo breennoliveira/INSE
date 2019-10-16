@@ -376,5 +376,11 @@
 		  }
 		}
 
+		if (isset($_POST['pesquisar'])) {
+			
+			if (empty($_POST['nome'])) { array_push($errors, "Digite um nome para efetuar a pesquisa.");}
+			if (strlen($_POST['nome']) < 3) {array_push($errors, "O nome precisa ter no mínimo 3 letras.");}
+		}
+
 	}
 ?>
