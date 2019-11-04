@@ -1,4 +1,8 @@
-﻿<?php require "includes/functions.php";
+﻿<?php 
+		
+	$errors = array(); 
+
+	require "includes/functions.php";
 //server.php é usado para validação da campos, e identificar qual ação será feita insert/update
 
 	if(!isset($_SESSION['idempresa'])){
@@ -14,8 +18,6 @@
 		  echo '<div class="bg-danger"><p class=" text-center">'.$_SESSION['error_flash'].'</p></div>';
 		  unset($_SESSION['error_flash']);
 		}
-
-		$errors = array(); 
 
 		// connect to the database
 		$db = mysqli_connect('localhost', 'root', '', 'inse');

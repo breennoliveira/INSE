@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //functions.php é usado para insert/select/update/remove, ou seja, tudo que tiver a ver com banco de dados
 //https://www.geradorcnpj.com/script-validar-cnpj-php.htm
 // CNPJ Stuff
@@ -570,7 +570,13 @@ function listarIdentidade(){
 
 function listarPesquisa(){
 	
-	if (!isset($_POST['nome']) || empty($_POST['nome']) || strlen($_POST['nome']) < 3){return ;}
+	if (!isset($_POST['nome']) || empty($_POST['nome']) || strlen($_POST['nome']) < 3){
+		
+		echo "<div class='alert alert-danger alert-dismissible' role='alert'>Valor de pesquisa inválido!
+	   <button type='button' class='close' data-dismiss='alert' aria-label='Fechar'><span aria-hidden='true'>&times;</span></button></div>";
+		
+		return ;
+		}
 
 	$nome = "%".$_POST['nome']."%";
 
@@ -582,11 +588,23 @@ function listarPesquisa(){
 
 	$row = mysqli_fetch_all($result);
 
+	echo "<section class='pee-section'><table><tr><th class='center'>Razão Social</th><th class='center'>Nome Fantasia</th><th class='center'>Ramo de Atuação</th></tr>";
+
 	 foreach ($row as $empresa){
 		if($empresa[3] != '0000'){
-			echo $empresa[1], $empresa[2], $empresa[4];
+			
+			$stmt = mysqli_prepare($db, "SELECT * FROM ramo_atuacao WHERE id = ?");
+			mysqli_stmt_bind_param($stmt, "i", $empresa[4]);
+			mysqli_stmt_execute($stmt);
+			$result = mysqli_stmt_get_result($stmt);
+			
+			$row2 = mysqli_fetch_array($result);
+
+			echo "<tr><td>", $empresa[1], "</td><td>", $empresa[2], "</td><td>", utf8_decode($row2['atividade']), "</td></tr>";
 		}
 	 }
+
+	 echo "</table></section>";
 
 }
 
@@ -785,11 +803,14 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		$result = mysqli_stmt_get_result($stmt);
 		$row2 = mysqli_fetch_array($result);
 
+		if ($plano[0] == $_GET['plano_estrategico']){
+			$flag = 1;
+		}
+
 		if ($plano[6] == 1){
 			echo "data.addRows([['Plano em Vigor (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4) ,")', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
 		}else{
 			if ($plano[0] == $_GET['plano_estrategico']){
-				$flag = 1;
 				echo "data.addRows([['Plano Atual (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), ")', ", $geral[3], ", ", $geral[3], "]]);";
 			}else{
 				echo "data.addRows([['", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), "', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
