@@ -569,8 +569,11 @@ function listarIdentidade(){
 }
 
 function listarPesquisa(){
-	
-	if (!isset($_POST['nome']) || empty($_POST['nome']) || strlen($_POST['nome']) < 3){
+	if (!isset($_POST['nome'])){
+		return ;
+	}
+
+	if (empty($_POST['nome']) || strlen($_POST['nome']) < 3){
 		
 		echo "<div class='alert alert-danger alert-dismissible' role='alert'>Valor de pesquisa inválido!
 	   <button type='button' class='close' data-dismiss='alert' aria-label='Fechar'><span aria-hidden='true'>&times;</span></button></div>";
