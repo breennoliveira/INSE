@@ -22,21 +22,21 @@
 												{
 														if ($r == 7)
 														{
-															echo '<li><a href=identidade.php?plano_estrategico="'. $_GET['plano_estrategico'] .'">Identidade Organizacional</a></li>';
+															echo '<li><a href=identidade.php?plano_estrategico='. $_GET['plano_estrategico'] .'>Identidade Organizacional</a></li>';
 											
 														}
 														if ($r == 8)
 														{
-															echo '<li><a href=objetivos.php?plano_estrategico="'. $_GET['plano_estrategico']. '">Plano Estratégico</a></li>';
+															echo '<li><a href=objetivos.php?plano_estrategico='. $_GET['plano_estrategico']. '>Plano Estratégico</a></li>';
 											
 														}
 
 														if ($r == 9)
 														{
-															echo '<li><a href=resumo?plano_estrategico="'. $_GET['plano_estrategico'] .'">Resumo de Sustentabilidade</a></li>';
+															echo '<li><a href=resumo?plano_estrategico='. $_GET['plano_estrategico'] .'>Resumo de Sustentabilidade</a></li>';
 												
 														}
-												}												
+												}
 									}
 									?>									
 								</ul>

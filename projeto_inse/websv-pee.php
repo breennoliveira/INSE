@@ -28,7 +28,6 @@
 		}
 	}
 
-
 	$json = $array;
 	echo json_encode($json, JSON_UNESCAPED_UNICODE);
 	/* disconnect from the db */

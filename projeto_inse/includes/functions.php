@@ -591,7 +591,7 @@ function listarPesquisa(){
 
 	$row = mysqli_fetch_all($result);
 
-	echo "<section class='pee-section'><table><tr><th class='center'>Razão Social</th><th class='center'>Nome Fantasia</th><th class='center'>Ramo de Atuação</th></tr>";
+	echo "<section class='pee-section'><table><tr><th class='center'>Razão Social</th><th class='center'>Nome Fantasia</th><th class='center'>Ramo de Atuação</th><th class='center'>Opções</th></tr>";
 
 	 foreach ($row as $empresa){
 		if($empresa[3] != '0000'){
@@ -603,12 +603,54 @@ function listarPesquisa(){
 			
 			$row2 = mysqli_fetch_array($result);
 
-			echo "<tr><td>", $empresa[1], "</td><td>", $empresa[2], "</td><td>", utf8_decode($row2['atividade']), "</td></tr>";
+			echo "<tr><td>", $empresa[1], "</td><td>", $empresa[2], "</td><td>", utf8_decode($row2['atividade']), "</td><td class='center'><a href=detalhes.php?empresa=", $empresa[0], "><input type='image' alt='Editar Plano' title='Editar Plano' src='images/information.png'></input></a></td></tr>";
 		}
 	 }
 
-	 echo "</table></section>";
+	 echo "</table></section><hr>";
 
+}
+
+function listarDetalhesEmpresa(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse') or die(mysqli_error($db));
+	$stmt = mysqli_prepare($db, "SELECT * FROM empresa WHERE id = ?");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['empresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$empresa = mysqli_fetch_array($result);
+
+	echo "<header class='major'><h2 class='welcome'>", $empresa['nomefantasia'], "</h2>";
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND ativo = true");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['empresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	if (mysqli_num_rows($result) == 0){
+		echo "<br><label>Essa empresa não possúi nada públicado ainda!</label>";
+		return;
+	}
+
+	echo "</header>";
+
+	$plano = mysqli_fetch_array($result);
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = 'Geral' AND dimensao = 'Geral'");
+	mysqli_stmt_bind_param($stmt, "i", $plano['id']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$impacto = mysqli_fetch_array($result);
+
+
+	echo "Plano em Execução: ", $plano['titulo'], "<br>";
+	echo "Visão do Plano: ", $plano['visao'], "<br>";
+	echo "Missão do Plano: ", $plano['missao'], "<br>";
+	echo "Impacto Geral: ", $impacto['impacto'], "<br>";
+	
+	return;
 }
 
 function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 1 - Clientes, 2 - Processos Internos, 3 - Aprendizado e Crescimento, 4 - Geral

@@ -790,10 +790,6 @@ table.charts {
 			float: right;
 		}
 
-        button.button.small.pesquisa {
-            display: inline-block;
-        }
-
 		.clearfix {
 		  overflow: auto;
 		}

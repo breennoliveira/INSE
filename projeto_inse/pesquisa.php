@@ -14,7 +14,9 @@
 						<?php include('errors.php'); ?>
 						<form method="post" id="pesquisar" name="pesquisar" action="pesquisa.php">
 							<label>Nome da Empresa</label>
-							<input type="text" class="btnlado" id="nome" name="nome"><button type="submit" class="button small" name="">Enviar</button>
+							<input type="text" class="btnlado" id="nome" name="nome">
+								<button type="submit" class="button small" name="">Enviar</button>
+							</input>
 						</form>
 						<div id="resultado"><?php listarPesquisa() ?></div>
 					</section>
