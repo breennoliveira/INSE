@@ -642,13 +642,174 @@ function listarDetalhesEmpresa(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
-	$impacto = mysqli_fetch_array($result);
+	$geral = mysqli_fetch_array($result);
 
+	$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = 'Geral' AND dimensao = 'Economica'");
+	mysqli_stmt_bind_param($stmt, "i", $plano['id']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$economica = mysqli_fetch_array($result);
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = 'Geral' AND dimensao = 'Social'");
+	mysqli_stmt_bind_param($stmt, "i", $plano['id']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$social = mysqli_fetch_array($result);
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = 'Geral' AND dimensao = 'Ambiental'");
+	mysqli_stmt_bind_param($stmt, "i", $plano['id']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$ambiental = mysqli_fetch_array($result);
 
 	echo "Plano em Execução: ", $plano['titulo'], "<br>";
 	echo "Visão do Plano: ", $plano['visao'], "<br>";
 	echo "Missão do Plano: ", $plano['missao'], "<br>";
-	echo "Impacto Geral: ", $impacto['impacto'], "<br>";
+	echo "Impacto Geral: ", $geral['impacto'], "<br>";
+
+	echo "<table class='charts'><tr><th class='center'>Distribuição entre Dimensões de Sustentabilidade</th><th class='center'>Nota de Sustentabilidade Geral</th></tr><tr>";
+	echo "<td class='center'><div id='curve_chart0'></div></td>";
+	echo "<td class='center'><div id='curve_chart1'></div></td></tr>";
+	echo "<tr><th colspan='2' class='center'>Impacto na Sustentabilidade ao Longo do Tempo</th></tr><tr><td colspan='2' class='center'><div id='line_chart0'></div></td>";
+	echo "</tr></table></div>";
+
+	$porAcao = 8.1 - (INT)$geral['impacto'];
+	echo"
+	<script type='text/javascript'>
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+		var data = google.visualization.arrayToDataTable([
+			['', ''],
+			['Impacto Geral', ", $geral['impacto'], "],
+			['', ", $porAcao, "]
+			]);
+
+		var options = {
+			curveType: 'function',
+			enableInteractivity: 'false',
+			pieStartAngle: 180,
+			legend: 'none',
+			width: 380,
+			height: 300,
+			slices: {
+			0: { color: '#2B8334' },
+			1: { color: 'red', textStyle: {color: 'red'} }
+			}
+		};
+		
+
+		var chart_div = document.getElementById('curve_chart1');
+		var chart = new google.visualization.PieChart(chart_div);
+
+		google.visualization.events.addListener(chart, 'ready', function () {
+			chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';
+		});
+
+		chart.draw(data, options);
+		}
+	</script>";
+
+	echo"
+	<script type='text/javascript'>
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+		var data = google.visualization.arrayToDataTable([
+			['Dimensao', 'Impacto'],
+			['Economica', ", $economica['impacto'], "],
+			['Social', ", $social['impacto'], "],
+			['Ambiental', ", $ambiental['impacto'], "]
+			]);
+
+		var options = {
+			curveType: 'function',
+			enableInteractivity: 'false',
+			pieStartAngle: 180,
+			legend: 'bottom',
+			width: 380,
+			height: 300,
+			slices: {
+			0: { color: '#2B8334' },
+			1: { color: '#322B83' }
+			}
+		};
+		
+
+		var chart_div = document.getElementById('curve_chart0');
+		var chart = new google.visualization.PieChart(chart_div);
+
+		google.visualization.events.addListener(chart, 'ready', function () {
+			chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';
+		});
+
+		chart.draw(data, options);
+		}
+	</script>";
+
+	$stmt = mysqli_prepare($db, "SELECT * FROM plano_estrategico WHERE empresa = ? AND publicado = 1 ORDER BY fim ASC");
+	mysqli_stmt_bind_param($stmt, "i", $_GET['empresa']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+
+	$row = mysqli_fetch_all($result);
+
+	echo"
+	<script type='text/javascript'>
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Data');
+		data.addColumn('number', 'Impacto Geral');
+		data.addColumn({type: 'number', role: 'annotation'});";
+
+	foreach ($row as $plano) {
+		
+		$stmt = mysqli_prepare($db, "SELECT * FROM impacto WHERE plano_estrategico = ? AND perspectiva_bsc = 'Geral' AND dimensao = 'Geral'");
+		mysqli_stmt_bind_param($stmt, "i", $plano[0]);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
+		$row2 = mysqli_fetch_array($result);
+
+		if ($plano[6] == 1){
+			echo "data.addRows([['Plano em Execução (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4) ,")', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
+		}else{
+			echo "data.addRows([['", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), "', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
+		}
+	}
+	
+	echo "var options = {
+			enableInteractivity: 'false',
+			legend: 'bottom',
+			width: 800,
+			height: 420,
+			vAxis: {ticks: [0, 0.3, 0.8, 1.2, 2.4, 3.6, 5.4, 8.1]},
+		};
+		
+
+		var chart_div = document.getElementById('line_chart0');
+		var chart = new google.visualization.LineChart(chart_div);
+
+		google.visualization.events.addListener(chart, 'ready', function () {
+			chart_div.innerHTML = '<img src=' + chart.getImageURI() + '>';
+		});
+
+		chart.draw(data, options);
+		}
+	</script>";
+
+
+
 	
 	return;
 }
@@ -732,10 +893,10 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	echo "<div class='grid-item'><div id='curve_chart2' style='width: 200px; height: 200px'></div></div>";
 	echo "<div class='grid-item'><div id='curve_chart3' style='width: 200px; height: 200px'></div></div>";
 	echo "</div>";*/
-	echo "<table class='charts'><tr>";
-	echo "<td><div id='curve_chart0'></div></td>";
-	echo "<td><div id='curve_chart1'></div></td></tr>";
-	echo "<tr><td colspan='2' class='center'><div id='line_chart0'></div></td>";
+	echo "<table class='charts'><tr><th class='center'>Distribuição entre Dimensões de Sustentabilidade</th><th class='center'>Nota de Sustentabilidade Geral</th></tr><tr>";
+	echo "<td class='center'><div id='curve_chart0'></div></td>";
+	echo "<td class='center'><div id='curve_chart1'></div></td></tr>";
+	echo "<tr><th colspan='2' class='center'>Impacto na Sustentabilidade ao Longo do Tempo</th></tr><tr><td colspan='2' class='center'><div id='line_chart0'></div></td>";
 	echo "</tr></table></div>";
 
 	$porAcao = 8.1 - (INT)$row['impacto'];
@@ -753,7 +914,6 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 			]);
 
 		var options = {
-			title: 'Impacto na Sustentabilidade Geral',
 			curveType: 'function',
 			enableInteractivity: 'false',
 			pieStartAngle: 180,
@@ -793,7 +953,6 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 			]);
 
 		var options = {
-			title: 'Impacto por Dimensão',
 			curveType: 'function',
 			enableInteractivity: 'false',
 			pieStartAngle: 180,
@@ -853,10 +1012,10 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		}
 
 		if ($plano[6] == 1){
-			echo "data.addRows([['Plano em Vigor (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4) ,")', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
+			echo "data.addRows([['Plano em Execução (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4) ,")', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
 		}else{
 			if ($plano[0] == $_GET['plano_estrategico']){
-				echo "data.addRows([['Plano Atual (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), ")', ", $geral[3], ", ", $geral[3], "]]);";
+				echo "data.addRows([['Plano Selecionado (", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), ")', ", $geral[3], ", ", $geral[3], "]]);";
 			}else{
 				echo "data.addRows([['", substr($plano[4], 0, 4), " - ",  substr($plano[5], 0, 4), "', ", $row2['impacto'], ", ", $row2['impacto'], "]]);";
 			}
@@ -864,11 +1023,10 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	}
 
 	if (!$flag){
-		echo "data.addRows([['Plano Atual', ", $geral[3], ", ", $geral[3], "]]);";
+		echo "data.addRows([['Plano Selecionado', ", $geral[3], ", ", $geral[3], "]]);";
 	}
 	
 	echo "var options = {
-			title: 'Impacto ao Longo do Tempo',
 			enableInteractivity: 'false',
 			legend: 'bottom',
 			width: 800,
