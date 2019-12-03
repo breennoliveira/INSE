@@ -33,7 +33,7 @@
 											<th>Email</th>
 											<th>Grupo</th>
 											<th>Editar </th>
-											<th>Desativar </th>
+											
 										  </tr>
 										</thead>
 										<tbody>
@@ -54,7 +54,6 @@
 											<td>
 												<form action="" method="post">
 												  <input type="hidden" name="alt_usuario">
-												  <button type="submit" name="" class="btn btn-danger" style="border-color: red ;color: white;background: red;" > Desativar </button>
 												</form>
 											</td>
 										  </tr>

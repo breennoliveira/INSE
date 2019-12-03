@@ -12,7 +12,7 @@
 							<h2 class="welcome">Bem vindo <?php echo $_SESSION['nomefantasia'] ?>!</h2>
 							<span class="byline"></span>
 								<hr>
-								Abaixo você pode alterar dados cadastrais.
+								Abaixo voce pode alterar dados cadastrais.
 								<hr>
 								<form method="post" action="usuario.php?idusuario=<?php echo $_GET['idusuario']?>">
 									<?php include('errors.php'); ?>
