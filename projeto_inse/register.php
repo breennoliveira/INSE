@@ -36,11 +36,11 @@
 							  	</div>
 								  <div style="float : left;">
 							  	  <label>Numero</label>
-							  	  <input type="text" maxlength='255' name="numero" value="<?php echo isset($_POST['numero']) ? $_POST['numero'] : '' ?>">
+							  	  <input type="text" style="width: 80%;" maxlength='255' name="numero" value="<?php echo isset($_POST['numero']) ? $_POST['numero'] : '' ?>">
 								  </div>								
 								  <div style="float: left;" class="">
 							  	  <label>Complemento</label>
-							  	  <input type="text"  style="width: 80%;" maxlength='255' name="complemento" value="<?php echo isset($_POST['complemento']) ? $_POST['complemento'] : '' ?>">
+							  	  <input type="text"  style="width: 90%;" maxlength='255' name="complemento" value="<?php echo isset($_POST['complemento']) ? $_POST['complemento'] : '' ?>">
 								  </div>								
 								  <div>
 							  	  <label>Bairro</label>
@@ -56,7 +56,7 @@
 								  </div>		
 								  <div class="">
 							  	  <label>CEP</label>
-							  	  <input type="text" style="width: 10%;" maxlength='255' name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : '' ?>">
+							  	  <input type="text" style="width: 26%;" maxlength='255' name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : '' ?>">
 							  	</div>
 								<br>
 								<h3>Informações do Responsável</h3>
@@ -74,7 +74,7 @@
 							  	</div>
 								<div>
 							  	  <label>Telefone</label>
-							  	  <input type="text" style="width: 12%;" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
+							  	  <input type="text" style="width: 20%;" maxlength='100' placeholder="(DDD) X XXXX XXXX" name="telefone" value="<?php echo isset($_POST['telefone']) ? $_POST['telefone'] : '' ?>">
 							  	</div>
 							  	<div class="">
 							  	  <label>Endereço de Email</label>

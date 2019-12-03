@@ -1115,15 +1115,15 @@ function listarEmpresa(){
 			</div>
 			<div style="float : left;">
 				<label>Numero</label>
-				<input type="text" maxlength="255" name="numero" value="',$endereco['numero'],'">
+				<input type="text" style="width: 80%;" maxlength="255" name="numero" value="',$endereco['numero'],'">
 			</div>								
 			<div style="float: left;" class="">
 				<label>Complemento</label>
-				<input type="text"  style="width: 80%;" maxlength="255" name="complemento" value="',$endereco['complemento'],'">
+				<input type="text"  style="width: 90%;" maxlength="255" name="complemento" value="',$endereco['complemento'],'">
 			</div>								
 			<div>
 				<label>Bairro</label>
-				<input type="text"  style="width: 25.8%;" maxlength="255" name="bairro" value="',$endereco['bairro'],'">
+				<input type="text"  style="width: 25.8%; ;" maxlength="255" name="bairro" value="',$endereco['bairro'],'">
 			</div>
 			<div style="float: left;" class="">
 				<label>Cidade</label>
@@ -1135,7 +1135,7 @@ function listarEmpresa(){
 			</div>
 			<div class="">
 				<label>CEP</label>
-				<input type="text" style="width: 10%;" maxlength="255" name="cep" value="',$endereco['cep'],'">
+				<input type="text" style="width: 26%;" maxlength="255" name="cep" value="',$endereco['cep'],'">
 			</div>
 			<div class="">
 				<label>Nome</label>
@@ -1199,7 +1199,11 @@ function listarUsuario(){
 		</div>
 		<div class="">
 		  	  <label>Senha</label>
-			  	  <input type="password" maxlength="100" name="senha" value="',$usuario['senha'],'">
+			  	  <input type="hidden" maxlength="100" name="senha" value="',$usuario['senha'],'">
+				  <br>
+
+				  <button type="" class="" name="" >Gerar nova senha</button>
+				  <input type="text" maxlength="100" name="" value="">
 		</div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>

@@ -8,8 +8,8 @@
 	<div id="content" class="container small">
 					<section>
 						<header class="major">
-							<h2>Crie um novo grupo de permissoes</h2>
-							<span class="byline">Escolha o nome do grupo de acesso e quais funcionalidades o usuario pode ter acesso</span>
+							<h2>Crie um novo usuario</h2>
+							<span class="byline">Cadastre um novo usuario para sua empresa e qual grupo ele pertence</span>
 								<hr>
 							<form method="post" action="registrar_usuario.php">
 							  	<?php include('errors.php'); ?>
