@@ -1,7 +1,9 @@
 ﻿<?php include("includes/session.php");?>
+<?php include("includes/blocker.php");?>
 <?php include("includes/header.php");?>
 <?php include("includes/navegation.php");?>
 <?php include("server.php");?>
+
 
 <div id="main" class="wrapper style4">
 

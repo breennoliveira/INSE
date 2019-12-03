@@ -589,6 +589,15 @@ function listarPesquisa(){
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 
+	if (mysqli_num_rows($result) == 0) {
+		
+		echo "<div class='alert alert-danger alert-dismissible' role='alert'>Nenhuma empresa foi encontrada!
+		<button type='button' class='close' data-dismiss='alert' aria-label='Fechar'><span aria-hidden='true'>&times;</span></button></div>";
+
+		return;
+
+	}
+
 	$row = mysqli_fetch_all($result);
 
 	echo "<section class='pee-section'><table><tr><th class='center'>Razão Social</th><th class='center'>Nome Fantasia</th><th class='center'>Ramo de Atuação</th><th class='center'>Opções</th></tr>";
@@ -824,6 +833,7 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 	$geral = Array('','','','');
 	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
 	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
+	$counter = Array(0,0,0,0);
 
 	echo "<div id='resumo' name='resumo'><header class='major'><h2>Resumo de Sustentabilidade do Plano</h2></header><hr>
 		  <table class='resumo'><tr><thead><th colspan='2'></th><th colspan='3'>Impacto nas dimensões da Sustentabilidade</th><th>Triple Bottom Line</th><th>Indicador de Sustentabilidade por Ação do PEE</th></thead></tr>
@@ -835,6 +845,10 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		mysqli_stmt_bind_param($stmt, "si", $perspectiva_bsc[$i], $_GET['plano_estrategico']);
 		mysqli_stmt_execute($stmt);
 		$result = mysqli_stmt_get_result($stmt);
+
+		if (mysqli_num_rows($result) > 0) {
+			$counter[$i] = 1;
+		}
 	
 		echo "<td class='center' rowspan='", mysqli_num_rows($result) + 2, "'>", $perspectiva_bsc[$i], "</td>";	
 
@@ -874,6 +888,12 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 
 		$geral[$i] = (INT)$row['impacto'];
 		
+	}
+
+	$counter[0] += $counter[1] + $counter[2] + $counter[3];
+	if ($counter[0] != 4){
+		echo "<div class='alert alert-danger alert-dismissible' role='alert'>É Recomendado que seu Plano Estratégico tenha pelo menos uma ação por Perspectiva do BSC!
+	   <button type='button' class='close' data-dismiss='alert' aria-label='Fechar'><span aria-hidden='true'>&times;</span></button></div>";
 	}
 	
 	mysqli_stmt_bind_param($stmt, "ssi", $perspectiva_bsc[4], $dimensao[3], $_GET['plano_estrategico']);
@@ -1046,7 +1066,7 @@ function listarResumo(){ // Array $perspectiva_bsc = 0 - Econômico-Financeira, 
 		}
 	</script>";
 
-	return $geral;
+	return $counter;
 }
 
 
@@ -1675,6 +1695,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	$numrows = Array(0, 0, 0, 0);
 	$perspectiva_bsc = Array('Econômico-Financeira','Clientes','Processos Internos','Aprendizado e Crescimento', 'Geral');
 	$dimensao = Array('Economica', 'Social', 'Ambiental', 'Geral');
+	$counter = Array(0, 0, 0, 0);
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
 
@@ -1715,6 +1736,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 					$economico[3] += $row2['indicador_sustentabilidade'];
 				}
 			}
+			$counter[0] = 1;
 		}
 		$numrows[0] += $numrows2;
 
@@ -1740,6 +1762,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 					$clientes[3] += $row2['indicador_sustentabilidade'];
 				}
 			}
+			$counter[1] = 1;
 		}
 		$numrows[1] += $numrows2;
 
@@ -1765,6 +1788,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 					$processos[3] += $row2['indicador_sustentabilidade'];
 				}
 			}
+			$counter[2] = 1;
 		}
 		$numrows[2] += $numrows2;
 
@@ -1790,6 +1814,7 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 					$aprendizado[3] += $row2['indicador_sustentabilidade'];
 				}
 			}
+			$counter[3] = 1;
 		}
 		$numrows[3] += $numrows2;
 	}
@@ -1816,10 +1841,12 @@ function calcularIndicadores(){          // Arrays $economico, $clientes, $proce
 	$aprendizado[2] /= $numrows[3];
 	$aprendizado[3] /= $numrows[3];
 
-	$impacto_economico = ($economico[0] + $clientes[0] + $processos[0] + $aprendizado[0])/4;
-	$impacto_social = ($economico[1] + $clientes[1] + $processos[1] + $aprendizado[1])/4;
-	$impacto_ambiental = ($economico[2] + $clientes[2] + $processos[2] + $aprendizado[2])/4;
-	$impacto_geral = ($economico[3] + $clientes[3] + $processos[3] + $aprendizado[3])/4;
+	$counter[0] += $counter[1] + $counter[2] + $counter[3];
+
+	$impacto_economico = ($economico[0] + $clientes[0] + $processos[0] + $aprendizado[0])/($counter[0] == 0 ? 1 : $counter[0]);
+	$impacto_social = ($economico[1] + $clientes[1] + $processos[1] + $aprendizado[1])/($counter[0] == 0 ? 1 : $counter[0]);
+	$impacto_ambiental = ($economico[2] + $clientes[2] + $processos[2] + $aprendizado[2])/($counter[0] == 0 ? 1 : $counter[0]);
+	$impacto_geral = ($economico[3] + $clientes[3] + $processos[3] + $aprendizado[3])/($counter[0] == 0 ? 1 : $counter[0]);
 
 	$sql = 'UPDATE impacto SET impacto = ? WHERE perspectiva_bsc = ? AND dimensao = ? AND plano_estrategico = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
