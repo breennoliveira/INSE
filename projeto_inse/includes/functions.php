@@ -1178,12 +1178,9 @@ function listarUsuario(){
 			  	  <input type="email" maxlength="100" name="email" value="',$usuario['email'],'">
 		</div>
 		<div class="">
-		  	  <label>Senha</label>
+		  	  <label></label>
 			  	  <input type="hidden" maxlength="100" name="senha" value="',$usuario['senha'],'">
 				  <br>
-
-				  <button type="" class="" name="" >Gerar nova senha</button>
-				  <input type="text" maxlength="100" name="" value="">
 		</div>
 		<br>
 		<h3>Funcionalidades do sistema</h3>
@@ -1194,6 +1191,23 @@ function listarUsuario(){
 		<br>
 		<div class="">
 				<button type="submit" class="button" name="alt_usuario" >Salvar</button>
+		</div>
+		<br>
+		<h3>Alterar senha</h3>
+		<br>
+		<div class="">
+		<label>Nova Senha</label>
+		<input type="text" maxlength="100" name="senha1" value="">
+		<br>
+		</div>
+		<div class="">
+		<label>Digite nova senha novamente</label>
+		<input type="text" maxlength="100" name="confirm" value="">
+		<br>
+		</div>
+		<br>
+		<div class="">
+		<button type="submit" class="button" name="alt_usuario1" >Salvar</button>
 		</div>';
 
 	$result = mysqli_stmt_close($stmt);
@@ -1580,6 +1594,35 @@ function alterarUsuario(){
 	
 	mysqli_close($db);
 }
+
+function alterarUsuarioSenha(){
+
+	$db = mysqli_connect('localhost', 'root', '', 'inse');
+	
+	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
+	
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, "s", $_POST['grupo']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	$row = mysqli_fetch_array($result);
+	
+	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idusuario']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+
+	$sql = 'UPDATE usuario SET senha = ? WHERE id = ?';
+	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
+	mysqli_stmt_bind_param($stmt, 'si', $_POST['senha1'], $_GET['idusuario']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_close($stmt);
+	
+	mysqli_close($db);
+}
+
+
 
 function alterarPermissao(){
 

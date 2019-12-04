@@ -350,6 +350,23 @@
 
 		}
 
+		if(isset($_POST['alt_usuario1'])) {
+			
+		  if (empty($_POST['email'])) { array_push($errors, "Email Social é obrigatório"); }
+		  if (empty($_POST['senha1'])) { array_push($errors, "Clique no botão para gerar uma senha"); }
+		  if (empty($_POST['nome'])) { array_push($errors, "Nome é obrigatório"); }
+		  if (empty($_POST['sobrenome'])) { array_push($errors, "Sobrenome de responsável é obrigatório"); }
+		  if (empty($_POST['genero'])) { array_push($errors, "Gênero é obrigatório"); }
+		  if (empty($_POST['grupo'])) { array_push($errors, "Grupo de acesso é obrigatório"); }
+
+			if(count($errors) == 0){
+				alterarUsuarioSenha();
+				header('location: gerenciar_usuarios.php');
+			}
+
+		}
+
+
 		if(isset($_POST['alt_permissao'])) {
 			
 		  if (empty($_POST['grupo'])) { array_push($errors, "Nome do grupo é obrigatório"); }
