@@ -1618,24 +1618,18 @@ function alterarUsuario(){
 function alterarUsuarioSenha(){
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	
-	$sql = 'SELECT * FROM grupo WHERE grupo = ?';
-	
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, "s", $_POST['grupo']);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_get_result($stmt);
-	$row = mysqli_fetch_array($result);
-	
-	$sql = 'UPDATE usuario SET grupo = ? WHERE id = ?';
-	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'si', $row['id'], $_GET['idusuario']);
-	mysqli_stmt_execute($stmt);
-	$result = mysqli_stmt_close($stmt);
+
+	$options = [
+				'memory_cost' => 1<<17, // 128 Mb
+				'time_cost'   => 4,
+				'threads'     => 4,
+			];
+
+	$senha =  password_hash($_POST['senha1'], PASSWORD_ARGON2ID, $options);  // hash com argon2id
 
 	$sql = 'UPDATE usuario SET senha = ? WHERE id = ?';
 	$stmt = mysqli_prepare($db, $sql) or die(mysqli_error($db));
-	mysqli_stmt_bind_param($stmt, 'si', $_POST['senha1'], $_GET['idusuario']);
+	mysqli_stmt_bind_param($stmt, 'si', $senha, $_GET['idusuario']);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_close($stmt);
 	
