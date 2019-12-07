@@ -1,18 +1,20 @@
 <?php
-	header('Content-Type: text/html; charset=utf-8');
-	
+	header('Content-type:application/json;charset=utf-8');
+	header('Access-Control-Allow-Origin: localhost');
+
 	/* soak in the passed variable or set our own */
 	$ramo = isset($_GET['ramo']) ? $_GET['ramo'] : '%';
 	$estado = isset($_GET['estado']) ? $_GET['estado'] : '%';
 	$cidade = isset($_GET['cidade']) ? $_GET['cidade'] : '%';
 
 	$db = mysqli_connect('localhost', 'root', '', 'inse');
-	$stmt = mysqli_prepare($db, "SELECT a.nomefantasia, b.impacto, d.cidade, d.estado FROM empresa a
+	$stmt = mysqli_prepare($db, "SELECT a.nomefantasia, b.impacto, d.cidade, d.estado, e.atividade FROM empresa a
 								INNER JOIN plano_estrategico c ON c.empresa = a.id
 								INNER JOIN impacto b ON b.plano_estrategico = c.id
 								INNER JOIN endereco d ON a.endereco = d.id
-	                            WHERE c.ativo = true AND b.perspectiva_bsc = 'Geral'
-								AND b.dimensao = 'Geral' AND a.ramo LIKE ? AND d.cidade LIKE ? AND d.estado LIKE ? ORDER BY b.impacto DESC");
+								INNER JOIN ramo_atuacao e ON a.ramo = e.id
+	                            WHERE b.perspectiva_bsc = 'Geral'
+								AND b.dimensao = 'Geral' AND e.atividade LIKE ? AND d.cidade LIKE ? AND d.estado LIKE ? ORDER BY b.impacto DESC");
 	
 	echo mysqli_error($db);
 
@@ -24,12 +26,13 @@
 	$array = array();
 	if(mysqli_num_rows($result)) {
 		while($row = mysqli_fetch_assoc($result)) {
-			$array[] = array('Empresa'=>$row['nomefantasia'], 'Impacto'=>$row['impacto'],'Cidade'=>$row['cidade'], 'Estado'=>$row['estado']);
+			$array[] = Array('Empresa'=>$row['nomefantasia'], 'Impacto'=>$row['impacto'],'Cidade'=>$row['cidade'], 'Estado'=>$row['estado'], 'Ramo'=>$row['atividade']);
+			 //array_push($array, $array2);
 		}
 	}
 
-	$json = $array;
-	echo json_encode($json, JSON_UNESCAPED_UNICODE);
+
+	echo json_encode($array, JSON_UNESCAPED_UNICODE);
 	/* disconnect from the db */
 	mysqli_close($db);
 ?>
